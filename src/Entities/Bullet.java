@@ -13,6 +13,7 @@ import com.jme3.scene.Node;
  * @author jt
  */
 public class Bullet {
+    
     String name;
     public Node parent;
     public Vector3f poss;
@@ -31,5 +32,9 @@ public class Bullet {
     public void update(float tpf){
         poss.addLocal(acceleration.mult(tpf));
         this.shape.setLocalTranslation(poss);
+    }
+    
+    public Bullet clone(Vector3f loc){
+        return new Bullet(name, parent, loc, acceleration, shape);
     }
 }

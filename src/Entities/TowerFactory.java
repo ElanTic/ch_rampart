@@ -4,6 +4,9 @@
  */
 package Entities;
 
+import Commands.Signal;
+import Components.CoolDown;
+import Components.Spawner;
 import com.jme3.asset.AssetManager;
 import com.jme3.material.Material;
 import com.jme3.material.RenderState.BlendMode;
@@ -36,14 +39,20 @@ public class TowerFactory {
     
     
 
-    public Tower createTower(String name, Vector3f loc, Geometry geom, float cooldown, float charge, BulletFactory generator, Node towerParentNode) {
-        Tower tower = new Tower(towerParentNode, 
+    public Tower createTower(String name, Vector3f loc, Geometry geom, float cooldown, float charge, Spawner spawner, Node towerParentNode) {
+        Tower tower = new Tower(
+                towerParentNode, 
                 name, 
                 loc, 
-                geom, 
-                cooldown, 
-                charge, 
-                generator);
+                geom,
+                new CoolDown(
+                    cooldown, 
+                    charge,
+                    new Signal()
+                ), 
+                spawner
+        
+        );
         attachTower(tower, towerParentNode); // Attach tower to the parent node
         return tower;
     }
@@ -64,7 +73,7 @@ public class TowerFactory {
                 myBox(name,  ColorRGBA.LightGray), 
                 2.5f, 
                 2.4f, 
-                generator, 
+                new Spawner(generator, generator.createBullet( new Vector3f(0,0,0))), 
                 towerParentNode
         );
 

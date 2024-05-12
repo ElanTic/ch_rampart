@@ -53,4 +53,8 @@ public class BulletFactory {
         geom.setMaterial(mat);
         return geom;
     }
+    
+    public void clone(Bullet bullet, Vector3f loc){
+        attachBullet(createBullet(loc));
+    }
 }
