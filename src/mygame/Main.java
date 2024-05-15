@@ -1,5 +1,6 @@
 package mygame;
 
+import Commands.ChangeColor;
 import Commands.PlaceTower;
 import Entities.Bullet;
 import Entities.BulletFactory;
@@ -69,8 +70,9 @@ public class Main extends SimpleApplication {
         towerCollection = new ArrayList<Tower>();
         BulletFactory bfactory = new BulletFactory(playerNode, this.assetManager, bulletCollection);
         TowerFactory tfactory = new TowerFactory(bfactory,this.assetManager, towerCollection);
-        PlaceTower ptower = new PlaceTower(grid,this.cam, this.getInputManager(), tfactory);
-        controller = new PlayerController(this.getInputManager(),ptower);
+        PlaceTower ptower = new PlaceTower(grid, tfactory);
+        ChangeColor cColor = new ChangeColor(grid, ColorRGBA.Green);
+        controller = new PlayerController(this.getInputManager(), this.cam, ptower, cColor);
         
         rootNode.setLocalRotation(new Quaternion().fromAngleAxis(-FastMath.PI/4, new Vector3f(1,0,0)));
         
@@ -80,7 +82,7 @@ public class Main extends SimpleApplication {
 
     @Override
     public void simpleUpdate(float tpf) {
-        
+        controller.update();
         ArrayList<Bullet> delleted = new ArrayList<Bullet>();
         for (Bullet bullet : bulletCollection){
             if (bullet.poss.y > -20){

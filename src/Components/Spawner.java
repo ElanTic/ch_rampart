@@ -30,6 +30,7 @@ public class Spawner {
     }
     
     public void spawn(Vector3f loc){
-        bf.clone(clon, loc);
+        //bf.clone(clon, loc);
+        bf.createBullet(loc);
     }
 }

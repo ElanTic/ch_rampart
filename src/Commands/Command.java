@@ -4,10 +4,12 @@
  */
 package Commands;
 
+import com.jme3.math.Ray;
+
 /**
  *
  * @author jt
  */
 public interface Command {
-    public void execute();
+    public void execute(Ray direction);
 }

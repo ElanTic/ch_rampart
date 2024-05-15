@@ -35,6 +35,5 @@ public class Signal {
         for (ActionListener handler : handlers) {
             handler.onAction(message, isPressed, tpf);
         }
-    }
-    
+    } 
 }

@@ -25,7 +25,6 @@ public class Tower {
     Vector3f loc;
     public Geometry geom;
     CoolDown cooldown;
-    //float charge;
     public Spawner spawner;
     Shoot shoot;
     
@@ -35,11 +34,9 @@ public class Tower {
         this.loc = loc;
         this.geom = geom;
         this.cooldown = cooldown;
-        //this.charge = charge;
         this.spawner = spawner;
         shoot = new Shoot(this);
         cooldown.signal.connect(shoot);
-        //this.generator = generator;
     }
     
     public void update(float tpf){

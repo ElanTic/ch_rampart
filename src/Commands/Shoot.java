@@ -30,9 +30,6 @@ public class Shoot implements ActionListener{
     public void shoot(){
         Vector3f vector = tower.geom.getParent().getLocalTranslation();
         tower.spawner.spawn(new Vector3f(vector.x+1 ,vector.y, vector.z).addLocal(tower.geom.getLocalTranslation()));
-        
-        //generator.createBullet(new Vector3f(vector.x+1 ,vector.y, vector.z).addLocal(geom.getLocalTranslation()));
-        //System.out.println("shoot");
     }
     
     

@@ -21,14 +21,10 @@ public class CoolDown {
         this.signal = signal;
     }
     
-    
-    
     public void update(float tpf){
         if((charge += tpf) >= cooldown){
             charge -= cooldown;
             signal.emit("onCharged", tpf);
         }
-    
     }
-    
 }
