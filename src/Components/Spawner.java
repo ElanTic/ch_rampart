@@ -14,23 +14,23 @@ import com.jme3.math.Vector3f;
  */
 public class Spawner {
     BulletFactory bf;
-    Bullet clon;
+    String clon;
 
-    public Spawner(BulletFactory bf, Bullet clon) {
+    public Spawner(BulletFactory bf, String clon) {
         this.bf = bf;
         this.clon = clon;
     }
 
-    public Bullet getClon() {
+    public String getClon() {
         return clon;
     }
 
-    public void setClon(Bullet clon) {
+    public void setClon(String clon) {
         this.clon = clon;
     }
     
     public void spawn(Vector3f loc){
         //bf.clone(clon, loc);
-        bf.createBullet(loc);
+        bf.createBullet(clon, loc);
     }
 }

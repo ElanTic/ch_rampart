@@ -9,6 +9,7 @@ import Entities.TowerFactory;
 import Player.PlayerController;
 import com.jme3.app.SimpleApplication;
 import com.jme3.material.Material;
+import com.jme3.material.RenderState.BlendMode;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
@@ -57,7 +58,13 @@ public class Main extends SimpleApplication {
         Node playerNode = new Node("player");
         Node towerNode = new Node("tower"); 
         Node grid = new Node("grid");
+        Node deck = new Node("deck");
         rootNode.setLocalTranslation(-12,-12,-25);
+        
+        createCard("def", deck, new Vector3f(0,-4,0),ColorRGBA.Red);
+        createCard("slow", deck, new Vector3f(4,-4,0), ColorRGBA.Green);
+        createCard("fast", deck, new Vector3f(8,-4,0),ColorRGBA.Blue);
+
         
         createGrid(12,2f,grid);
         
@@ -65,12 +72,13 @@ public class Main extends SimpleApplication {
         rootNode.attachChild(playerNode);
         rootNode.attachChild(towerNode);
         rootNode.attachChild(grid);
+        rootNode.attachChild(deck);
         //grid.attachChild(geom);
         bulletCollection = new ArrayList<Bullet>();
         towerCollection = new ArrayList<Tower>();
         BulletFactory bfactory = new BulletFactory(playerNode, this.assetManager, bulletCollection);
         TowerFactory tfactory = new TowerFactory(bfactory,this.assetManager, towerCollection);
-        PlaceTower ptower = new PlaceTower(grid, tfactory);
+        PlaceTower ptower = new PlaceTower(grid, tfactory, "big");
         ChangeColor cColor = new ChangeColor(grid, ColorRGBA.Green);
         controller = new PlayerController(this.getInputManager(), this.cam, ptower, cColor);
         
@@ -125,5 +133,32 @@ public class Main extends SimpleApplication {
                 grid.attachChild(nodo);
             }
         }
+    }
+    
+    public void createCard(String id, Node deck, Vector3f poss, ColorRGBA color){
+        Node nodo = new Node(id);
+        nodo.setLocalTranslation(poss);
+        Geometry cell = myBox("card", color);
+         nodo.attachChild(cell);
+         deck.attachChild(nodo);
+    
+    }
+    
+    private Geometry myBox(String name,  ColorRGBA color){
+        Geometry geom = new Geometry(name, 
+                //new Box(Vector3f.ZERO, 1, 1, 1)
+                //new Sphere(3,4,1)
+                new Quad(4,4)
+        );
+        Material mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
+        mat.setColor("Color", color);
+        mat.getAdditionalRenderState().setBlendMode(BlendMode.Alpha);
+        //mat.getAdditionalRenderState().setAlphaTest(true);
+        //mat.getAdditionalRenderState().setAlphaFallOff(0.5f);
+        mat.setTexture("ColorMap", assetManager.loadTexture("Textures/Chinchi.png"));
+        geom.setMaterial(mat);
+        //geom.setLocalRotation(new Quaternion().fromAngleAxis(FastMath.PI/3, new Vector3f(1,0,0)));
+
+        return geom;
     }
 }

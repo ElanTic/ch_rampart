@@ -54,7 +54,34 @@ public class BulletFactory {
         return geom;
     }
     
+    private Geometry myBox2(String name,  ColorRGBA color){
+        Geometry geom = new Geometry(name, new Box(Vector3f.ZERO, 1f,1f,1f));
+        Material mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
+        mat.setColor("Color", color);
+        geom.setMaterial(mat);
+        return geom;
+    }
+    
+      private Geometry myBox3(String name,  ColorRGBA color){
+        Geometry geom = new Geometry(name, new Box(Vector3f.ZERO, .1f,.1f,.1f));
+        Material mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
+        mat.setColor("Color", color);
+        geom.setMaterial(mat);
+        return geom;
+    }
+    
     public void clone(Bullet bullet, Vector3f loc){
         attachBullet(createBullet(loc));
+    }
+    
+    public Bullet createBullet(String id, Vector3f cordinates){
+        switch(id){
+            case"big":
+                return createBullet(id, cordinates, new Vector3f(0,-4f,0), myBox2(collection.size() + "",  ColorRGBA.White));
+            case"small":
+                return createBullet(id, cordinates, new Vector3f(0,-12f,0), myBox3(collection.size() + "",  ColorRGBA.White));
+            default:
+                return createBullet(id, cordinates, new Vector3f(0,-6f,0), myBox(collection.size() + "",  ColorRGBA.White));
+        }
     }
 }

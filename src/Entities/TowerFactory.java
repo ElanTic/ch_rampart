@@ -63,7 +63,19 @@ public class TowerFactory {
         tower.geom.setLocalTranslation(tower.loc); 
     }
     
+    public Tower createTower(String id, Node towerParentNode){
+        switch(id){
+            case "slow":
+                return slowTower(id, towerParentNode);
+            case "fast":
+                return quickTower(id, towerParentNode);
+                
+            default:
+                return redTower(id, towerParentNode);
+        }
     
+    
+    }
     
     public Tower redTower(String name, Node towerParentNode){
         return createTower(
@@ -71,9 +83,37 @@ public class TowerFactory {
                 //new Vector3f(1,1,1), 
                 new Vector3f(0,1,0),
                 myBox(name,  ColorRGBA.LightGray), 
+                1.5f, 
+                1.4f, 
+                new Spawner(generator, ""), 
+                towerParentNode
+        );
+
+    }
+    
+    public Tower slowTower(String name, Node towerParentNode){
+        return createTower(
+                name, 
+                //new Vector3f(1,1,1), 
+                new Vector3f(0,1,0),
+                myBox(name,  ColorRGBA.LightGray), 
                 2.5f, 
                 2.4f, 
-                new Spawner(generator, generator.createBullet( new Vector3f(0,0,0))), 
+                new Spawner(generator, "big"), 
+                towerParentNode
+        );
+
+    }
+    
+    public Tower quickTower(String name, Node towerParentNode){
+        return createTower(
+                name, 
+                //new Vector3f(1,1,1), 
+                new Vector3f(0,1,0),
+                myBox(name,  ColorRGBA.LightGray), 
+                .3f, 
+                0f, 
+                new Spawner(generator, "small"), 
                 towerParentNode
         );
 
@@ -81,8 +121,6 @@ public class TowerFactory {
         
     private Geometry myBox(String name,  ColorRGBA color){
         Geometry geom = new Geometry(name, 
-                //new Box(Vector3f.ZERO, 1, 1, 1)
-                //new Sphere(3,4,1)
                 new Quad(2,2)
         );
         Material mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");

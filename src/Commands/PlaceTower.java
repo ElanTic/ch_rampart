@@ -27,10 +27,12 @@ public class PlaceTower implements Command{
     private Node grid;
     private Ray ray;
     TowerFactory generator;
+    private String id;
 
-    public PlaceTower(Node grid,  TowerFactory generator) {
+    public PlaceTower(Node grid, TowerFactory generator, String id) {
         this.grid = grid;
         this.generator = generator;
+        this.id = id;
     }
     
     
@@ -59,9 +61,29 @@ public class PlaceTower implements Command{
             if (nodo.getChild("tower") != null ) {
                 return;
             } else {
-                generator.redTower("tower", nodo);
+                generator.createTower(id, nodo);
             } 
-        }   
+        } 
+        else{
+            Node nodo2 = (Node) grid.getParent().getChild("deck");
+            results = new CollisionResults();
+            nodo2.collideWith(ray, results);
+            if (results.size()>0){
+            Node nodo = results.getClosestCollision().getGeometry().getParent();
+                id = nodo.getName();
+            } 
+        
+        }
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+    
+    
     
 }
