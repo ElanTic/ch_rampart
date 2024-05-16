@@ -82,7 +82,7 @@ public class TowerFactory {
                 name, 
                 //new Vector3f(1,1,1), 
                 new Vector3f(0,1,0),
-                myBox(name,  ColorRGBA.LightGray), 
+                myBox2(name,  ColorRGBA.LightGray), 
                 1.5f, 
                 1.4f, 
                 new Spawner(generator, ""), 
@@ -110,7 +110,7 @@ public class TowerFactory {
                 name, 
                 //new Vector3f(1,1,1), 
                 new Vector3f(0,1,0),
-                myBox(name,  ColorRGBA.LightGray), 
+                myBox2(name,  ColorRGBA.LightGray), 
                 .3f, 
                 0f, 
                 new Spawner(generator, "small"), 
@@ -129,6 +129,22 @@ public class TowerFactory {
         //mat.getAdditionalRenderState().setAlphaTest(true);
         //mat.getAdditionalRenderState().setAlphaFallOff(0.5f);
         mat.setTexture("ColorMap", assetManager.loadTexture("Textures/Chinchi.png"));
+        geom.setMaterial(mat);
+        geom.setLocalRotation(new Quaternion().fromAngleAxis(FastMath.PI/3, new Vector3f(1,0,0)));
+
+        return geom;
+    }
+    
+    private Geometry myBox2(String name,  ColorRGBA color){
+        Geometry geom = new Geometry(name, 
+                new Quad(2,2)
+        );
+        Material mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
+        mat.setColor("Color", color);
+        mat.getAdditionalRenderState().setBlendMode(BlendMode.Alpha);
+        //mat.getAdditionalRenderState().setAlphaTest(true);
+        //mat.getAdditionalRenderState().setAlphaFallOff(0.5f);
+        mat.setTexture("ColorMap", assetManager.loadTexture("Textures/Chilla.png"));
         geom.setMaterial(mat);
         geom.setLocalRotation(new Quaternion().fromAngleAxis(FastMath.PI/3, new Vector3f(1,0,0)));
 
