@@ -59,7 +59,7 @@ public class Main extends SimpleApplication {
         Node towerNode = new Node("tower"); 
         Node grid = new Node("grid");
         Node deck = new Node("deck");
-        rootNode.setLocalTranslation(-12,-12,-25);
+        rootNode.setLocalTranslation(-12,-10,-25);
         
         createCard("def", deck, new Vector3f(0,-4,0),ColorRGBA.Red);
         createCard("slow", deck, new Vector3f(4,-4,0), ColorRGBA.Green);
