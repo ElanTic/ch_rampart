@@ -113,7 +113,7 @@ public class Main extends SimpleApplication {
             }
         }
         for(Bullet bullet : delleted){
-            System.out.println("Deleted bullet: " + bullet.parent.detachChild(bullet.shape));
+            //System.out.println("Deleted bullet: " + bullet.parent.detachChild(bullet.shape));
             bulletCollection.remove(bullet);
         }
         delleted.clear();
