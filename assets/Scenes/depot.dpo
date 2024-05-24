@@ -1,0 +1,725 @@
+{
+    "sheets": [
+        {
+            "name": "Chinchillas",
+            "description": "aqui se guarda la info para generar las chinchillas",
+            "displayColumn": "id",
+            "guid": "c97bc471-ad55-4e3d-ba8c-c9316036070d",
+            "columns": [
+                {
+                    "typeStr": "text",
+                    "guid": "2ccfea43-2458-45dd-8a2b-803bca498d9f",
+                    "name": "name",
+                    "description": "Nombre de la chinchilla",
+                    "defaultValue": "\"\"",
+                    "iconName": "newText",
+                    "configurable": {
+                        "name": "text",
+                        "description": "text",
+                        "defaultValue": "text"
+                    }
+                },
+                {
+                    "typeStr": "props",
+                    "guid": "822359d8-1f29-4004-a7da-fe2c0c8f6870",
+                    "name": "loc",
+                    "description": "posicion",
+                    "sheet": "72969d0d-221d-4060-b772-1305610586f1",
+                    "defaultValue": {},
+                    "iconName": "newProps",
+                    "configurable": {
+                        "name": "text",
+                        "description": "text"
+                    }
+                },
+                {
+                    "typeStr": "props",
+                    "guid": "0486d23f-246e-4e8c-b3ed-f0ca10e60628",
+                    "name": "shape",
+                    "description": "el cuerpo en 3d de la chinchilla",
+                    "sheet": "a2394969-47e0-4032-a56b-b8580f25b51f",
+                    "defaultValue": {},
+                    "iconName": "newProps",
+                    "configurable": {
+                        "name": "text",
+                        "description": "text"
+                    }
+                },
+                {
+                    "typeStr": "float",
+                    "guid": "c3e8bf60-0c42-49da-992f-93d03bb68c33",
+                    "description": "tiempo de carga",
+                    "name": "cooldown",
+                    "min": -10000,
+                    "max": 100000,
+                    "defaultValue": 0,
+                    "iconName": "newFloat",
+                    "configurable": {
+                        "name": "text",
+                        "description": "text",
+                        "min": "float",
+                        "max": "float",
+                        "defaultValue": "float"
+                    }
+                },
+                {
+                    "typeStr": "lineReference",
+                    "guid": "446ae9da-172a-440a-94ee-6147b042c62c",
+                    "name": "bullet_type",
+                    "description": "new line reference field",
+                    "sheet": "8d38a77c-3a7e-4e69-8bf9-285c56156e0e",
+                    "defaultValue": "4e8637a8-8cb3-4e77-b53d-b0e69106558f",
+                    "iconName": "newLineLink",
+                    "configurable": {
+                        "name": "text",
+                        "description": "text",
+                        "sheet": "sheetSelect",
+                        "defaultValue": "lineSelect@sheet"
+                    }
+                }
+            ],
+            "lines": [
+                {
+                    "guid": "18feb63f-0adc-409e-8d0a-998ce511f150",
+                    "id": "0",
+                    "name": "regular",
+                    "loc": {
+                        "guid": "cb66ebe8-c73c-4193-8d4a-62cc9c45f927",
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                    },
+                    "cooldown": 1.5,
+                    "shape": {
+                        "guid": "34fdd67c-e5fe-4fad-8b27-09c4c8886ddb",
+                        "mesh": "",
+                        "texture": "../../Textures/Chinchi.png",
+                        "color": {
+                            "guid": "dcac95a5-f7d4-481a-9199-5a29e4356cae",
+                            "R": 0.8,
+                            "G": 0.8,
+                            "B": 0.8,
+                            "A": 1
+                        }
+                    },
+                    "bullet_type": "4e8637a8-8cb3-4e77-b53d-b0e69106558f"
+                }
+            ],
+            "hidden": false,
+            "isProps": false,
+            "configurable": {
+                "name": "text",
+                "description": "text",
+                "displayColumn": "columnSelect@name",
+                "columnSelect@name@displayColumn": {
+                    "allowedTypes": [
+                        "int",
+                        "float",
+                        "text",
+                        "longtext"
+                    ]
+                }
+            }
+        },
+        {
+            "name": "loc",
+            "description": "props@c97bc471-ad55-4e3d-ba8c-c9316036070d",
+            "displayColumn": "id",
+            "guid": "72969d0d-221d-4060-b772-1305610586f1",
+            "columns": [
+                {
+                    "typeStr": "int",
+                    "guid": "3098d5a5-1542-409a-a399-8d145acc05c2",
+                    "description": "posicion en x",
+                    "name": "x",
+                    "min": -10000,
+                    "max": 100000,
+                    "defaultValue": 0,
+                    "iconName": "newInt",
+                    "configurable": {
+                        "name": "text",
+                        "description": "text",
+                        "min": "int",
+                        "max": "int",
+                        "defaultValue": "int"
+                    }
+                },
+                {
+                    "typeStr": "int",
+                    "guid": "d62fa85d-097d-40d2-8c8b-6737bcc99f7e",
+                    "description": "posicion en y",
+                    "name": "y",
+                    "min": -10000,
+                    "max": 100000,
+                    "defaultValue": 0,
+                    "iconName": "newInt",
+                    "configurable": {
+                        "name": "text",
+                        "description": "text",
+                        "min": "int",
+                        "max": "int",
+                        "defaultValue": "int"
+                    }
+                },
+                {
+                    "typeStr": "int",
+                    "guid": "a1e898dd-4f68-4ada-af4a-0a362a7631ca",
+                    "description": "posicion en z",
+                    "name": "z",
+                    "min": -10000,
+                    "max": 100000,
+                    "defaultValue": 0,
+                    "iconName": "newInt",
+                    "configurable": {
+                        "name": "text",
+                        "description": "text",
+                        "min": "int",
+                        "max": "int",
+                        "defaultValue": "int"
+                    }
+                }
+            ],
+            "lines": [],
+            "hidden": true,
+            "isProps": true,
+            "parentSheetGUID": "c97bc471-ad55-4e3d-ba8c-c9316036070d",
+            "columnGUID": "822359d8-1f29-4004-a7da-fe2c0c8f6870"
+        },
+        {
+            "name": "Geom",
+            "description": "props@c97bc471-ad55-4e3d-ba8c-c9316036070d",
+            "displayColumn": "id",
+            "guid": "a2394969-47e0-4032-a56b-b8580f25b51f",
+            "columns": [
+                {
+                    "typeStr": "file",
+                    "guid": "f238fa57-3b5e-4302-93de-1a297dc7a916",
+                    "name": "mesh",
+                    "description": "new file field",
+                    "defaultValue": "",
+                    "iconName": "newFile",
+                    "configurable": {
+                        "name": "text",
+                        "description": "text",
+                        "defaultValue": "text"
+                    }
+                },
+                {
+                    "typeStr": "image",
+                    "guid": "fc51cbd8-2474-44bc-a7e9-f54d3ba54291",
+                    "name": "texture",
+                    "description": "new image field",
+                    "defaultValue": "",
+                    "iconName": "newImage",
+                    "configurable": {
+                        "name": "text",
+                        "description": "text",
+                        "defaultValue": "text"
+                    }
+                },
+                {
+                    "typeStr": "props",
+                    "guid": "5463ae47-1465-4cdf-ba0d-fcce5f052e5f",
+                    "name": "color",
+                    "description": "new properties field",
+                    "sheet": "a11c2d31-f635-4dfb-8b36-91b0b87cb073",
+                    "defaultValue": {},
+                    "iconName": "newProps",
+                    "configurable": {
+                        "name": "text",
+                        "description": "text"
+                    }
+                }
+            ],
+            "lines": [],
+            "hidden": true,
+            "isProps": true,
+            "parentSheetGUID": "c97bc471-ad55-4e3d-ba8c-c9316036070d",
+            "columnGUID": "0486d23f-246e-4e8c-b3ed-f0ca10e60628"
+        },
+        {
+            "name": "Color",
+            "description": "props@a2394969-47e0-4032-a56b-b8580f25b51f",
+            "displayColumn": "id",
+            "guid": "9324802a-c90f-4210-94fd-8a0fe8367de5",
+            "columns": [],
+            "lines": [],
+            "hidden": true,
+            "isProps": true,
+            "parentSheetGUID": "a2394969-47e0-4032-a56b-b8580f25b51f",
+            "columnGUID": "c06451aa-7002-4055-9caf-e628caf027de"
+        },
+        {
+            "name": "Bullets",
+            "description": "Tabla de informacion para crear las valas",
+            "displayColumn": "id",
+            "guid": "8d38a77c-3a7e-4e69-8bf9-285c56156e0e",
+            "columns": [
+                {
+                    "typeStr": "text",
+                    "guid": "a9f8f2ad-11e5-49e1-b309-f3b5861dd4a9",
+                    "name": "name",
+                    "description": "text field",
+                    "defaultValue": "",
+                    "iconName": "newText",
+                    "configurable": {
+                        "name": "text",
+                        "description": "text",
+                        "defaultValue": "text"
+                    }
+                },
+                {
+                    "typeStr": "props",
+                    "guid": "a7a30986-6ecb-4080-9c2e-44e5f6f96981",
+                    "name": "poss",
+                    "description": "posicion inicial de la bala",
+                    "sheet": "76111c6e-a41a-43aa-9951-eb445caf49c5",
+                    "defaultValue": {},
+                    "iconName": "newProps",
+                    "configurable": {
+                        "name": "text",
+                        "description": "text"
+                    }
+                },
+                {
+                    "typeStr": "props",
+                    "guid": "a883ad12-4442-4659-a991-2be8604573f4",
+                    "name": "acceleration",
+                    "description": "new properties field",
+                    "sheet": "26226be9-56de-4d2a-ae6f-9b90b207c9e6",
+                    "defaultValue": {},
+                    "iconName": "newProps",
+                    "configurable": {
+                        "name": "text",
+                        "description": "text"
+                    }
+                },
+                {
+                    "typeStr": "props",
+                    "guid": "bc710228-a079-4e8b-a6b8-ae1d72f8cc48",
+                    "name": "shape",
+                    "description": "new properties field",
+                    "sheet": "b1f52cf7-eb00-4241-95b8-925d1f17e996",
+                    "defaultValue": {},
+                    "iconName": "newProps",
+                    "configurable": {
+                        "name": "text",
+                        "description": "text"
+                    }
+                }
+            ],
+            "lines": [
+                {
+                    "guid": "4e8637a8-8cb3-4e77-b53d-b0e69106558f",
+                    "id": "0",
+                    "name": "regular",
+                    "poss": {
+                        "guid": "8bf4e36f-d713-4ec5-8555-158c370729a3",
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                    },
+                    "acceleration": {
+                        "guid": "0436d98e-a517-4100-b8cf-9c06dd740716",
+                        "x": 0,
+                        "y": -6,
+                        "z": 0
+                    },
+                    "shape": {
+                        "guid": "39de89c0-cea3-4ec3-85dd-e79a8d6bc25e",
+                        "mesh": "",
+                        "texture": "",
+                        "color": {
+                            "guid": "6939e761-263c-459b-8043-f58afdd8efa5",
+                            "R": 1,
+                            "G": 1,
+                            "B": 1,
+                            "A": 1
+                        }
+                    }
+                }
+            ],
+            "hidden": false,
+            "isProps": false,
+            "configurable": {
+                "name": "text",
+                "description": "text",
+                "displayColumn": "columnSelect@name",
+                "columnSelect@name@displayColumn": {
+                    "allowedTypes": [
+                        "int",
+                        "float",
+                        "text",
+                        "longtext"
+                    ]
+                }
+            }
+        },
+        {
+            "name": "poss",
+            "description": "props@8d38a77c-3a7e-4e69-8bf9-285c56156e0e",
+            "displayColumn": "id",
+            "guid": "76111c6e-a41a-43aa-9951-eb445caf49c5",
+            "columns": [
+                {
+                    "typeStr": "float",
+                    "guid": "b6ebc5c6-c8d0-4fea-9f78-f65a33b0384f",
+                    "description": "float field",
+                    "name": "x",
+                    "min": -10000,
+                    "max": 100000,
+                    "defaultValue": 0,
+                    "iconName": "newFloat",
+                    "configurable": {
+                        "name": "text",
+                        "description": "text",
+                        "min": "float",
+                        "max": "float",
+                        "defaultValue": "float"
+                    }
+                },
+                {
+                    "typeStr": "float",
+                    "guid": "71c1302f-d3e5-45ad-9afb-bd72c50b01e6",
+                    "description": "float field",
+                    "name": "y",
+                    "min": -10000,
+                    "max": 100000,
+                    "defaultValue": 0,
+                    "iconName": "newFloat",
+                    "configurable": {
+                        "name": "text",
+                        "description": "text",
+                        "min": "float",
+                        "max": "float",
+                        "defaultValue": "float"
+                    }
+                },
+                {
+                    "typeStr": "float",
+                    "guid": "b66534b7-9dca-49d8-83cb-9228a5f2e09d",
+                    "description": "float field",
+                    "name": "z",
+                    "min": -10000,
+                    "max": 100000,
+                    "defaultValue": 0,
+                    "iconName": "newFloat",
+                    "configurable": {
+                        "name": "text",
+                        "description": "text",
+                        "min": "float",
+                        "max": "float",
+                        "defaultValue": "float"
+                    }
+                }
+            ],
+            "lines": [],
+            "hidden": true,
+            "isProps": true,
+            "parentSheetGUID": "8d38a77c-3a7e-4e69-8bf9-285c56156e0e",
+            "columnGUID": "a7a30986-6ecb-4080-9c2e-44e5f6f96981"
+        },
+        {
+            "name": "acceleration",
+            "description": "props@8d38a77c-3a7e-4e69-8bf9-285c56156e0e",
+            "displayColumn": "id",
+            "guid": "26226be9-56de-4d2a-ae6f-9b90b207c9e6",
+            "columns": [
+                {
+                    "typeStr": "float",
+                    "guid": "13a7e1a5-84eb-4a28-9c8d-63a54f2a2065",
+                    "description": "float field",
+                    "name": "x",
+                    "min": -10000,
+                    "max": 100000,
+                    "defaultValue": 0,
+                    "iconName": "newFloat",
+                    "configurable": {
+                        "name": "text",
+                        "description": "text",
+                        "min": "float",
+                        "max": "float",
+                        "defaultValue": "float"
+                    }
+                },
+                {
+                    "typeStr": "float",
+                    "guid": "2188fa4b-729f-42c3-aa2b-dceea0d37f4a",
+                    "description": "float field",
+                    "name": "y",
+                    "min": -10000,
+                    "max": 100000,
+                    "defaultValue": 0,
+                    "iconName": "newFloat",
+                    "configurable": {
+                        "name": "text",
+                        "description": "text",
+                        "min": "float",
+                        "max": "float",
+                        "defaultValue": "float"
+                    }
+                },
+                {
+                    "typeStr": "float",
+                    "guid": "57420945-9f1f-4f74-b441-3809f96557fe",
+                    "description": "float field",
+                    "name": "z",
+                    "min": -10000,
+                    "max": 100000,
+                    "defaultValue": 0,
+                    "iconName": "newFloat",
+                    "configurable": {
+                        "name": "text",
+                        "description": "text",
+                        "min": "float",
+                        "max": "float",
+                        "defaultValue": "float"
+                    }
+                }
+            ],
+            "lines": [],
+            "hidden": true,
+            "isProps": true,
+            "parentSheetGUID": "8d38a77c-3a7e-4e69-8bf9-285c56156e0e",
+            "columnGUID": "a883ad12-4442-4659-a991-2be8604573f4"
+        },
+        {
+            "name": "shape",
+            "description": "props@8d38a77c-3a7e-4e69-8bf9-285c56156e0e",
+            "displayColumn": "id",
+            "guid": "b1f52cf7-eb00-4241-95b8-925d1f17e996",
+            "columns": [
+                {
+                    "typeStr": "file",
+                    "guid": "df009199-6413-4a81-a6bf-8f4486b11824",
+                    "name": "mesh",
+                    "description": "new file field",
+                    "defaultValue": "",
+                    "iconName": "newFile",
+                    "configurable": {
+                        "name": "text",
+                        "description": "text",
+                        "defaultValue": "text"
+                    }
+                },
+                {
+                    "typeStr": "file",
+                    "guid": "edcd546d-49c1-4ec0-a958-a189518253a9",
+                    "name": "texture",
+                    "description": "new file field",
+                    "defaultValue": "",
+                    "iconName": "newFile",
+                    "configurable": {
+                        "name": "text",
+                        "description": "text",
+                        "defaultValue": "text"
+                    }
+                },
+                {
+                    "typeStr": "props",
+                    "guid": "f9ecc19d-a3d0-4576-88ff-ba1761b55edf",
+                    "name": "color",
+                    "description": "new properties field",
+                    "sheet": "bfb67346-7976-45d6-8811-df66335bf63d",
+                    "defaultValue": {},
+                    "iconName": "newProps",
+                    "configurable": {
+                        "name": "text",
+                        "description": "text"
+                    }
+                }
+            ],
+            "lines": [],
+            "hidden": true,
+            "isProps": true,
+            "parentSheetGUID": "8d38a77c-3a7e-4e69-8bf9-285c56156e0e",
+            "columnGUID": "bc710228-a079-4e8b-a6b8-ae1d72f8cc48"
+        },
+        {
+            "name": "color",
+            "description": "props@c97bc471-ad55-4e3d-ba8c-c9316036070d",
+            "displayColumn": "id",
+            "guid": "3f5bdee5-0464-4d65-84b5-83a9ee63c6d0",
+            "columns": [],
+            "lines": [],
+            "hidden": true,
+            "isProps": true,
+            "parentSheetGUID": "c97bc471-ad55-4e3d-ba8c-c9316036070d",
+            "columnGUID": "4e711ab1-25d3-4ae3-919f-40b8869770ea"
+        },
+        {
+            "name": "Color",
+            "description": "props@a2394969-47e0-4032-a56b-b8580f25b51f",
+            "displayColumn": "id",
+            "guid": "a11c2d31-f635-4dfb-8b36-91b0b87cb073",
+            "columns": [
+                {
+                    "typeStr": "float",
+                    "guid": "d4257df8-9bce-4704-9d75-a6272c380249",
+                    "description": "float field",
+                    "name": "R",
+                    "min": -10000,
+                    "max": 100000,
+                    "defaultValue": 0,
+                    "iconName": "newFloat",
+                    "configurable": {
+                        "name": "text",
+                        "description": "text",
+                        "min": "float",
+                        "max": "float",
+                        "defaultValue": "float"
+                    }
+                },
+                {
+                    "typeStr": "float",
+                    "guid": "383d4aa7-23e7-4694-b6c3-5f17dc509510",
+                    "description": "float field",
+                    "name": "G",
+                    "min": -10000,
+                    "max": 100000,
+                    "defaultValue": 0,
+                    "iconName": "newFloat",
+                    "configurable": {
+                        "name": "text",
+                        "description": "text",
+                        "min": "float",
+                        "max": "float",
+                        "defaultValue": "float"
+                    }
+                },
+                {
+                    "typeStr": "float",
+                    "guid": "74ffef60-3570-4f72-a22c-bdd66583ada2",
+                    "description": "float field",
+                    "name": "B",
+                    "min": -10000,
+                    "max": 100000,
+                    "defaultValue": 0,
+                    "iconName": "newFloat",
+                    "configurable": {
+                        "name": "text",
+                        "description": "text",
+                        "min": "float",
+                        "max": "float",
+                        "defaultValue": "float"
+                    }
+                },
+                {
+                    "typeStr": "float",
+                    "guid": "3c6b502d-ab19-439a-931a-e4f539adf59f",
+                    "description": "float field",
+                    "name": "A",
+                    "min": -10000,
+                    "max": 100000,
+                    "defaultValue": 0,
+                    "iconName": "newFloat",
+                    "configurable": {
+                        "name": "text",
+                        "description": "text",
+                        "min": "float",
+                        "max": "float",
+                        "defaultValue": "float"
+                    }
+                }
+            ],
+            "lines": [],
+            "hidden": true,
+            "isProps": true,
+            "parentSheetGUID": "a2394969-47e0-4032-a56b-b8580f25b51f",
+            "columnGUID": "5463ae47-1465-4cdf-ba0d-fcce5f052e5f"
+        },
+        {
+            "name": "color",
+            "description": "props@8d38a77c-3a7e-4e69-8bf9-285c56156e0e",
+            "displayColumn": "id",
+            "guid": "22969639-fa44-4998-bc38-8b8754e22686",
+            "columns": [],
+            "lines": [],
+            "hidden": true,
+            "isProps": true,
+            "parentSheetGUID": "8d38a77c-3a7e-4e69-8bf9-285c56156e0e",
+            "columnGUID": "8340bf31-518e-4955-ae0b-323db0ec1eca"
+        },
+        {
+            "name": "color",
+            "description": "props@b1f52cf7-eb00-4241-95b8-925d1f17e996",
+            "displayColumn": "id",
+            "guid": "bfb67346-7976-45d6-8811-df66335bf63d",
+            "columns": [
+                {
+                    "typeStr": "float",
+                    "guid": "a719fa8a-dd4e-441d-bb52-9f94f13be1eb",
+                    "description": "float field",
+                    "name": "R",
+                    "min": -10000,
+                    "max": 100000,
+                    "defaultValue": 0,
+                    "iconName": "newFloat",
+                    "configurable": {
+                        "name": "text",
+                        "description": "text",
+                        "min": "float",
+                        "max": "float",
+                        "defaultValue": "float"
+                    }
+                },
+                {
+                    "typeStr": "float",
+                    "guid": "abe12b4c-caa9-4455-9872-9915f20ffd05",
+                    "description": "float field",
+                    "name": "G",
+                    "min": -10000,
+                    "max": 100000,
+                    "defaultValue": 0,
+                    "iconName": "newFloat",
+                    "configurable": {
+                        "name": "text",
+                        "description": "text",
+                        "min": "float",
+                        "max": "float",
+                        "defaultValue": "float"
+                    }
+                },
+                {
+                    "typeStr": "float",
+                    "guid": "e0fd6f92-73c3-4d81-9691-254d49bcdd73",
+                    "description": "float field",
+                    "name": "B",
+                    "min": -10000,
+                    "max": 100000,
+                    "defaultValue": 0,
+                    "iconName": "newFloat",
+                    "configurable": {
+                        "name": "text",
+                        "description": "text",
+                        "min": "float",
+                        "max": "float",
+                        "defaultValue": "float"
+                    }
+                },
+                {
+                    "typeStr": "float",
+                    "guid": "7d46dc75-cbb4-454f-8a2c-301595de134f",
+                    "description": "float field",
+                    "name": "A",
+                    "min": -10000,
+                    "max": 100000,
+                    "defaultValue": 0,
+                    "iconName": "newFloat",
+                    "configurable": {
+                        "name": "text",
+                        "description": "text",
+                        "min": "float",
+                        "max": "float",
+                        "defaultValue": "float"
+                    }
+                }
+            ],
+            "lines": [],
+            "hidden": true,
+            "isProps": true,
+            "parentSheetGUID": "b1f52cf7-eb00-4241-95b8-925d1f17e996",
+            "columnGUID": "f9ecc19d-a3d0-4576-88ff-ba1761b55edf"
+        }
+    ]
+}

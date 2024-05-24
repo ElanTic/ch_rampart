@@ -1,0 +1,171 @@
+{
+	"sheets": [
+		{
+			"name": "chinchillas",
+			"columns": [
+				{
+					"typeStr": "0",
+					"name": "chinchilla"
+				},
+				{
+					"typeStr": "13",
+					"name": "mesh",
+					"opt": true
+				},
+				{
+					"typeStr": "7",
+					"name": "texture",
+					"opt": true,
+					"display": null
+				},
+				{
+					"typeStr": "11",
+					"name": "color",
+					"opt": true,
+					"display": null
+				},
+				{
+					"typeStr": "4",
+					"name": "cool_down"
+				},
+				{
+					"typeStr": "6:bullets",
+					"name": "bullet",
+					"opt": true
+				}
+			],
+			"lines": [
+				{
+					"cool_down": 1.5,
+					"color": 0,
+					"texture": "c73351eb7da468fa0649ee02e9fca817",
+					"mesh": "Chilla.png",
+					"bullet": "mid",
+					"chinchilla": "mid"
+				},
+				{
+					"cool_down": 2.5,
+					"color": 13421001,
+					"texture": "1953f7d48004b80be87248faff895e13",
+					"bullet": "big",
+					"chinchilla": "big",
+					"mesh": "Chinchi.png"
+				},
+				{
+					"cool_down": 0.3,
+					"color": 12560809,
+					"texture": "c73351eb7da468fa0649ee02e9fca817",
+					"bullet": "small",
+					"chinchilla": "quick",
+					"mesh": "Chilla.png"
+				}
+			],
+			"separators": [],
+			"props": {}
+		},
+		{
+			"name": "bullets",
+			"columns": [
+				{
+					"typeStr": "0",
+					"name": "type"
+				},
+				{
+					"typeStr": "8",
+					"name": "acceleration",
+					"display": null
+				},
+				{
+					"typeStr": "13",
+					"name": "mesh",
+					"opt": true,
+					"display": null
+				},
+				{
+					"typeStr": "7",
+					"name": "texture",
+					"opt": true,
+					"display": null
+				},
+				{
+					"typeStr": "11",
+					"name": "color",
+					"opt": true,
+					"display": null
+				},
+				{
+					"typeStr": "4",
+					"name": "scale",
+					"display": null
+				}
+			],
+			"lines": [
+				{
+					"acceleration": [
+						{
+							"x": 0,
+							"y": -6,
+							"z": 0
+						}
+					],
+					"scale": 0.3,
+					"color": 394501,
+					"type": "mid"
+				},
+				{
+					"acceleration": [
+						{
+							"x": 0,
+							"y": -12,
+							"z": 0
+						}
+					],
+					"scale": 0.1,
+					"color": 16776187,
+					"type": "small"
+				},
+				{
+					"acceleration": [
+						{
+							"x": 0,
+							"y": -4,
+							"z": 0
+						}
+					],
+					"scale": 1,
+					"color": 16381686,
+					"type": "big"
+				}
+			],
+			"separators": [],
+			"props": {}
+		},
+		{
+			"name": "bullets@acceleration",
+			"props": {
+				"hide": true
+			},
+			"separators": [],
+			"lines": [],
+			"columns": [
+				{
+					"typeStr": "4",
+					"name": "x",
+					"display": null
+				},
+				{
+					"typeStr": "4",
+					"name": "y",
+					"display": null
+				},
+				{
+					"typeStr": "4",
+					"name": "z",
+					"display": null
+				}
+			]
+		}
+	],
+	"customTypes": [],
+	"compress": false
+}

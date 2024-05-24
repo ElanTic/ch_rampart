@@ -25,126 +25,89 @@ import java.util.ArrayList;
  *
  * @author jt
  */
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jme3.scene.Mesh;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+
 public class TowerFactory {
     private BulletFactory generator;
     private AssetManager assetManager;
     private ArrayList<Tower> collection;
+    private JsonNode sheets;  // Almacenar el nodo raíz para búsquedas posteriores
 
-    public TowerFactory(BulletFactory generator, AssetManager assetManager, ArrayList collection) {
+    public TowerFactory(BulletFactory generator, AssetManager assetManager, ArrayList<Tower> collection) {
         this.generator = generator;
         this.assetManager = assetManager;
         this.collection = collection;
     }
-    
-    
-    
 
-    public Tower createTower(String name, Vector3f loc, Geometry geom, float cooldown, float charge, Spawner spawner, Node towerParentNode) {
-        Tower tower = new Tower(
-                towerParentNode, 
-                name, 
-                loc, 
-                geom,
-                new CoolDown(
-                    cooldown, 
-                    charge,
-                    new Signal()
-                ), 
-                spawner
-        
+    public void loadJson(File jsonFile) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode rootNode = objectMapper.readTree(jsonFile);
+        sheets = rootNode.path("sheets");
+    }
+
+    public Tower createTower(String id, Node towerParentNode) {
+        for (JsonNode sheet : sheets) {
+            if (sheet.path("name").asText().equals("chinchillas")) {
+                JsonNode lines = sheet.path("lines");
+                for (JsonNode line : lines) {
+                    if (line.path("chinchilla").asText().equals(id)) {
+                        return createTowerFromJson(line, towerParentNode);
+                    }
+                }
+            }
+        }
+        return null;  // O lanzar una excepción si el ID no se encuentra
+    }
+
+    private Tower createTowerFromJson(JsonNode jsonNode, Node towerParentNode) {
+        String name = jsonNode.path("chinchilla").asText();
+        float coolDown = jsonNode.path("cool_down").floatValue();
+        int colorValue = jsonNode.path("color").intValue();
+        String texture = jsonNode.path("texture").asText();
+        String bulletType = jsonNode.path("bullet").asText();
+        String meshPath = jsonNode.path("mesh").asText();
+
+        ColorRGBA color = new ColorRGBA(
+            ((colorValue >> 16) & 0xff) / 255.0f,
+            ((colorValue >>  8) & 0xff) / 255.0f,
+            ((colorValue      ) & 0xff) / 255.0f,
+            //((colorValue >> 24) & 0xff) / 255.0f
+            1
         );
-        attachTower(tower, towerParentNode); // Attach tower to the parent node
+
+        Geometry geom = createGeom(name, new Quad(2,2), meshPath, color);
+        Spawner spawner = new Spawner(generator, bulletType);
+        return createTower(name, new Vector3f(0, 1, 0), geom, coolDown, 0, spawner, towerParentNode);
+    }
+
+    private Tower createTower(String name, Vector3f loc, Geometry geom, float cooldown, float charge, Spawner spawner, Node towerParentNode) {
+        Tower tower = new Tower(towerParentNode, name, loc, geom, new CoolDown(cooldown, charge, new Signal()), spawner);
+        attachTower(tower, towerParentNode);
         return tower;
     }
 
     private void attachTower(Tower tower, Node towerParentNode) {
         collection.add(tower);
-        towerParentNode.attachChild(tower.geom); 
-        tower.geom.setLocalTranslation(tower.loc); 
+        towerParentNode.attachChild(tower.geom);
+        tower.geom.setLocalTranslation(tower.loc);
     }
     
-    public Tower createTower(String id, Node towerParentNode){
-        switch(id){
-            case "slow":
-                return slowTower(id, towerParentNode);
-            case "fast":
-                return quickTower(id, towerParentNode);
-                
-            default:
-                return redTower(id, towerParentNode);
-        }
-    
-    
-    }
-    
-    public Tower redTower(String name, Node towerParentNode){
-        return createTower(
-                name, 
-                //new Vector3f(1,1,1), 
-                new Vector3f(0,1,0),
-                myBox2(name,  ColorRGBA.LightGray), 
-                1.5f, 
-                1.4f, 
-                new Spawner(generator, ""), 
-                towerParentNode
-        );
-
-    }
-    
-    public Tower slowTower(String name, Node towerParentNode){
-        return createTower(
-                name, 
-                //new Vector3f(1,1,1), 
-                new Vector3f(0,1,0),
-                myBox(name,  ColorRGBA.LightGray), 
-                2.5f, 
-                2.4f, 
-                new Spawner(generator, "big"), 
-                towerParentNode
-        );
-
-    }
-    
-    public Tower quickTower(String name, Node towerParentNode){
-        return createTower(
-                name, 
-                //new Vector3f(1,1,1), 
-                new Vector3f(0,1,0),
-                myBox2(name,  ColorRGBA.LightGray), 
-                .3f, 
-                0f, 
-                new Spawner(generator, "small"), 
-                towerParentNode
-        );
-
-    }
-        
-    private Geometry myBox(String name,  ColorRGBA color){
+    private Geometry createGeom(String name, Mesh mesh, String texture,ColorRGBA color){
         Geometry geom = new Geometry(name, 
-                new Quad(2,2)
+                //new Quad(2,2)
+                mesh
         );
         Material mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
         mat.setColor("Color", color);
         mat.getAdditionalRenderState().setBlendMode(BlendMode.Alpha);
         //mat.getAdditionalRenderState().setAlphaTest(true);
         //mat.getAdditionalRenderState().setAlphaFallOff(0.5f);
-        mat.setTexture("ColorMap", assetManager.loadTexture("Textures/Chinchi.png"));
-        geom.setMaterial(mat);
-        geom.setLocalRotation(new Quaternion().fromAngleAxis(FastMath.PI/3, new Vector3f(1,0,0)));
-
-        return geom;
-    }
-    
-    private Geometry myBox2(String name,  ColorRGBA color){
-        Geometry geom = new Geometry(name, 
-                new Quad(2,2)
-        );
-        Material mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
-        mat.setColor("Color", color);
-        mat.getAdditionalRenderState().setBlendMode(BlendMode.Alpha);
-        //mat.getAdditionalRenderState().setAlphaTest(true);
-        //mat.getAdditionalRenderState().setAlphaFallOff(0.5f);
-        mat.setTexture("ColorMap", assetManager.loadTexture("Textures/Chilla.png"));
+        mat.setTexture("ColorMap", assetManager.loadTexture("Textures/"+texture));
         geom.setMaterial(mat);
         geom.setLocalRotation(new Quaternion().fromAngleAxis(FastMath.PI/3, new Vector3f(1,0,0)));
 

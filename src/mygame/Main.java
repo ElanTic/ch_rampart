@@ -20,7 +20,11 @@ import com.jme3.scene.Node;
 import com.jme3.scene.shape.Box;
 import com.jme3.scene.shape.Quad;
 import com.jme3.system.AppSettings;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * This is the Main Class of your Game. You should only do initialization here.
@@ -43,49 +47,57 @@ public class Main extends SimpleApplication {
 
     @Override
     public void simpleInitApp() {
-        flyCam.setDragToRotate(true);
-        inputManager.setCursorVisible(true);
-        
-        Box b = new Box(33, 33, 0);
-        Geometry geom = new Geometry("Box", b);
-        
-
-        Material mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
-        mat.setColor("Color", ColorRGBA.Blue);
-        geom.setMaterial(mat);
-
-        Node creepNode = new Node("creeps");
-        Node playerNode = new Node("player");
-        Node towerNode = new Node("tower"); 
-        Node grid = new Node("grid");
-        Node deck = new Node("deck");
-        rootNode.setLocalTranslation(-12,-10,-25);
-        
-        createCard("def", deck, new Vector3f(0,-4,0),ColorRGBA.Red);
-        createCard("slow", deck, new Vector3f(4,-4,0), ColorRGBA.Green);
-        createCard("fast", deck, new Vector3f(8,-4,0),ColorRGBA.Blue);
-
-        
-        createGrid(12,2f,grid);
-        
-        rootNode.attachChild(creepNode);
-        rootNode.attachChild(playerNode);
-        rootNode.attachChild(towerNode);
-        rootNode.attachChild(grid);
-        rootNode.attachChild(deck);
-        //grid.attachChild(geom);
-        bulletCollection = new ArrayList<Bullet>();
-        towerCollection = new ArrayList<Tower>();
-        BulletFactory bfactory = new BulletFactory(playerNode, this.assetManager, bulletCollection);
-        TowerFactory tfactory = new TowerFactory(bfactory,this.assetManager, towerCollection);
-        PlaceTower ptower = new PlaceTower(grid, tfactory, "big");
-        ChangeColor cColor = new ChangeColor(grid, ColorRGBA.Green);
-        controller = new PlayerController(this.getInputManager(), this.cam, ptower, cColor);
-        
-        rootNode.setLocalRotation(new Quaternion().fromAngleAxis(-FastMath.PI/4, new Vector3f(1,0,0)));
-        
-        //cam.setLocation(new Vector3f(0,-40, 40));
-        //cam.setRotation(new Quaternion().fromAngleAxis(FastMath.PI/10, new Vector3f(1,0,0)));
+        try {
+            flyCam.setDragToRotate(true);
+            inputManager.setCursorVisible(true);
+            
+            Box b = new Box(33, 33, 0);
+            Geometry geom = new Geometry("Box", b);
+            
+            
+            Material mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
+            mat.setColor("Color", ColorRGBA.Blue);
+            geom.setMaterial(mat);
+            
+            Node creepNode = new Node("creeps");
+            Node playerNode = new Node("player");
+            Node towerNode = new Node("tower");
+            Node grid = new Node("grid");
+            Node deck = new Node("deck");
+            rootNode.setLocalTranslation(-12,-10,-25);
+            
+            createCard("mid", deck, new Vector3f(0,-4,0),ColorRGBA.Red);
+            createCard("big", deck, new Vector3f(4,-4,0), ColorRGBA.Green);
+            createCard("quick", deck, new Vector3f(8,-4,0),ColorRGBA.Blue);
+            
+            
+            createGrid(12,2f,grid);
+            
+            rootNode.attachChild(creepNode);
+            rootNode.attachChild(playerNode);
+            rootNode.attachChild(towerNode);
+            rootNode.attachChild(grid);
+            rootNode.attachChild(deck);
+            //grid.attachChild(geom);
+            bulletCollection = new ArrayList<Bullet>();
+            towerCollection = new ArrayList<Tower>();
+            BulletFactory bfactory = new BulletFactory(playerNode, this.assetManager, bulletCollection);
+            TowerFactory tfactory = new TowerFactory(bfactory,this.assetManager, towerCollection);
+            //tfactory.loadJson("Scenes/ch_rampart");
+            File db = new File(getClass().getResource("/Scenes/ch_rampart").getFile());
+            tfactory.loadJson(db);
+            bfactory.loadJson(db);
+            PlaceTower ptower = new PlaceTower(grid, tfactory, "big");
+            ChangeColor cColor = new ChangeColor(grid, ColorRGBA.Green);
+            controller = new PlayerController(this.getInputManager(), this.cam, ptower, cColor);
+            
+            rootNode.setLocalRotation(new Quaternion().fromAngleAxis(-FastMath.PI/4, new Vector3f(1,0,0)));
+            
+            //cam.setLocation(new Vector3f(0,-40, 40));
+            //cam.setRotation(new Quaternion().fromAngleAxis(FastMath.PI/10, new Vector3f(1,0,0)));
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
