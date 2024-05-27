@@ -13,10 +13,9 @@
 					"opt": true
 				},
 				{
-					"typeStr": "7",
+					"typeStr": "13",
 					"name": "texture",
-					"opt": true,
-					"display": null
+					"opt": true
 				},
 				{
 					"typeStr": "11",
@@ -38,26 +37,26 @@
 				{
 					"cool_down": 1.5,
 					"color": 0,
-					"texture": "c73351eb7da468fa0649ee02e9fca817",
-					"mesh": "Chilla.png",
+					"mesh": "../Textures/Chilla.png",
 					"bullet": "mid",
-					"chinchilla": "mid"
+					"chinchilla": "mid",
+					"texture": "../Textures/Chilla.png"
 				},
 				{
 					"cool_down": 2.5,
 					"color": 13421001,
-					"texture": "1953f7d48004b80be87248faff895e13",
 					"bullet": "big",
 					"chinchilla": "big",
-					"mesh": "Chinchi.png"
+					"mesh": "../Textures/Chinchi.png",
+					"texture": "../Textures/Chinchi.png"
 				},
 				{
 					"cool_down": 0.3,
 					"color": 12560809,
-					"texture": "c73351eb7da468fa0649ee02e9fca817",
 					"bullet": "small",
 					"chinchilla": "quick",
-					"mesh": "Chilla.png"
+					"mesh": "../Textures/Hunter.png",
+					"texture": "../Textures/Chilla.png"
 				}
 			],
 			"separators": [],
@@ -164,6 +163,74 @@
 					"display": null
 				}
 			]
+		},
+		{
+			"name": "enemies",
+			"columns": [
+				{
+					"typeStr": "0",
+					"name": "type"
+				},
+				{
+					"typeStr": "13",
+					"name": "mesh",
+					"opt": true
+				},
+				{
+					"typeStr": "13",
+					"name": "texture",
+					"opt": true
+				},
+				{
+					"typeStr": "4",
+					"name": "healt",
+					"opt": true,
+					"display": null
+				},
+				{
+					"typeStr": "11",
+					"name": "color",
+					"display": null
+				}
+			],
+			"lines": [
+				{
+					"type": "hunter",
+					"color": 0,
+					"mesh": "../Textures/Hunter.png"
+				}
+			],
+			"separators": [],
+			"props": {}
+		},
+		{
+			"name": "cards",
+			"columns": [
+				{
+					"typeStr": "0",
+					"name": "id",
+					"display": null
+				},
+				{
+					"typeStr": "13",
+					"name": "front",
+					"display": null
+				},
+				{
+					"typeStr": "13",
+					"name": "back",
+					"display": null
+				}
+			],
+			"lines": [
+				{
+					"id": "regular",
+					"front": "",
+					"back": ""
+				}
+			],
+			"separators": [],
+			"props": {}
 		}
 	],
 	"customTypes": [],
