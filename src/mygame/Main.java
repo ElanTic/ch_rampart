@@ -84,7 +84,7 @@ public class Main extends SimpleApplication {
             BulletFactory bfactory = new BulletFactory(playerNode, this.assetManager, bulletCollection);
             TowerFactory tfactory = new TowerFactory(bfactory,this.assetManager, towerCollection);
             //tfactory.loadJson("Scenes/ch_rampart");
-            File db = new File(getClass().getResource("/Scenes/ch_rampart").getFile());
+            File db = new File(getClass().getResource("/ch_rampart").getFile());
             tfactory.loadJson(db);
             bfactory.loadJson(db);
             PlaceTower ptower = new PlaceTower(grid, tfactory, "big");
