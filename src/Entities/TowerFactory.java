@@ -80,7 +80,7 @@ public class TowerFactory {
             1
         );
 
-        Geometry geom = createGeom(name, new Quad(2,2), meshPath, color);
+        Geometry geom = createGeom(name, new Quad(2,2), texture, color);
         Spawner spawner = new Spawner(generator, bulletType);
         return createTower(name, new Vector3f(0, 1, 0), geom, coolDown, 0, spawner, towerParentNode);
     }
@@ -107,7 +107,7 @@ public class TowerFactory {
         mat.getAdditionalRenderState().setBlendMode(BlendMode.Alpha);
         //mat.getAdditionalRenderState().setAlphaTest(true);
         //mat.getAdditionalRenderState().setAlphaFallOff(0.5f);
-        mat.setTexture("ColorMap", assetManager.loadTexture("Textures/"+texture));
+        mat.setTexture("ColorMap", assetManager.loadTexture(texture));
         geom.setMaterial(mat);
         geom.setLocalRotation(new Quaternion().fromAngleAxis(FastMath.PI/3, new Vector3f(1,0,0)));
 
