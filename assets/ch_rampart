@@ -37,26 +37,26 @@
 				{
 					"cool_down": 1.5,
 					"color": 0,
-					"mesh": "../Textures/Chilla.png",
+					"mesh": "Textures/Chilla.png",
 					"bullet": "mid",
 					"chinchilla": "mid",
-					"texture": "../Textures/Chilla.png"
+					"texture": "Textures/Chilla.png"
 				},
 				{
 					"cool_down": 2.5,
 					"color": 13421001,
 					"bullet": "big",
 					"chinchilla": "big",
-					"mesh": "../Textures/Chinchi.png",
-					"texture": "../Textures/Chinchi.png"
+					"mesh": "Textures/Chinchi.png",
+					"texture": "Textures/Chinchi.png"
 				},
 				{
 					"cool_down": 0.3,
 					"color": 12560809,
 					"bullet": "small",
 					"chinchilla": "quick",
-					"mesh": "../Textures/Hunter.png",
-					"texture": "../Textures/Chilla.png"
+					"mesh": "Textures/Chilla.png",
+					"texture": "Textures/Chilla.png"
 				}
 			],
 			"separators": [],
@@ -197,7 +197,7 @@
 				{
 					"type": "hunter",
 					"color": 0,
-					"mesh": "../Textures/Hunter.png"
+					"mesh": "Textures/Hunter.png"
 				}
 			],
 			"separators": [],
