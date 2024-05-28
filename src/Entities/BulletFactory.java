@@ -22,15 +22,13 @@ import java.util.ArrayList;
  * @author jt
  */
 public class BulletFactory {
-    private Node bulletParentNode;
     private AssetManager assetManager;
-    private ArrayList<Bullet> collection;
-    private JsonNode sheets;  // Almacenar el nodo raíz para búsquedas posteriores
+    private JsonNode sheets;
+    //private BulletManager bulletManager;
 
-    public BulletFactory(Node bulletParentNode, AssetManager assetManager, ArrayList<Bullet> collection) {
-        this.bulletParentNode = bulletParentNode;
+    public BulletFactory(AssetManager assetManager) {
         this.assetManager = assetManager;
-        this.collection = collection;
+        //this.bulletManager = bulletManager;
     }
 
     public void loadJson(File jsonFile) throws IOException {
@@ -50,7 +48,7 @@ public class BulletFactory {
                 }
             }
         }
-        return null;  // O lanzar una excepción si el ID no se encuentra
+        return null; // O lanzar una excepción si el ID no se encuentra
     }
 
     private Bullet createBulletFromJson(JsonNode jsonNode, Vector3f coordinates) {
@@ -76,22 +74,14 @@ public class BulletFactory {
     }
 
     private Bullet createBullet(String name, Vector3f pos, Vector3f acceleration, Geometry shape) {
-        Bullet bullet = new Bullet(name, bulletParentNode, pos, acceleration, shape);
-        attachBullet(bullet);
+        Bullet bullet = new Bullet(name, pos, acceleration, shape);
         return bullet;
-    }
-
-    private void attachBullet(Bullet bullet) {
-        collection.add(bullet);
-        bulletParentNode.attachChild(bullet.shape);
-        bullet.shape.setLocalTranslation(bullet.poss);
     }
 
     private Geometry createGeom(String name, float scale, ColorRGBA color) {
         Geometry geom = new Geometry(name, new Box(Vector3f.ZERO, scale, scale, scale));
         Material mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
         mat.setColor("Color", color);
-        //mat.getAdditionalRenderState().setBlendMode(BlendMode.Alpha);
         geom.setMaterial(mat);
         return geom;
     }

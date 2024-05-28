@@ -29,12 +29,12 @@ import java.io.File;
 import java.io.IOException;
 
 public class TowerFactory {
-    private BulletFactory generator;
+    private BulletManager generator;
     private AssetManager assetManager;
     //private ArrayList<Tower> collection;
     private JsonNode sheets;  // Almacenar el nodo raíz para búsquedas posteriores
 
-    public TowerFactory(BulletFactory generator, AssetManager assetManager) {
+    public TowerFactory(BulletManager generator, AssetManager assetManager) {
         this.generator = generator;
         this.assetManager = assetManager;
         //this.collection = collection;
@@ -86,8 +86,7 @@ public class TowerFactory {
     } 
     
     private Geometry createGeom(String name, Mesh mesh, String texture,ColorRGBA color){
-        Geometry geom = new Geometry(name, 
-                //new Quad(2,2)
+        Geometry geom = new Geometry(name,
                 mesh
         );
         Material mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");

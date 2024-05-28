@@ -4,6 +4,7 @@ import Commands.ChangeColor;
 import Commands.PlaceTower;
 import Entities.Bullet;
 import Entities.BulletFactory;
+import Entities.BulletManager;
 import Entities.Tower;
 import Entities.TowerFactory;
 import Entities.TowerManager;
@@ -36,7 +37,7 @@ public class Main extends SimpleApplication {
     
     PlayerController controller;
     TowerManager tManager;
-    ArrayList<Bullet> bulletCollection;
+    BulletManager bManager;
     
     public static void main(String[] args) {
         Main app = new Main();
@@ -79,10 +80,10 @@ public class Main extends SimpleApplication {
             rootNode.attachChild(towerNode);
             rootNode.attachChild(grid);
             rootNode.attachChild(deck);
-            //grid.attachChild(geom);
-            bulletCollection = new ArrayList<Bullet>();            
-            BulletFactory bfactory = new BulletFactory(playerNode, this.assetManager, bulletCollection);
-            TowerFactory tfactory = new TowerFactory(bfactory, this.assetManager);
+            //grid.attachChild(geom);           
+            BulletFactory bfactory = new BulletFactory(this.assetManager);
+            bManager = new BulletManager(playerNode,bfactory);
+            TowerFactory tfactory = new TowerFactory(bManager, this.assetManager);
             File db = new File(getClass().getResource("/ch_rampart").getFile());
             tManager = new TowerManager(tfactory, db);
             bfactory.loadJson(db);
@@ -102,21 +103,8 @@ public class Main extends SimpleApplication {
     @Override
     public void simpleUpdate(float tpf) {
         controller.update();
-        ArrayList<Bullet> delleted = new ArrayList<Bullet>();
-        for (Bullet bullet : bulletCollection){
-            if (bullet.poss.y > -20){
-                bullet.update(tpf);
-            }
-            else {
-                delleted.add(bullet);
-            }
-        }
-        for(Bullet bullet : delleted){
-            //System.out.println("Deleted bullet: " + bullet.parent.detachChild(bullet.shape));
-            bulletCollection.remove(bullet);
-        }
-        delleted.clear();
-            tManager.update(tpf);
+        bManager.update(tpf);
+        tManager.update(tpf);
     }
 
     @Override
