@@ -15,14 +15,13 @@ import com.jme3.scene.Node;
 public class Bullet {
     
     String name;
-    public Node parent;
     public Vector3f poss;
     Vector3f acceleration;
     public Geometry shape;
 
-    public Bullet(String name, Node parent, Vector3f poss, Vector3f acceleration, Geometry shape) {
+    
+    public Bullet(String name, Vector3f poss, Vector3f acceleration, Geometry shape) {
         this.name = name;
-        this.parent = parent;
         this.poss = poss;
         this.acceleration = acceleration;
         this.shape = shape;
@@ -35,6 +34,6 @@ public class Bullet {
     }
     
     public Bullet clone(Vector3f loc){
-        return new Bullet(name, parent, loc, acceleration, shape);
+        return new Bullet(name, loc, acceleration, shape);
     }
 }

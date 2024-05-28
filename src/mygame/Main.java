@@ -4,8 +4,10 @@ import Commands.ChangeColor;
 import Commands.PlaceTower;
 import Entities.Bullet;
 import Entities.BulletFactory;
+import Entities.BulletManager;
 import Entities.Tower;
 import Entities.TowerFactory;
+import Entities.TowerManager;
 import Player.PlayerController;
 import com.jme3.app.SimpleApplication;
 import com.jme3.material.Material;
@@ -34,8 +36,8 @@ import java.util.logging.Logger;
 public class Main extends SimpleApplication {
     
     PlayerController controller;
-    ArrayList<Tower> towerCollection;
-    ArrayList<Bullet> bulletCollection;
+    TowerManager tManager;
+    BulletManager bManager;
     
     public static void main(String[] args) {
         Main app = new Main();
@@ -78,16 +80,15 @@ public class Main extends SimpleApplication {
             rootNode.attachChild(towerNode);
             rootNode.attachChild(grid);
             rootNode.attachChild(deck);
-            //grid.attachChild(geom);
-            bulletCollection = new ArrayList<Bullet>();
-            towerCollection = new ArrayList<Tower>();
-            BulletFactory bfactory = new BulletFactory(playerNode, this.assetManager, bulletCollection);
-            TowerFactory tfactory = new TowerFactory(bfactory,this.assetManager, towerCollection);
-            //tfactory.loadJson("Scenes/ch_rampart");
+            //grid.attachChild(geom);           
+            BulletFactory bfactory = new BulletFactory(this.assetManager);
+            bManager = new BulletManager(playerNode,bfactory);
+            TowerFactory tfactory = new TowerFactory(bManager, this.assetManager);
             File db = new File(getClass().getResource("/ch_rampart").getFile());
-            tfactory.loadJson(db);
-            bfactory.loadJson(db);
-            PlaceTower ptower = new PlaceTower(grid, tfactory, "big");
+            tManager = new TowerManager(tfactory);
+            tManager.loadJson(db, "chinchillas");
+            bManager.loadJson(db, "bullets");
+            PlaceTower ptower = new PlaceTower(grid, tManager, "big");
             ChangeColor cColor = new ChangeColor(grid, ColorRGBA.Green);
             controller = new PlayerController(this.getInputManager(), this.cam, ptower, cColor);
             
@@ -103,23 +104,8 @@ public class Main extends SimpleApplication {
     @Override
     public void simpleUpdate(float tpf) {
         controller.update();
-        ArrayList<Bullet> delleted = new ArrayList<Bullet>();
-        for (Bullet bullet : bulletCollection){
-            if (bullet.poss.y > -20){
-                bullet.update(tpf);
-            }
-            else {
-                delleted.add(bullet);
-            }
-        }
-        for(Bullet bullet : delleted){
-            //System.out.println("Deleted bullet: " + bullet.parent.detachChild(bullet.shape));
-            bulletCollection.remove(bullet);
-        }
-        delleted.clear();
-        for (Tower tower : towerCollection){
-            tower.update(tpf);
-        }
+        bManager.update(tpf);
+        tManager.update(tpf);
     }
 
     @Override

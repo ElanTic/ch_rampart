@@ -6,6 +6,7 @@ package Commands;
 
 //import static Entities.Tower.mesh;
 import Entities.TowerFactory;
+import Entities.TowerManager;
 import com.jme3.asset.AssetManager;
 import com.jme3.collision.CollisionResults;
 import com.jme3.input.InputManager;
@@ -26,10 +27,10 @@ import com.jme3.scene.shape.Box;
 public class PlaceTower implements Command{
     private Node grid;
     private Ray ray;
-    TowerFactory generator;
+    TowerManager generator;
     private String id;
 
-    public PlaceTower(Node grid, TowerFactory generator, String id) {
+    public PlaceTower(Node grid, TowerManager generator, String id) {
         this.grid = grid;
         this.generator = generator;
         this.id = id;
@@ -61,7 +62,7 @@ public class PlaceTower implements Command{
             if (nodo.getChild("tower") != null ) {
                 return;
             } else {
-                generator.createTower(id, nodo);
+                generator.attachTower(id, nodo);
             } 
         } 
         else{

@@ -15,11 +15,8 @@ import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
-import com.jme3.scene.Node;
-import com.jme3.scene.shape.Box;
 import com.jme3.scene.shape.Quad;
-import com.jme3.scene.shape.Sphere;
-import java.util.ArrayList;
+
 
 /**
  *
@@ -30,41 +27,33 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jme3.scene.Mesh;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class TowerFactory {
-    private BulletFactory generator;
+    private BulletManager generator;
     private AssetManager assetManager;
-    private ArrayList<Tower> collection;
+    //private ArrayList<Tower> collection;
     private JsonNode sheets;  // Almacenar el nodo raíz para búsquedas posteriores
 
-    public TowerFactory(BulletFactory generator, AssetManager assetManager, ArrayList<Tower> collection) {
+    public TowerFactory(BulletManager generator, AssetManager assetManager) {
         this.generator = generator;
         this.assetManager = assetManager;
-        this.collection = collection;
+        //this.collection = collection;
     }
 
-    public void loadJson(File jsonFile) throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode rootNode = objectMapper.readTree(jsonFile);
-        sheets = rootNode.path("sheets");
+    public void loadJson(JsonNode jsonFile) throws IOException {
+        sheets = jsonFile;
     }
 
-    public Tower createTower(String id, Node towerParentNode) {
-        for (JsonNode sheet : sheets) {
-            if (sheet.path("name").asText().equals("chinchillas")) {
-                JsonNode lines = sheet.path("lines");
-                for (JsonNode line : lines) {
-                    if (line.path("chinchilla").asText().equals(id)) {
-                        return createTowerFromJson(line, towerParentNode);
-                    }
-                }
+    public Tower createTower(String id) {
+        for (JsonNode line : sheets) {
+            if (line.path("chinchilla").asText().equals(id)) {
+                return createTowerFromJson(line);
             }
         }
         return null;  // O lanzar una excepción si el ID no se encuentra
     }
 
-    private Tower createTowerFromJson(JsonNode jsonNode, Node towerParentNode) {
+    private Tower createTowerFromJson(JsonNode jsonNode) {
         String name = jsonNode.path("chinchilla").asText();
         float coolDown = jsonNode.path("cool_down").floatValue();
         int colorValue = jsonNode.path("color").intValue();
@@ -82,24 +71,15 @@ public class TowerFactory {
 
         Geometry geom = createGeom(name, new Quad(2,2), texture, color);
         Spawner spawner = new Spawner(generator, bulletType);
-        return createTower(name, new Vector3f(0, 1, 0), geom, coolDown, 0, spawner, towerParentNode);
+        return createTower(name, geom, coolDown, 0, spawner);
     }
 
-    private Tower createTower(String name, Vector3f loc, Geometry geom, float cooldown, float charge, Spawner spawner, Node towerParentNode) {
-        Tower tower = new Tower(towerParentNode, name, loc, geom, new CoolDown(cooldown, charge, new Signal()), spawner);
-        attachTower(tower, towerParentNode);
-        return tower;
-    }
-
-    private void attachTower(Tower tower, Node towerParentNode) {
-        collection.add(tower);
-        towerParentNode.attachChild(tower.geom);
-        tower.geom.setLocalTranslation(tower.loc);
-    }
+    private Tower createTower(String name, Geometry geom, float cooldown, float charge, Spawner spawner) {
+        return new Tower(name, geom, new CoolDown(cooldown, charge, new Signal()), spawner);
+    } 
     
     private Geometry createGeom(String name, Mesh mesh, String texture,ColorRGBA color){
-        Geometry geom = new Geometry(name, 
-                //new Quad(2,2)
+        Geometry geom = new Geometry(name,
                 mesh
         );
         Material mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");

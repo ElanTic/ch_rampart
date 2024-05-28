@@ -11,47 +11,36 @@ import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
-import com.jme3.scene.Node;
 import com.jme3.scene.shape.Box;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  *
  * @author jt
  */
 public class BulletFactory {
-    private Node bulletParentNode;
     private AssetManager assetManager;
-    private ArrayList<Bullet> collection;
-    private JsonNode sheets;  // Almacenar el nodo raíz para búsquedas posteriores
+    private JsonNode sheets;
 
-    public BulletFactory(Node bulletParentNode, AssetManager assetManager, ArrayList<Bullet> collection) {
-        this.bulletParentNode = bulletParentNode;
+    public BulletFactory(AssetManager assetManager) {
         this.assetManager = assetManager;
-        this.collection = collection;
+    }
+    
+    public void loadJson(JsonNode jsonFile) throws IOException {
+        sheets = jsonFile;
     }
 
-    public void loadJson(File jsonFile) throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode rootNode = objectMapper.readTree(jsonFile);
-        sheets = rootNode.path("sheets");
-    }
-
-    public Bullet createBulletById(String id, Vector3f coordinates) {
-        for (JsonNode sheet : sheets) {
-            if (sheet.path("name").asText().equals("bullets")) {
-                JsonNode lines = sheet.path("lines");
-                for (JsonNode line : lines) {
-                    if (line.path("type").asText().equals(id)) {
+    public Bullet createBulletById(String id, Vector3f coordinates){
+        for (JsonNode line : sheets) {
+            if (line.path("type").asText().equals(id)) {
                         return createBulletFromJson(line, coordinates);
-                    }
-                }
             }
         }
         return null;  // O lanzar una excepción si el ID no se encuentra
     }
+    
+    
 
     private Bullet createBulletFromJson(JsonNode jsonNode, Vector3f coordinates) {
         String type = jsonNode.path("type").asText();
@@ -76,22 +65,14 @@ public class BulletFactory {
     }
 
     private Bullet createBullet(String name, Vector3f pos, Vector3f acceleration, Geometry shape) {
-        Bullet bullet = new Bullet(name, bulletParentNode, pos, acceleration, shape);
-        attachBullet(bullet);
+        Bullet bullet = new Bullet(name, pos, acceleration, shape);
         return bullet;
-    }
-
-    private void attachBullet(Bullet bullet) {
-        collection.add(bullet);
-        bulletParentNode.attachChild(bullet.shape);
-        bullet.shape.setLocalTranslation(bullet.poss);
     }
 
     private Geometry createGeom(String name, float scale, ColorRGBA color) {
         Geometry geom = new Geometry(name, new Box(Vector3f.ZERO, scale, scale, scale));
         Material mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
         mat.setColor("Color", color);
-        //mat.getAdditionalRenderState().setBlendMode(BlendMode.Alpha);
         geom.setMaterial(mat);
         return geom;
     }
