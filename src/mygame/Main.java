@@ -2,10 +2,8 @@ package mygame;
 
 import Commands.ChangeColor;
 import Commands.PlaceTower;
-import Entities.Bullet;
 import Entities.BulletFactory;
 import Entities.BulletManager;
-import Entities.Tower;
 import Entities.TowerFactory;
 import Entities.TowerManager;
 import Player.PlayerController;
@@ -24,7 +22,6 @@ import com.jme3.scene.shape.Quad;
 import com.jme3.system.AppSettings;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -82,10 +79,10 @@ public class Main extends SimpleApplication {
             rootNode.attachChild(deck);
             //grid.attachChild(geom);           
             BulletFactory bfactory = new BulletFactory(this.assetManager);
-            bManager = new BulletManager(playerNode,bfactory);
+            bManager = new BulletManager(playerNode, bfactory);
             TowerFactory tfactory = new TowerFactory(bManager, this.assetManager);
-            File db = new File(getClass().getResource("/ch_rampart").getFile());
             tManager = new TowerManager(tfactory);
+            File db = new File(getClass().getResource("/ch_rampart").getFile());
             tManager.loadJson(db, "chinchillas");
             bManager.loadJson(db, "bullets");
             PlaceTower ptower = new PlaceTower(grid, tManager, "big");

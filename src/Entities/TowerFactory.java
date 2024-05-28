@@ -16,18 +16,15 @@ import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.shape.Quad;
-
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jme3.scene.Mesh;
+import java.io.IOException;
 
 /**
  *
  * @author jt
  */
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jme3.scene.Mesh;
-import java.io.File;
-import java.io.IOException;
-
 public class TowerFactory {
     private BulletManager generator;
     private AssetManager assetManager;

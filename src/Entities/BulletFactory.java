@@ -12,8 +12,7 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.shape.Box;
-import java.io.File;
-import java.io.IOException;
+
 
 /**
  *
@@ -27,7 +26,7 @@ public class BulletFactory {
         this.assetManager = assetManager;
     }
     
-    public void loadJson(JsonNode jsonFile) throws IOException {
+    public void loadJson(JsonNode jsonFile){
         sheets = jsonFile;
     }
 
