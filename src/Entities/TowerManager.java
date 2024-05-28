@@ -1,0 +1,44 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package Entities;
+
+import com.jme3.math.Vector3f;
+import com.jme3.scene.Node;
+import java.io.File;
+import java.util.ArrayList;
+import java.io.IOException;
+
+/**
+ *
+ * @author jt
+ */
+public class TowerManager{
+    ArrayList<Tower> collection;
+    TowerFactory factory;
+    //Node parentNode;
+
+    public TowerManager(TowerFactory factory, File db) throws IOException {
+        this.factory = factory;
+        this.collection = new ArrayList<Tower>();
+        factory.loadJson(db);
+    }
+    
+    public void attachTower(String id, Node nodo ){
+        attachTower(factory.createTower(id), nodo);
+        
+    }
+    
+    private void attachTower(Tower tower, Node towerParentNode) {
+        collection.add(tower);
+        towerParentNode.attachChild(tower.geom);
+        tower.geom.getLocalTranslation().add(new Vector3f(0,1,0));
+    }
+    
+    public void update(float tpf){
+        for (Tower tower : collection){
+            tower.update(tpf);
+        }
+    }
+}

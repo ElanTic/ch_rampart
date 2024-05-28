@@ -20,7 +20,6 @@ import com.jme3.scene.shape.Box;
  * @author jt
  */
 public class Tower {
-    Node parent;
     String name;
     Vector3f loc;
     public Geometry geom;
@@ -28,10 +27,9 @@ public class Tower {
     public Spawner spawner;
     Shoot shoot;
     
-    public Tower(Node parent, String name, Vector3f loc, Geometry geom, CoolDown cooldown, Spawner spawner) {
-        this.parent = parent;
+    public Tower(String name, Geometry geom, CoolDown cooldown, Spawner spawner) {
         this.name = name;
-        this.loc = loc;
+        //this.loc = loc;
         this.geom = geom;
         this.cooldown = cooldown;
         this.spawner = spawner;

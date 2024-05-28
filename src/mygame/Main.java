@@ -6,6 +6,7 @@ import Entities.Bullet;
 import Entities.BulletFactory;
 import Entities.Tower;
 import Entities.TowerFactory;
+import Entities.TowerManager;
 import Player.PlayerController;
 import com.jme3.app.SimpleApplication;
 import com.jme3.material.Material;
@@ -34,7 +35,7 @@ import java.util.logging.Logger;
 public class Main extends SimpleApplication {
     
     PlayerController controller;
-    ArrayList<Tower> towerCollection;
+    TowerManager tManager;
     ArrayList<Bullet> bulletCollection;
     
     public static void main(String[] args) {
@@ -79,15 +80,13 @@ public class Main extends SimpleApplication {
             rootNode.attachChild(grid);
             rootNode.attachChild(deck);
             //grid.attachChild(geom);
-            bulletCollection = new ArrayList<Bullet>();
-            towerCollection = new ArrayList<Tower>();
+            bulletCollection = new ArrayList<Bullet>();            
             BulletFactory bfactory = new BulletFactory(playerNode, this.assetManager, bulletCollection);
-            TowerFactory tfactory = new TowerFactory(bfactory,this.assetManager, towerCollection);
-            //tfactory.loadJson("Scenes/ch_rampart");
+            TowerFactory tfactory = new TowerFactory(bfactory, this.assetManager);
             File db = new File(getClass().getResource("/ch_rampart").getFile());
-            tfactory.loadJson(db);
+            tManager = new TowerManager(tfactory, db);
             bfactory.loadJson(db);
-            PlaceTower ptower = new PlaceTower(grid, tfactory, "big");
+            PlaceTower ptower = new PlaceTower(grid, tManager, "big");
             ChangeColor cColor = new ChangeColor(grid, ColorRGBA.Green);
             controller = new PlayerController(this.getInputManager(), this.cam, ptower, cColor);
             
@@ -117,9 +116,7 @@ public class Main extends SimpleApplication {
             bulletCollection.remove(bullet);
         }
         delleted.clear();
-        for (Tower tower : towerCollection){
-            tower.update(tpf);
-        }
+            tManager.update(tpf);
     }
 
     @Override
