@@ -4,6 +4,8 @@
  */
 package Entities;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import java.io.File;
@@ -19,10 +21,22 @@ public class TowerManager{
     TowerFactory factory;
     //Node parentNode;
 
-    public TowerManager(TowerFactory factory, File db) throws IOException {
+    public TowerManager(TowerFactory factory){
         this.factory = factory;
         this.collection = new ArrayList<Tower>();
-        factory.loadJson(db);
+    }
+    
+    public void loadJson(File jsonFile, String root) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode rootNode = objectMapper.readTree(jsonFile);
+        JsonNode sheets = rootNode.path("sheets");
+        for (JsonNode sheet : sheets) {
+            if (sheet.path("name").asText().equals(root)) {
+                JsonNode lines = sheet.path("lines");
+                factory.loadJson(lines);
+                return;
+            }
+        }
     }
     
     public void attachTower(String id, Node nodo ){

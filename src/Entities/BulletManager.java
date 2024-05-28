@@ -4,8 +4,12 @@
  */
 package Entities;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -15,16 +19,29 @@ import java.util.ArrayList;
 public class BulletManager {
     private Node bulletParentNode;
     private ArrayList<Bullet> collection;
-    private BulletFactory bf;
+    private BulletFactory factory;
 
     public BulletManager(Node bulletParentNode, BulletFactory bf) {
         this.bulletParentNode = bulletParentNode;
         this.collection = new ArrayList<>();
-        this.bf =bf;
+        this.factory =bf;
+    }
+    
+    public void loadJson(File jsonFile, String root) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode rootNode = objectMapper.readTree(jsonFile);
+        JsonNode sheets = rootNode.path("sheets");
+        for (JsonNode sheet : sheets) {
+            if (sheet.path("name").asText().equals(root)) {
+                JsonNode lines = sheet.path("lines");
+                factory.loadJson(lines);
+                return;
+            }
+        }
     }
     
     public void attachBullet(String id, Vector3f poss){
-        attachBullet(bf.createBulletById(id, poss));
+        attachBullet(factory.createBulletById(id, poss));
     }
 
     public void attachBullet(Bullet bullet) {
@@ -34,9 +51,20 @@ public class BulletManager {
     }
 
     public void update(float tpf) {
-        for (Bullet bullet : collection) {
-            bullet.update(tpf);
+        ArrayList<Bullet> delleted = new ArrayList<Bullet>();
+        for (Bullet bullet : collection){
+            if (bullet.poss.y > -20){
+                bullet.update(tpf);
+            }
+            else {
+                delleted.add(bullet);
+            }
         }
+        for(Bullet bullet : delleted){
+            collection.remove(bullet);
+            bulletParentNode.detachChild(bullet.shape);
+        }
+        delleted.clear();
     }
 
     public ArrayList<Bullet> getCollection() {

@@ -40,21 +40,14 @@ public class TowerFactory {
         //this.collection = collection;
     }
 
-    public void loadJson(File jsonFile) throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode rootNode = objectMapper.readTree(jsonFile);
-        sheets = rootNode.path("sheets");
+    public void loadJson(JsonNode jsonFile) throws IOException {
+        sheets = jsonFile;
     }
 
     public Tower createTower(String id) {
-        for (JsonNode sheet : sheets) {
-            if (sheet.path("name").asText().equals("chinchillas")) {
-                JsonNode lines = sheet.path("lines");
-                for (JsonNode line : lines) {
-                    if (line.path("chinchilla").asText().equals(id)) {
-                        return createTowerFromJson(line);
-                    }
-                }
+        for (JsonNode line : sheets) {
+            if (line.path("chinchilla").asText().equals(id)) {
+                return createTowerFromJson(line);
             }
         }
         return null;  // O lanzar una excepción si el ID no se encuentra

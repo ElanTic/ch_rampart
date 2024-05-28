@@ -11,11 +11,9 @@ import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
-import com.jme3.scene.Node;
 import com.jme3.scene.shape.Box;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  *
@@ -24,32 +22,25 @@ import java.util.ArrayList;
 public class BulletFactory {
     private AssetManager assetManager;
     private JsonNode sheets;
-    //private BulletManager bulletManager;
 
     public BulletFactory(AssetManager assetManager) {
         this.assetManager = assetManager;
-        //this.bulletManager = bulletManager;
+    }
+    
+    public void loadJson(JsonNode jsonFile) throws IOException {
+        sheets = jsonFile;
     }
 
-    public void loadJson(File jsonFile) throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode rootNode = objectMapper.readTree(jsonFile);
-        sheets = rootNode.path("sheets");
-    }
-
-    public Bullet createBulletById(String id, Vector3f coordinates) {
-        for (JsonNode sheet : sheets) {
-            if (sheet.path("name").asText().equals("bullets")) {
-                JsonNode lines = sheet.path("lines");
-                for (JsonNode line : lines) {
-                    if (line.path("type").asText().equals(id)) {
+    public Bullet createBulletById(String id, Vector3f coordinates){
+        for (JsonNode line : sheets) {
+            if (line.path("type").asText().equals(id)) {
                         return createBulletFromJson(line, coordinates);
-                    }
-                }
             }
         }
-        return null; // O lanzar una excepción si el ID no se encuentra
+        return null;  // O lanzar una excepción si el ID no se encuentra
     }
+    
+    
 
     private Bullet createBulletFromJson(JsonNode jsonNode, Vector3f coordinates) {
         String type = jsonNode.path("type").asText();

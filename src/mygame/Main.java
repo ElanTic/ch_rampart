@@ -85,8 +85,9 @@ public class Main extends SimpleApplication {
             bManager = new BulletManager(playerNode,bfactory);
             TowerFactory tfactory = new TowerFactory(bManager, this.assetManager);
             File db = new File(getClass().getResource("/ch_rampart").getFile());
-            tManager = new TowerManager(tfactory, db);
-            bfactory.loadJson(db);
+            tManager = new TowerManager(tfactory);
+            tManager.loadJson(db, "chinchillas");
+            bManager.loadJson(db, "bullets");
             PlaceTower ptower = new PlaceTower(grid, tManager, "big");
             ChangeColor cColor = new ChangeColor(grid, ColorRGBA.Green);
             controller = new PlayerController(this.getInputManager(), this.cam, ptower, cColor);
