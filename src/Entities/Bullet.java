@@ -27,12 +27,13 @@ public class Bullet {
         this.rigidBodyControl = new RigidBodyControl(0.01f);
         this.shape.addControl(rigidBodyControl);
         rigidBodyControl.setPhysicsLocation(initialPosition);
+        rigidBodyControl.setLinearVelocity(acceleration.mult(10));
     }
 
     public void update(float tpf) {
         // Apply the force
-        Vector3f force = acceleration.mult(tpf);
-        rigidBodyControl.applyCentralForce(force);
+        //Vector3f force = acceleration.mult(tpf);
+        //rigidBodyControl.applyCentralForce(force);
     }
 
     
