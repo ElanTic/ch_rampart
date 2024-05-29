@@ -8,6 +8,7 @@ import Entities.TowerFactory;
 import Entities.TowerManager;
 import Player.PlayerController;
 import com.jme3.app.SimpleApplication;
+import com.jme3.bullet.BulletAppState;
 import com.jme3.material.Material;
 import com.jme3.material.RenderState.BlendMode;
 import com.jme3.math.ColorRGBA;
@@ -35,6 +36,7 @@ public class Main extends SimpleApplication {
     PlayerController controller;
     TowerManager tManager;
     BulletManager bManager;
+    private BulletAppState bulletAppState;
     
     public static void main(String[] args) {
         Main app = new Main();
@@ -46,6 +48,9 @@ public class Main extends SimpleApplication {
 
     @Override
     public void simpleInitApp() {
+        bulletAppState = new BulletAppState();
+        stateManager.attach(bulletAppState);
+        bulletAppState.setDebugEnabled(true);
         try {
             flyCam.setDragToRotate(true);
             inputManager.setCursorVisible(true);
@@ -79,9 +84,9 @@ public class Main extends SimpleApplication {
             rootNode.attachChild(deck);
             //grid.attachChild(geom);           
             BulletFactory bfactory = new BulletFactory(this.assetManager);
-            bManager = new BulletManager(playerNode, bfactory);
+            bManager = new BulletManager(playerNode, bfactory, bulletAppState);
             TowerFactory tfactory = new TowerFactory(bManager, this.assetManager);
-            tManager = new TowerManager(tfactory);
+            tManager = new TowerManager(tfactory, bulletAppState);
             File db = new File(getClass().getResource("/ch_rampart").getFile());
             tManager.loadJson(db, "chinchillas");
             bManager.loadJson(db, "bullets");

@@ -4,6 +4,7 @@
  */
 package Entities;
 
+import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
@@ -13,27 +14,29 @@ import com.jme3.scene.Node;
  * @author jt
  */
 public class Bullet {
-    
+
     String name;
-    public Vector3f poss;
     Vector3f acceleration;
     public Geometry shape;
+    public RigidBodyControl rigidBodyControl;
 
-    
-    public Bullet(String name, Vector3f poss, Vector3f acceleration, Geometry shape) {
+    public Bullet(String name, Vector3f initialPosition, Vector3f acceleration, Geometry shape) {
         this.name = name;
-        this.poss = poss;
         this.acceleration = acceleration;
         this.shape = shape;
+        this.rigidBodyControl = new RigidBodyControl(0.01f);
+        this.shape.addControl(rigidBodyControl);
+        rigidBodyControl.setPhysicsLocation(initialPosition);
     }
-    
-    
-    public void update(float tpf){
-        poss.addLocal(acceleration.mult(tpf));
-        this.shape.setLocalTranslation(poss);
+
+    public void update(float tpf) {
+        // Apply the force
+        Vector3f force = acceleration.mult(tpf);
+        rigidBodyControl.applyCentralForce(force);
     }
+
     
-    public Bullet clone(Vector3f loc){
-        return new Bullet(name, loc, acceleration, shape);
+    public Bullet clone(Vector3f loc) {
+        return new Bullet(name, loc, acceleration, shape.clone());
     }
 }
