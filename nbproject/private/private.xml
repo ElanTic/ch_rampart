@@ -6,9 +6,8 @@
             <file>file:/home/jt/Desktop/repos/games/chinchilla_rampart/src/mygame/Main.java</file>
             <file>file:/home/jt/Desktop/repos/games/chinchilla_rampart/src/Entities/TowerManager.java</file>
             <file>file:/home/jt/Desktop/repos/games/chinchilla_rampart/src/Entities/Bullet.java</file>
-            <file>file:/home/jt/Desktop/repos/games/chinchilla_rampart/src/Entities/Enemy.java</file>
+            <file>file:/home/jt/Desktop/repos/games/chinchilla_rampart/src/Entities/BulletManager.java</file>
             <file>file:/home/jt/Desktop/repos/games/chinchilla_rampart/src/Entities/Tower.java</file>
-            <file>file:/home/jt/Desktop/repos/games/chinchilla_rampart/src/Entities/TowerFactory.java</file>
         </group>
     </open-files>
 </project-private>
