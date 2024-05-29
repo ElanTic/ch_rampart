@@ -6,6 +6,8 @@ package Entities;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jme3.bullet.BulletAppState;
+import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import java.io.File;
@@ -20,11 +22,13 @@ public class BulletManager {
     private Node bulletParentNode;
     private ArrayList<Bullet> collection;
     private BulletFactory factory;
+    private BulletAppState bulletAppState;
 
-    public BulletManager(Node bulletParentNode, BulletFactory bf) {
+    public BulletManager(Node bulletParentNode, BulletFactory bf,  BulletAppState bulletAppState) {
         this.bulletParentNode = bulletParentNode;
         this.collection = new ArrayList<>();
         this.factory =bf;
+        this.bulletAppState = bulletAppState;
     }
     
     public void loadJson(File jsonFile, String root) throws IOException {
@@ -47,18 +51,21 @@ public class BulletManager {
     public void attachBullet(Bullet bullet) {
         collection.add(bullet);
         bulletParentNode.attachChild(bullet.shape);
-        bullet.shape.setLocalTranslation(bullet.poss);
+        bulletAppState.getPhysicsSpace().add(bullet.rigidBodyControl);
+
+        //bullet.shape.setLocalTranslation(bullet.poss);
     }
 
     public void update(float tpf) {
         ArrayList<Bullet> delleted = new ArrayList<Bullet>();
         for (Bullet bullet : collection){
-            if (bullet.poss.y > -20){
+            /*if (bullet.rigidBodyControl.getPhysicsLocation().y > -20){
                 bullet.update(tpf);
             }
             else {
                 delleted.add(bullet);
-            }
+            }*/
+            bullet.update(tpf);
         }
         for(Bullet bullet : delleted){
             collection.remove(bullet);
