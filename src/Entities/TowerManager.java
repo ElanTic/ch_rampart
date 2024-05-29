@@ -6,6 +6,9 @@ package Entities;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jme3.bullet.BulletAppState;
+import com.jme3.math.FastMath;
+import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import java.io.File;
@@ -19,11 +22,13 @@ import java.io.IOException;
 public class TowerManager{
     ArrayList<Tower> collection;
     TowerFactory factory;
-    //Node parentNode;
+    private BulletAppState bulletAppState;
 
-    public TowerManager(TowerFactory factory){
+
+    public TowerManager(TowerFactory factory, BulletAppState bulletAppState){
         this.factory = factory;
         this.collection = new ArrayList<Tower>();
+        this.bulletAppState = bulletAppState;
     }
     
     public void loadJson(File jsonFile, String root) throws IOException {
@@ -47,7 +52,8 @@ public class TowerManager{
     private void attachTower(Tower tower, Node towerParentNode) {
         collection.add(tower);
         towerParentNode.attachChild(tower.geom);
-        tower.geom.getLocalTranslation().add(new Vector3f(0,1,0));
+        //bulletAppState.getPhysicsSpace().add(tower.rigidBodyControl);
+        //tower.rigidBodyControl.setPhysicsLocation(towerParentNode.getWorldTranslation());//.add(new Vector3f(0,1,0)));
     }
     
     public void update(float tpf){

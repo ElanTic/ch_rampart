@@ -86,7 +86,7 @@ public class Main extends SimpleApplication {
             BulletFactory bfactory = new BulletFactory(this.assetManager);
             bManager = new BulletManager(playerNode, bfactory, bulletAppState);
             TowerFactory tfactory = new TowerFactory(bManager, this.assetManager);
-            tManager = new TowerManager(tfactory);
+            tManager = new TowerManager(tfactory, bulletAppState);
             File db = new File(getClass().getResource("/ch_rampart").getFile());
             tManager.loadJson(db, "chinchillas");
             bManager.loadJson(db, "bullets");
