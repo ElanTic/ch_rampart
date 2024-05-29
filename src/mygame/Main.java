@@ -87,7 +87,7 @@ public class Main extends SimpleApplication {
             bManager = new BulletManager(playerNode, bfactory, bulletAppState);
             TowerFactory tfactory = new TowerFactory(bManager, this.assetManager);
             tManager = new TowerManager(tfactory, bulletAppState);
-            File db = new File(getClass().getResource("/ch_rampart").getFile());
+            File db = new File("assets/ch_rampart");
             tManager.loadJson(db, "chinchillas");
             bManager.loadJson(db, "bullets");
             PlaceTower ptower = new PlaceTower(grid, tManager, "big");
@@ -100,6 +100,7 @@ public class Main extends SimpleApplication {
             //cam.setRotation(new Quaternion().fromAngleAxis(FastMath.PI/10, new Vector3f(1,0,0)));
         } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
     }
 

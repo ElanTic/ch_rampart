@@ -62,6 +62,4 @@ public class PlayerController implements ActionListener{
         direction = new Ray(click3d, dir);
         cColor.execute(direction);
     }
-    
-    
 }
