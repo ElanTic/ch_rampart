@@ -50,7 +50,7 @@ public class BulletManager {
 
     public void attachBullet(Bullet bullet) {
         collection.add(bullet);
-        bulletParentNode.attachChild(bullet.shape);
+        bulletParentNode.attachChild(bullet);
         bulletAppState.getPhysicsSpace().add(bullet.rigidBodyControl);
 
         //bullet.shape.setLocalTranslation(bullet.poss);
@@ -69,7 +69,7 @@ public class BulletManager {
         }
         for(Bullet bullet : delleted){
             collection.remove(bullet);
-            bulletParentNode.detachChild(bullet.shape);
+            bulletParentNode.detachChild(bullet);
         }
         delleted.clear();
     }

@@ -4,6 +4,7 @@
  */
 package Entities;
 
+import Components.Destroyer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jme3.bullet.BulletAppState;
@@ -51,9 +52,19 @@ public class TowerManager{
     
     private void attachTower(Tower tower, Node towerParentNode) {
         collection.add(tower);
-        towerParentNode.attachChild(tower.geom);
-        //bulletAppState.getPhysicsSpace().add(tower.rigidBodyControl);
-        //tower.rigidBodyControl.setPhysicsLocation(towerParentNode.getWorldTranslation());//.add(new Vector3f(0,1,0)));
+        towerParentNode.attachChild(tower);
+        bulletAppState.getPhysicsSpace().add(tower.rigidBodyControl);
+        tower.rigidBodyControl.setPhysicsLocation(towerParentNode.getWorldTranslation().add(new Vector3f(1,1,0)));
+        tower.rigidBodyControl.setPhysicsRotation(towerParentNode.getWorldRotation());
+        tower.hp.signal.connect(new Destroyer(tower, this));
+    }
+    
+     public void detachTower(Tower tower, Node towerParentNode) {
+        if (towerParentNode != null && towerParentNode.hasChild(tower)) {
+            towerParentNode.detachChild(tower);
+            bulletAppState.getPhysicsSpace().remove(tower.rigidBodyControl);
+            collection.remove(tower);
+        }
     }
     
     public void update(float tpf){

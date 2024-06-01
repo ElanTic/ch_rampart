@@ -6,6 +6,7 @@ package Entities;
 
 import Commands.Shoot;
 import Components.CoolDown;
+import Components.Health;
 import Components.Spawner;
 import com.jme3.bounding.BoundingBox;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
@@ -22,22 +23,27 @@ import com.jme3.scene.shape.Box;
  *
  * @author jt
  */
-public class Tower {
-    String name;
-    public Geometry geom;
+public class Tower  extends Node {
+    //String name;
+    public Geometry body;
+    public Geometry hitbox;
     CoolDown cooldown;
     public Spawner spawner;
     Shoot shoot;
     public RigidBodyControl rigidBodyControl;
+    public Health hp;
     
-    public Tower(String name, Geometry geom, CoolDown cooldown, Spawner spawner) {
+    public Tower(String name, Geometry geom, CoolDown cooldown, Health hp, Spawner spawner) {
         this.name = name;
-        this.geom = geom;
+        this.body = geom;
         this.cooldown = cooldown;
+        this.hp = hp;
         this.spawner = spawner;
         shoot = new Shoot(this);
         cooldown.signal.connect(shoot);
-        //addCollisionBox();
+        addCollisionBox();
+        this.attachChild(body);
+        geom.getLocalTranslation().addLocal(new Vector3f(-1,0,0));
     }
     
     public void update(float tpf){
@@ -45,10 +51,11 @@ public class Tower {
         
     }  
      private void addCollisionBox() {
-        BoundingBox bbox = (BoundingBox) geom.getWorldBound();
+        BoundingBox bbox = (BoundingBox) body.getWorldBound();
         Vector3f extent = bbox.getExtent(new Vector3f());        
         BoxCollisionShape collisionShape = new BoxCollisionShape(extent);
         rigidBodyControl = new RigidBodyControl(collisionShape, 0);
-        geom.addControl(rigidBodyControl);
+        addControl(rigidBodyControl);
+        
     }
 }

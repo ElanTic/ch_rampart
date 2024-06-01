@@ -51,6 +51,7 @@ public class BulletFactory {
             accelerationNode.path("y").floatValue(),
             accelerationNode.path("z").floatValue()
         );
+        int damage = 2;
 
         ColorRGBA color = new ColorRGBA(
             ((colorValue >> 16) & 0xff) / 255.0f,
@@ -60,11 +61,11 @@ public class BulletFactory {
         );
 
         Geometry geom = createGeom(type, scale, color);
-        return createBullet(type, coordinates, acceleration, geom);
+        return createBullet(type, coordinates, acceleration, damage, geom);
     }
 
-    private Bullet createBullet(String name, Vector3f pos, Vector3f acceleration, Geometry shape) {
-        Bullet bullet = new Bullet(name, pos, acceleration, shape);
+    private Bullet createBullet(String name, Vector3f pos, Vector3f acceleration, int damage, Geometry shape) {
+        Bullet bullet = new Bullet(name, pos, acceleration,damage, shape);
         return bullet;
     }
 
