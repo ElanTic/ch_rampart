@@ -6,6 +6,7 @@ package Entities;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jme3.app.Application;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.math.Vector3f;
@@ -23,14 +24,27 @@ public class BulletManager {
     private ArrayList<Bullet> collection;
     private BulletFactory factory;
     private BulletAppState bulletAppState;
+    private int cGroup;
 
-    public BulletManager(Node bulletParentNode, BulletFactory bf,  BulletAppState bulletAppState) {
+    private float viewportLeft;
+    private float viewportRight;
+    private float viewportTop;
+    private float viewportBottom;
+
+    public BulletManager(Node bulletParentNode, BulletFactory bf, BulletAppState bulletAppState, int group, Application app) {
         this.bulletParentNode = bulletParentNode;
         this.collection = new ArrayList<>();
-        this.factory =bf;
+        this.factory = bf;
         this.bulletAppState = bulletAppState;
+        this.cGroup = group;
+
+        // Initialize the viewport boundaries
+        this.viewportLeft = -app.getCamera().getWidth() / 2f;
+        this.viewportRight = app.getCamera().getWidth() / 2f;
+        this.viewportTop = app.getCamera().getHeight() / 2f;
+        this.viewportBottom = -app.getCamera().getHeight() / 2f;
     }
-    
+
     public void loadJson(File jsonFile, String root) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode rootNode = objectMapper.readTree(jsonFile);
@@ -43,8 +57,8 @@ public class BulletManager {
             }
         }
     }
-    
-    public void attachBullet(String id, Vector3f poss){
+
+    public void attachBullet(String id, Vector3f poss) {
         attachBullet(factory.createBulletById(id, poss));
     }
 
@@ -52,26 +66,31 @@ public class BulletManager {
         collection.add(bullet);
         bulletParentNode.attachChild(bullet);
         bulletAppState.getPhysicsSpace().add(bullet.rigidBodyControl);
-
-        //bullet.shape.setLocalTranslation(bullet.poss);
+        bullet.rigidBodyControl.setCollisionGroup(cGroup);
     }
 
     public void update(float tpf) {
-        ArrayList<Bullet> delleted = new ArrayList<Bullet>();
-        for (Bullet bullet : collection){
-            /*if (bullet.rigidBodyControl.getPhysicsLocation().y > -20){
+        ArrayList<Bullet> deleted = new ArrayList<>();
+        for (Bullet bullet : collection) {
+            Vector3f bulletPos = bullet.rigidBodyControl.getPhysicsLocation();
+            if (bulletPos.x < viewportLeft || bulletPos.x > viewportRight ||
+                bulletPos.y < viewportBottom || bulletPos.y > viewportTop) {
+                deleted.add(bullet);
+            } else {
                 bullet.update(tpf);
             }
-            else {
-                delleted.add(bullet);
-            }*/
-            bullet.update(tpf);
         }
-        for(Bullet bullet : delleted){
-            collection.remove(bullet);
-            bulletParentNode.detachChild(bullet);
+        for (Bullet bullet : deleted) {
+            detachBullet(bullet);
         }
-        delleted.clear();
+        deleted.clear();
+    }
+    
+    public void detachBullet(Bullet bullet){
+        collection.remove(bullet);
+        bulletParentNode.detachChild(bullet);
+        bulletAppState.getPhysicsSpace().remove(bullet.rigidBodyControl);
+    
     }
 
     public ArrayList<Bullet> getCollection() {
