@@ -13,31 +13,37 @@ import com.jme3.scene.Node;
  *
  * @author jt
  */
-public class Bullet {
+public class Bullet extends Node{
 
     String name;
     Vector3f acceleration;
     public Geometry shape;
     public RigidBodyControl rigidBodyControl;
+    public int damage;
+    public float mass;
 
-    public Bullet(String name, Vector3f initialPosition, Vector3f acceleration, Geometry shape) {
+    public Bullet(String name, Vector3f initialPosition, Vector3f acceleration, float mass, int damage, Geometry shape) {
         this.name = name;
         this.acceleration = acceleration;
+        this.damage = damage;
         this.shape = shape;
-        this.rigidBodyControl = new RigidBodyControl(0.01f);
+        this.mass = mass;
+        this.rigidBodyControl = new RigidBodyControl(mass);
         this.shape.addControl(rigidBodyControl);
         rigidBodyControl.setPhysicsLocation(initialPosition);
-        rigidBodyControl.setLinearVelocity(acceleration.mult(10));
+        //rigidBodyControl.setLinearVelocity(acceleration);
+        this.attachChild(shape);
     }
 
     public void update(float tpf) {
         // Apply the force
-        //Vector3f force = acceleration.mult(tpf);
-        //rigidBodyControl.applyCentralForce(force);
+        Vector3f force = acceleration.mult(tpf/10);
+        rigidBodyControl.applyCentralForce(force);
     }
 
     
     public Bullet clone(Vector3f loc) {
-        return new Bullet(name, loc, acceleration, shape.clone());
+        //return new Bullet(name, loc, acceleration, shape.clone());
+        return null;
     }
 }

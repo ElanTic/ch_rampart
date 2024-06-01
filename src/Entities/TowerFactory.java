@@ -6,6 +6,7 @@ package Entities;
 
 import Commands.Signal;
 import Components.CoolDown;
+import Components.Health;
 import Components.Spawner;
 import com.jme3.asset.AssetManager;
 import com.jme3.material.Material;
@@ -53,6 +54,7 @@ public class TowerFactory {
     private Tower createTowerFromJson(JsonNode jsonNode) {
         String name = jsonNode.path("chinchilla").asText();
         float coolDown = jsonNode.path("cool_down").floatValue();
+        int hp = 30;
         int colorValue = jsonNode.path("color").intValue();
         String texture = jsonNode.path("texture").asText();
         String bulletType = jsonNode.path("bullet").asText();
@@ -68,11 +70,12 @@ public class TowerFactory {
 
         Geometry geom = createGeom(name, new Quad(2,2), texture, color);
         Spawner spawner = new Spawner(generator, bulletType);
-        return createTower(name, geom, coolDown, 0, spawner);
+    
+        return createTower(name, geom, coolDown, 0, hp ,spawner);
     }
 
-    private Tower createTower(String name, Geometry geom, float cooldown, float charge, Spawner spawner) {
-        return new Tower(name, geom, new CoolDown(cooldown, charge, new Signal()), spawner);
+    private Tower createTower(String name, Geometry geom, float cooldown, float charge, int hp, Spawner spawner) {
+        return new Tower(name, geom, new CoolDown(cooldown, charge, new Signal()), new Health(hp, new Signal()) ,spawner);
     } 
     
     private Geometry createGeom(String name, Mesh mesh, String texture,ColorRGBA color){

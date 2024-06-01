@@ -4,9 +4,11 @@
  */
 package Entities;
 
+import Components.Destroyer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jme3.bullet.BulletAppState;
+import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
@@ -23,12 +25,14 @@ public class TowerManager{
     ArrayList<Tower> collection;
     TowerFactory factory;
     private BulletAppState bulletAppState;
+    private int cGroup;
 
 
-    public TowerManager(TowerFactory factory, BulletAppState bulletAppState){
+    public TowerManager(TowerFactory factory, BulletAppState bulletAppState, int group){
         this.factory = factory;
         this.collection = new ArrayList<Tower>();
         this.bulletAppState = bulletAppState;
+        this.cGroup = group; 
     }
     
     public void loadJson(File jsonFile, String root) throws IOException {
@@ -51,9 +55,21 @@ public class TowerManager{
     
     private void attachTower(Tower tower, Node towerParentNode) {
         collection.add(tower);
-        towerParentNode.attachChild(tower.geom);
-        //bulletAppState.getPhysicsSpace().add(tower.rigidBodyControl);
-        //tower.rigidBodyControl.setPhysicsLocation(towerParentNode.getWorldTranslation());//.add(new Vector3f(0,1,0)));
+        towerParentNode.attachChild(tower);
+        bulletAppState.getPhysicsSpace().add(tower.rigidBodyControl);
+        tower.rigidBodyControl.setPhysicsLocation(towerParentNode.getWorldTranslation().add(new Vector3f(1,1,0)));
+        tower.rigidBodyControl.setPhysicsRotation(towerParentNode.getWorldRotation());
+        tower.rigidBodyControl.setCollisionGroup(cGroup);
+        //tower.rigidBodyControl.setCollideWithGroups(cGroup);
+        tower.hp.signal.connect(new Destroyer(tower, this));
+    }
+    
+     public void detachTower(Tower tower, Node towerParentNode) {
+        if (towerParentNode != null && towerParentNode.hasChild(tower)) {
+            towerParentNode.detachChild(tower);
+            bulletAppState.getPhysicsSpace().remove(tower.rigidBodyControl);
+            collection.remove(tower);
+        }
     }
     
     public void update(float tpf){

@@ -2,6 +2,7 @@ package mygame;
 
 import Commands.ChangeColor;
 import Commands.PlaceTower;
+import Components.MyCustomControl;
 import Entities.BulletFactory;
 import Entities.BulletManager;
 import Entities.TowerFactory;
@@ -9,6 +10,9 @@ import Entities.TowerManager;
 import Player.PlayerController;
 import com.jme3.app.SimpleApplication;
 import com.jme3.bullet.BulletAppState;
+import com.jme3.bullet.collision.PhysicsCollisionObject;
+import com.jme3.bullet.collision.shapes.BoxCollisionShape;
+import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.material.Material;
 import com.jme3.material.RenderState.BlendMode;
 import com.jme3.math.ColorRGBA;
@@ -51,6 +55,7 @@ public class Main extends SimpleApplication {
         bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
         bulletAppState.setDebugEnabled(true);
+        MyCustomControl mcc = new MyCustomControl(bulletAppState.getPhysicsSpace());
         try {
             flyCam.setDragToRotate(true);
             inputManager.setCursorVisible(true);
@@ -65,8 +70,13 @@ public class Main extends SimpleApplication {
             
             Node creepNode = new Node("creeps");
             Node playerNode = new Node("player");
-            Node towerNode = new Node("tower");
+            //Node towerNode = new Node("tower");
             Node grid = new Node("grid");
+            BoxCollisionShape collisionShape = new BoxCollisionShape(new Vector3f(40,40,1));
+            RigidBodyControl rigidBodyControl = new RigidBodyControl(collisionShape, 0);
+            grid.addControl(rigidBodyControl);
+            bulletAppState.getPhysicsSpace().add(rigidBodyControl);
+            
             Node deck = new Node("deck");
             rootNode.setLocalTranslation(-12,-10,-25);
             
@@ -79,15 +89,15 @@ public class Main extends SimpleApplication {
             
             rootNode.attachChild(creepNode);
             rootNode.attachChild(playerNode);
-            rootNode.attachChild(towerNode);
+            //rootNode.attachChild(towerNode);
             rootNode.attachChild(grid);
             rootNode.attachChild(deck);
             //grid.attachChild(geom);           
             BulletFactory bfactory = new BulletFactory(this.assetManager);
-            bManager = new BulletManager(playerNode, bfactory, bulletAppState);
+            bManager = new BulletManager(playerNode, bfactory, bulletAppState, PhysicsCollisionObject.COLLISION_GROUP_02, this);
             TowerFactory tfactory = new TowerFactory(bManager, this.assetManager);
-            tManager = new TowerManager(tfactory, bulletAppState);
-            File db = new File(getClass().getResource("/ch_rampart").getFile());
+            tManager = new TowerManager(tfactory, bulletAppState, PhysicsCollisionObject.COLLISION_GROUP_04);
+            File db = new File("assets/ch_rampart");
             tManager.loadJson(db, "chinchillas");
             bManager.loadJson(db, "bullets");
             PlaceTower ptower = new PlaceTower(grid, tManager, "big");
@@ -95,6 +105,8 @@ public class Main extends SimpleApplication {
             controller = new PlayerController(this.getInputManager(), this.cam, ptower, cColor);
             
             rootNode.setLocalRotation(new Quaternion().fromAngleAxis(-FastMath.PI/4, new Vector3f(1,0,0)));
+            rigidBodyControl.setPhysicsLocation(rootNode.getLocalTranslation());
+            rigidBodyControl.setPhysicsRotation(rootNode.getWorldRotation());
             
             //cam.setLocation(new Vector3f(0,-40, 40));
             //cam.setRotation(new Quaternion().fromAngleAxis(FastMath.PI/10, new Vector3f(1,0,0)));
