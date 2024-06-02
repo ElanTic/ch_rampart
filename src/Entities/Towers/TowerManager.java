@@ -2,9 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Entities;
+package Entities.Towers;
 
 import Components.Destroyer;
+import Entities.Entity;
+import Entities.Manager;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jme3.bullet.BulletAppState;
@@ -21,16 +23,12 @@ import java.io.IOException;
  *
  * @author jt
  */
-public class TowerManager{
-    ArrayList<Tower> collection;
+public class TowerManager extends Manager{
     TowerFactory factory;
-    private BulletAppState bulletAppState;
-    private int cGroup;
-
 
     public TowerManager(TowerFactory factory, BulletAppState bulletAppState, int group){
         this.factory = factory;
-        this.collection = new ArrayList<Tower>();
+        this.collection = new ArrayList<Entity>();
         this.bulletAppState = bulletAppState;
         this.cGroup = group; 
     }
@@ -49,32 +47,8 @@ public class TowerManager{
     }
     
     public void attachTower(String id, Node nodo ){
-        attachTower(factory.createTower(id), nodo);
-        
-    }
-    
-    private void attachTower(Tower tower, Node towerParentNode) {
-        collection.add(tower);
-        towerParentNode.attachChild(tower);
-        bulletAppState.getPhysicsSpace().add(tower.rigidBodyControl);
-        tower.rigidBodyControl.setPhysicsLocation(towerParentNode.getWorldTranslation().add(new Vector3f(1,1,0)));
-        tower.rigidBodyControl.setPhysicsRotation(towerParentNode.getWorldRotation());
-        tower.rigidBodyControl.setCollisionGroup(cGroup);
-        //tower.rigidBodyControl.setCollideWithGroups(cGroup);
+        Tower tower = factory.createTower(id);
+        attachEntity(tower, nodo);
         tower.hp.signal.connect(new Destroyer(tower, this));
-    }
-    
-     public void detachTower(Tower tower, Node towerParentNode) {
-        if (towerParentNode != null && towerParentNode.hasChild(tower)) {
-            towerParentNode.detachChild(tower);
-            bulletAppState.getPhysicsSpace().remove(tower.rigidBodyControl);
-            collection.remove(tower);
-        }
-    }
-    
-    public void update(float tpf){
-        for (Tower tower : collection){
-            tower.update(tpf);
-        }
     }
 }

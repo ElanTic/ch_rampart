@@ -5,8 +5,8 @@
 package Commands;
 
 //import static Entities.Tower.mesh;
-import Entities.TowerFactory;
-import Entities.TowerManager;
+import Entities.Towers.TowerFactory;
+import Entities.Towers.TowerManager;
 import com.jme3.asset.AssetManager;
 import com.jme3.collision.CollisionResults;
 import com.jme3.input.InputManager;

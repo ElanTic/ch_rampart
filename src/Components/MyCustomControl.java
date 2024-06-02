@@ -4,8 +4,8 @@
  */
 package Components;
 
-import Entities.Bullet;
-import Entities.Tower;
+import Entities.bullets.Bullet;
+import Entities.Towers.Tower;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.collision.PhysicsCollisionEvent;
 import com.jme3.bullet.collision.PhysicsCollisionListener;
