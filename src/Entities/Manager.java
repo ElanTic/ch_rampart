@@ -31,7 +31,12 @@ public abstract class Manager {
     
     public void dettachEntity(Entity entity) {
         Node parent = entity.getParent();
-        parent.detachChild(entity);
+        if (parent != null){ 
+            parent.detachChild(entity);
+        }
+        else{
+            System.out.print("Algo esta mal, ");
+        }
         bulletAppState.getPhysicsSpace().remove(entity.rigidBodyControl);
         collection.remove(entity);
     }

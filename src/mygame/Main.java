@@ -7,6 +7,8 @@ import Entities.bullets.BulletFactory;
 import Entities.bullets.BulletManager;
 import Entities.Towers.TowerFactory;
 import Entities.Towers.TowerManager;
+import Entities.enemies.EnemyFactory;
+import Entities.enemies.EnemyManager;
 import Player.PlayerController;
 import com.jme3.app.SimpleApplication;
 import com.jme3.bullet.BulletAppState;
@@ -27,6 +29,7 @@ import com.jme3.scene.shape.Quad;
 import com.jme3.system.AppSettings;
 import java.io.File;
 import java.io.IOException;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -40,7 +43,9 @@ public class Main extends SimpleApplication {
     PlayerController controller;
     TowerManager tManager;
     BulletManager bManager;
+    EnemyManager eManager;
     private BulletAppState bulletAppState;
+    float spawn;
     
     public static void main(String[] args) {
         Main app = new Main();
@@ -97,9 +102,12 @@ public class Main extends SimpleApplication {
             bManager = new BulletManager(playerNode, bfactory, bulletAppState, PhysicsCollisionObject.COLLISION_GROUP_02, this);
             TowerFactory tfactory = new TowerFactory(bManager, this.assetManager);
             tManager = new TowerManager(tfactory, bulletAppState, PhysicsCollisionObject.COLLISION_GROUP_04);
+            EnemyFactory efactory = new EnemyFactory(this.assetManager);
+            eManager = new EnemyManager(efactory,bulletAppState, PhysicsCollisionObject.COLLISION_GROUP_01);
             File db = new File("assets/ch_rampart");
             tManager.loadJson(db, "chinchillas");
             bManager.loadJson(db, "bullets");
+            eManager.loadJson(db, "enemies");
             PlaceTower ptower = new PlaceTower(grid, tManager, "big");
             ChangeColor cColor = new ChangeColor(grid, ColorRGBA.Green);
             controller = new PlayerController(this.getInputManager(), this.cam, ptower, cColor);
@@ -120,6 +128,19 @@ public class Main extends SimpleApplication {
         controller.update();
         bManager.update(tpf);
         tManager.update(tpf);
+        eManager.update(tpf);
+        generateEnemy(tpf);
+        
+    }
+    
+    public void generateEnemy(float tpf){
+        spawn += tpf;
+        if (spawn>= 1){
+            spawn -=1;
+            Random r = new Random();
+            eManager.attachEnemy("fox", (Node)rootNode.getChild("cell_"+r.nextInt(11)+"_0"));
+        
+        }
     }
 
     @Override

@@ -44,14 +44,16 @@ public class Enemy extends Entity {
     public void update(float tpf) {
         cooldown.update(tpf);
         Vector3f force = new Vector3f(0,speed *tpf,0);
-        rigidBodyControl.applyCentralForce(force);
+        //rigidBodyControl.applyCentralForce(force);
     }
 
     private void addCollisionBox() {
         BoundingBox bbox = (BoundingBox) body.getWorldBound();
         Vector3f extent = bbox.getExtent(new Vector3f());
         BoxCollisionShape collisionShape = new BoxCollisionShape(extent);
-        rigidBodyControl = new RigidBodyControl(collisionShape, 0);
+        rigidBodyControl = new RigidBodyControl(collisionShape, 0f);
+        //rigidBodyControl.setKinematic(true);
+        //rigidBodyControl.setApplyPhysicsLocal(true);
         addControl(rigidBodyControl);
     }
 }

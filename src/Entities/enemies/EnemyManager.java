@@ -10,6 +10,7 @@ import Entities.Manager;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jme3.bullet.BulletAppState;
+import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import java.io.File;
@@ -48,5 +49,6 @@ public class EnemyManager extends Manager{
         Enemy enemy = factory.createEnemy(id);
         attachEntity( enemy, node);
         enemy.hp.signal.connect(new Destroyer(enemy, this));
+        //enemy.rigidBodyControl.setCollideWithGroups(PhysicsCollisionObject.COLLISION_GROUP_02);
     }
 }

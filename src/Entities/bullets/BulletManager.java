@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jme3.app.Application;
 import com.jme3.bullet.BulletAppState;
+import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
@@ -67,6 +68,7 @@ public class BulletManager {
         bulletParentNode.attachChild(bullet);
         bulletAppState.getPhysicsSpace().add(bullet.rigidBodyControl);
         bullet.rigidBodyControl.setCollisionGroup(cGroup);
+        //bullet.rigidBodyControl.setCollideWithGroups(PhysicsCollisionObject.COLLISION_GROUP_01);
     }
 
     public void update(float tpf) {
