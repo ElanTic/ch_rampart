@@ -11,15 +11,15 @@ import Commands.Signal;
  * @author jt
  */
 public class Health {
-    int health;
+    float health;
     public Signal signal;
 
-    public Health(int initialHealth, Signal signal) {
+    public Health(float initialHealth, Signal signal) {
         this.health = initialHealth;
         this.signal = signal;
     }
 
-    public void reduceHealth(int amount) {
+    public void reduceHealth(float amount) {
         health -= amount;
         if (health <= 0) {
             health = 0;

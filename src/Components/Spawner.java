@@ -4,9 +4,9 @@
  */
 package Components;
 
-import Entities.Bullet;
-import Entities.BulletFactory;
-import Entities.BulletManager;
+import Entities.bullets.Bullet;
+import Entities.bullets.BulletFactory;
+import Entities.bullets.BulletManager;
 import com.jme3.math.Vector3f;
 
 /**

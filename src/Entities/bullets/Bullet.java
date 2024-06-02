@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Entities;
+package Entities.bullets;
 
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.math.Vector3f;
@@ -19,10 +19,10 @@ public class Bullet extends Node{
     Vector3f acceleration;
     public Geometry shape;
     public RigidBodyControl rigidBodyControl;
-    public int damage;
+    public float damage;
     public float mass;
 
-    public Bullet(String name, Vector3f initialPosition, Vector3f acceleration, float mass, int damage, Geometry shape) {
+    public Bullet(String name, Vector3f initialPosition, Vector3f acceleration, float mass, float damage, Geometry shape) {
         this.name = name;
         this.acceleration = acceleration;
         this.damage = damage;
@@ -37,7 +37,7 @@ public class Bullet extends Node{
 
     public void update(float tpf) {
         // Apply the force
-        Vector3f force = acceleration.mult(tpf/10);
+        Vector3f force = acceleration.mult(tpf);
         rigidBodyControl.applyCentralForce(force);
     }
 

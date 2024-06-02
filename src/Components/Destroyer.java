@@ -1,8 +1,11 @@
 package Components;
 
-import Entities.Tower;
-import Entities.TowerManager;
+import Entities.Entity;
+import Entities.Manager;
+import Entities.Towers.Tower;
+import Entities.Towers.TowerManager;
 import com.jme3.input.controls.ActionListener;
+import com.jme3.scene.Node;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -14,18 +17,18 @@ import com.jme3.input.controls.ActionListener;
  * @author jt
  */
 public class Destroyer implements ActionListener {
-    Tower tower;
-    TowerManager manager;
+    Entity node;
+    Manager manager;
 
-    public Destroyer(Tower tower, TowerManager manager) {
-        this.tower = tower;
+    public Destroyer(Entity node, Manager manager) {
+        this.node = node;
         this.manager = manager;
     }
 
     @Override
     public void onAction(String name, boolean isPressed, float tpf) {
         if (name.equals("onZeroHealth")) {
-            manager.detachTower(tower, tower.getParent());
+            manager.dettachEntity(node);
         }
     }
 }

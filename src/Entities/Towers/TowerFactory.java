@@ -2,12 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Entities;
+package Entities.Towers;
 
 import Commands.Signal;
 import Components.CoolDown;
 import Components.Health;
 import Components.Spawner;
+import Entities.bullets.BulletManager;
 import com.jme3.asset.AssetManager;
 import com.jme3.material.Material;
 import com.jme3.material.RenderState.BlendMode;
@@ -54,7 +55,7 @@ public class TowerFactory {
     private Tower createTowerFromJson(JsonNode jsonNode) {
         String name = jsonNode.path("chinchilla").asText();
         float coolDown = jsonNode.path("cool_down").floatValue();
-        int hp = 30;
+        float hp = jsonNode.path("health").floatValue();
         int colorValue = jsonNode.path("color").intValue();
         String texture = jsonNode.path("texture").asText();
         String bulletType = jsonNode.path("bullet").asText();
@@ -74,7 +75,7 @@ public class TowerFactory {
         return createTower(name, geom, coolDown, 0, hp ,spawner);
     }
 
-    private Tower createTower(String name, Geometry geom, float cooldown, float charge, int hp, Spawner spawner) {
+    private Tower createTower(String name, Geometry geom, float cooldown, float charge, float hp, Spawner spawner) {
         return new Tower(name, geom, new CoolDown(cooldown, charge, new Signal()), new Health(hp, new Signal()) ,spawner);
     } 
     

@@ -4,12 +4,14 @@
  */
 package Components;
 
-import Entities.Bullet;
-import Entities.Tower;
+import Entities.bullets.Bullet;
+import Entities.Towers.Tower;
+import Entities.enemies.Enemy;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.collision.PhysicsCollisionEvent;
 import com.jme3.bullet.collision.PhysicsCollisionListener;
 import com.jme3.bullet.control.RigidBodyControl;
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 
@@ -34,8 +36,9 @@ public class MyCustomControl extends RigidBodyControl
     
     public void performDamage(Bullet b, Spatial n){
         //System.out.println("1 completed");
-        if(n instanceof Tower){
-            ((Tower)n).hp.reduceHealth(b.damage);
+        if(n instanceof Enemy){
+            ((Enemy)n).hp.reduceHealth(b.damage);
+            b.rigidBodyControl.setPhysicsLocation(new Vector3f(-100,-100,-100));
             //b.rigidBodyControl.;
         }
     

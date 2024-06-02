@@ -4,7 +4,7 @@
  */
 package Commands;
 
-import Entities.Tower;
+import Entities.Towers.Tower;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.math.Vector3f;
 
