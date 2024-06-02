@@ -4,6 +4,8 @@
  */
 package Entities.bullets;
 
+import Entities.Entity;
+import Entities.Manager;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jme3.app.Application;
@@ -20,13 +22,8 @@ import java.util.ArrayList;
  *
  * @author jt
  */
-public class BulletManager {
+public class BulletManager extends Manager {
     private Node bulletParentNode;
-    private ArrayList<Bullet> collection;
-    private BulletFactory factory;
-    private BulletAppState bulletAppState;
-    private int cGroup;
-
     private float viewportLeft;
     private float viewportRight;
     private float viewportTop;
@@ -60,7 +57,10 @@ public class BulletManager {
     }
 
     public void attachBullet(String id, Vector3f poss) {
-        attachBullet(factory.createBulletById(id, poss));
+        Bullet b = (Bullet)factory.createEntity(id);
+        attachBullet(b);
+        b.rigidBodyControl.setPhysicsLocation(poss.addLocal(0,0,1.5f));  
+        
     }
 
     public void attachBullet(Bullet bullet) {
@@ -72,8 +72,8 @@ public class BulletManager {
     }
 
     public void update(float tpf) {
-        ArrayList<Bullet> deleted = new ArrayList<>();
-        for (Bullet bullet : collection) {
+        ArrayList<Entity> deleted = new ArrayList<>();
+        for (Entity bullet : collection) {
             Vector3f bulletPos = bullet.rigidBodyControl.getPhysicsLocation();
             if (bulletPos.x < viewportLeft || bulletPos.x > viewportRight ||
                 bulletPos.y < viewportBottom || bulletPos.y > viewportTop) {
@@ -82,20 +82,9 @@ public class BulletManager {
                 bullet.update(tpf);
             }
         }
-        for (Bullet bullet : deleted) {
-            detachBullet(bullet);
+        for (Entity bullet : deleted) {
+            dettachEntity(bullet);
         }
         deleted.clear();
-    }
-    
-    public void detachBullet(Bullet bullet){
-        collection.remove(bullet);
-        bulletParentNode.detachChild(bullet);
-        bulletAppState.getPhysicsSpace().remove(bullet.rigidBodyControl);
-    
-    }
-
-    public ArrayList<Bullet> getCollection() {
-        return collection;
     }
 }

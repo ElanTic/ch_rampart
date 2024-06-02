@@ -24,8 +24,6 @@ import java.io.IOException;
  * @author jt
  */
 public class TowerManager extends Manager{
-    TowerFactory factory;
-
     public TowerManager(TowerFactory factory, BulletAppState bulletAppState, int group){
         this.factory = factory;
         this.collection = new ArrayList<Entity>();
@@ -33,21 +31,8 @@ public class TowerManager extends Manager{
         this.cGroup = group; 
     }
     
-    public void loadJson(File jsonFile, String root) throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode rootNode = objectMapper.readTree(jsonFile);
-        JsonNode sheets = rootNode.path("sheets");
-        for (JsonNode sheet : sheets) {
-            if (sheet.path("name").asText().equals(root)) {
-                JsonNode lines = sheet.path("lines");
-                factory.loadJson(lines);
-                return;
-            }
-        }
-    }
-    
     public void attachTower(String id, Node nodo ){
-        Tower tower = factory.createTower(id);
+        Tower tower = (Tower) factory.createEntity(id);
         attachEntity(tower, nodo);
         tower.hp.signal.connect(new Destroyer(tower, this));
     }
