@@ -28,6 +28,10 @@
 					"name": "cool_down"
 				},
 				{
+					"typeStr": "4",
+					"name": "health"
+				},
+				{
 					"typeStr": "6:bullets",
 					"name": "bullet",
 					"opt": true
@@ -40,7 +44,8 @@
 					"mesh": "Textures/Chilla.png",
 					"bullet": "mid",
 					"chinchilla": "mid",
-					"texture": "Textures/Chilla.png"
+					"texture": "Textures/Chilla.png",
+					"health": 100
 				},
 				{
 					"cool_down": 2.5,
@@ -48,7 +53,8 @@
 					"bullet": "big",
 					"chinchilla": "big",
 					"mesh": "Textures/Chinchi.png",
-					"texture": "Textures/Chinchi.png"
+					"texture": "Textures/Chinchi.png",
+					"health": 100
 				},
 				{
 					"cool_down": 0.3,
@@ -56,7 +62,8 @@
 					"bullet": "small",
 					"chinchilla": "quick",
 					"mesh": "Textures/Chilla.png",
-					"texture": "Textures/Chilla.png"
+					"texture": "Textures/Chilla.png",
+					"health": 100
 				}
 			],
 			"separators": [],
@@ -75,6 +82,20 @@
 					"display": null
 				},
 				{
+					"typeStr": "4",
+					"name": "mass",
+					"display": null
+				},
+				{
+					"typeStr": "4",
+					"name": "scale",
+					"display": null
+				},
+				{
+					"typeStr": "4",
+					"name": "damage"
+				},
+				{
 					"typeStr": "13",
 					"name": "mesh",
 					"opt": true,
@@ -91,11 +112,6 @@
 					"name": "color",
 					"opt": true,
 					"display": null
-				},
-				{
-					"typeStr": "4",
-					"name": "scale",
-					"display": null
 				}
 			],
 			"lines": [
@@ -103,37 +119,43 @@
 					"acceleration": [
 						{
 							"x": 0,
-							"y": -6,
+							"y": -0.6,
 							"z": 0
 						}
 					],
 					"scale": 0.3,
 					"color": 394501,
-					"type": "mid"
+					"type": "mid",
+					"mass": 0.0005,
+					"damage": 5
 				},
 				{
 					"acceleration": [
 						{
 							"x": 0,
-							"y": -12,
+							"y": -1.2,
 							"z": 0
 						}
 					],
 					"scale": 0.1,
 					"color": 16776187,
-					"type": "small"
+					"type": "small",
+					"mass": 0.0001,
+					"damage": 2
 				},
 				{
 					"acceleration": [
 						{
 							"x": 0,
-							"y": -4,
+							"y": -0.04,
 							"z": 0
 						}
 					],
-					"scale": 1,
+					"scale": 0.7,
 					"color": 16381686,
-					"type": "big"
+					"type": "big",
+					"mass": 0.00001,
+					"damage": 20
 				}
 			],
 			"separators": [],
@@ -172,6 +194,25 @@
 					"name": "type"
 				},
 				{
+					"typeStr": "4",
+					"name": "cool_down"
+				},
+				{
+					"typeStr": "4",
+					"name": "healt",
+					"opt": true,
+					"display": null
+				},
+				{
+					"typeStr": "4",
+					"name": "damage",
+					"display": null
+				},
+				{
+					"typeStr": "4",
+					"name": "speed"
+				},
+				{
 					"typeStr": "13",
 					"name": "mesh",
 					"opt": true
@@ -182,12 +223,6 @@
 					"opt": true
 				},
 				{
-					"typeStr": "4",
-					"name": "healt",
-					"opt": true,
-					"display": null
-				},
-				{
 					"typeStr": "11",
 					"name": "color",
 					"display": null
@@ -196,8 +231,23 @@
 			"lines": [
 				{
 					"type": "hunter",
-					"color": 0,
-					"mesh": "Textures/Hunter.png"
+					"color": 15893620,
+					"mesh": "Textures/Hunter.png",
+					"cool_down": 2,
+					"healt": 40,
+					"damage": 10,
+					"speed": 2,
+					"texture": "Textures/Hunter.png"
+				},
+				{
+					"type": "fox",
+					"cool_down": 1,
+					"damage": 5,
+					"speed": 3,
+					"color": 15902014,
+					"texture": "Textures/fox.png",
+					"healt": 30,
+					"mesh": "Textures/fox.png"
 				}
 			],
 			"separators": [],
@@ -225,7 +275,7 @@
 			"lines": [
 				{
 					"id": "regular",
-					"front": "",
+					"front": "Textures/deckpng.png",
 					"back": ""
 				}
 			],
