@@ -41,21 +41,13 @@ public class Tower  extends Entity{
         this.spawner = spawner;
         shoot = new Shoot(this);
         cooldown.signal.connect(shoot);
-        addCollisionBox();
+        
         this.attachChild(body);
         geom.getLocalTranslation().addLocal(new Vector3f(-1,0,0));
     }
     
     public void update(float tpf){
-        //cooldown.update(tpf);
-        
-    }  
-     private void addCollisionBox() {
-        BoundingBox bbox = (BoundingBox) body.getWorldBound();
-        Vector3f extent = bbox.getExtent(new Vector3f());        
-        BoxCollisionShape collisionShape = new BoxCollisionShape(extent);
-        //rigidBodyControl = new RigidBodyControl(collisionShape, 0);
-        //addControl(rigidBodyControl);
+        cooldown.update(tpf);
         
     }
     
