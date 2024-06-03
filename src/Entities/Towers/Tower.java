@@ -26,7 +26,6 @@ import com.jme3.scene.shape.Box;
  */
 public class Tower  extends Entity{
     //String name;
-    public Geometry body;
     public Geometry hitbox;
     CoolDown cooldown;
     public Spawner spawner;
@@ -48,7 +47,7 @@ public class Tower  extends Entity{
     }
     
     public void update(float tpf){
-        cooldown.update(tpf);
+        //cooldown.update(tpf);
         
     }  
      private void addCollisionBox() {
@@ -58,5 +57,10 @@ public class Tower  extends Entity{
         //rigidBodyControl = new RigidBodyControl(collisionShape, 0);
         //addControl(rigidBodyControl);
         
+    }
+    
+    @Override
+    public void onHit(float tpf){
+        this.hp.reduceHealth(tpf);
     }
 }

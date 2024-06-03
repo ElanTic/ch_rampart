@@ -102,11 +102,13 @@ public class Main extends SimpleApplication {
             BulletFactory bfactory = new BulletFactory(this.assetManager);
             bManager = new BulletManager(bfactory, bulletAppState);
             bManager.setDefaultNode(playerNode);
+            bManager.addCollisionNode(creepNode);
             TowerFactory tfactory = new TowerFactory(bManager, this.assetManager);
             tManager = new TowerManager(tfactory, bulletAppState);
             EnemyFactory efactory = new EnemyFactory(this.assetManager);
             eManager = new EnemyManager(efactory,bulletAppState);
             eManager.setDefaultNode(creepNode);
+            eManager.addCollisionNode(grid);
             File db = new File("assets/ch_rampart");
             tManager.loadJson(db, "chinchillas");
             bManager.loadJson(db, "bullets");
@@ -129,7 +131,6 @@ public class Main extends SimpleApplication {
     @Override
     public void simpleUpdate(float tpf) {
         controller.update();
-        bManager.checkCollisions((Node)rootNode.getChild("creeps"));
         bManager.update(tpf);
         tManager.update(tpf);
         eManager.update(tpf);
@@ -138,7 +139,7 @@ public class Main extends SimpleApplication {
     }
     
     public void generateEnemy(float tpf){
-        Spawner spawner = new Spawner(eManager, "fox");
+        Spawner spawner = new Spawner(eManager, "hunter");
         spawn += tpf;
         if (spawn>= 3){
             spawn -=3;

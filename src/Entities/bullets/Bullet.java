@@ -18,7 +18,6 @@ import com.jme3.scene.Node;
 public class Bullet extends Entity{
 
     Vector3f acceleration;
-    public Geometry shape;
     public float damage;
     public float mass;
 
@@ -26,7 +25,7 @@ public class Bullet extends Entity{
         this.name = name;
         this.acceleration = acceleration;
         this.damage = damage;
-        this.shape = shape;
+        this.body = shape;
         this.mass = mass;
         this.attachChild(shape);
         //Vector3f extent = bbox.getExtent(new Vector3f()).multLocal(1, 2, 1);

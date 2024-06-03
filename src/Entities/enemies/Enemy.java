@@ -8,6 +8,7 @@ import Components.CoolDown;
 import Components.Health;
 import Entities.Entity;
 import com.jme3.bounding.BoundingBox;
+import com.jme3.bounding.BoundingVolume;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.math.Vector3f;
@@ -20,7 +21,6 @@ import com.jme3.scene.Node;
  */
 public class Enemy extends Entity {
 
-    public Geometry body;
     public Geometry hitbox;
     public CoolDown cooldown;
     public Health hp;
@@ -34,10 +34,8 @@ public class Enemy extends Entity {
         this.hp = hp;
         this.damage = damage;
         this.speed = speed;
-        addCollisionBox();
         this.attachChild(body);
-        body.setModelBound(worldBound);
-        //geom.getLocalTranslation().addLocal(new Vector3f(1, 0, 0));
+        scaleBoundingVolume(body, 200f, .1f);
     }
     
     
@@ -51,16 +49,32 @@ public class Enemy extends Entity {
     private void moveEnemy(float tpf) {
         Vector3f force = new Vector3f(0, speed * tpf, 0);
         this.setLocalTranslation(this.getLocalTranslation().add(force));
-        //rigidBodyControl.setPhysicsLocation(this.getWorldTranslation());
     }
-
-    private void addCollisionBox() {
-        BoundingBox bbox = (BoundingBox) body.getWorldBound();
-        Vector3f extent = bbox.getExtent(new Vector3f());
-        BoxCollisionShape collisionShape = new BoxCollisionShape(extent);
-        //rigidBodyControl = new RigidBodyControl(collisionShape, 0);
-        //rigidBodyControl.setKinematic(true);
-        //addControl(rigidBodyControl);
+    
+    @Override
+    public void onHit(float tpf){
+        this.hp.reduceHealth(tpf);
+    }
+    
+    @Override
+    public void onCollision(float tpf){
+        moveEnemy(-tpf);
+    
+    }
+    
+    private void scaleBoundingVolume(Geometry geom, float scaleX, float scaleY) {
+        BoundingVolume bv = geom.getModelBound();
+        if (bv instanceof BoundingBox) {
+            System.out.println("trues");
+            BoundingBox bb = (BoundingBox) bv;
+            Vector3f extent = bb.getExtent(new Vector3f());
+            extent.setX(extent.getX() * scaleX);
+            extent.setY(extent.getY() * scaleY);
+            bb.setXExtent(extent.getX());
+            bb.setYExtent(extent.getY());
+            geom.setModelBound(bb);
+        }
+        geom.updateModelBound();
     }
 
 }

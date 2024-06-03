@@ -68,42 +68,27 @@ public class BulletManager extends Manager {
 
     public void update(float tpf) {
         ArrayList<Entity> deleted = new ArrayList<>();
-        for (Entity bullet : collection) {
-            
+        for (Iterator<Entity> it = collection.iterator(); it.hasNext();) {
+            Bullet bullet = (Bullet)it.next();
             Vector3f bulletPos = bullet.getLocalTranslation();
             if (bulletPos.y < -20 ) {
                 deleted.add(bullet);
             } else {
-                /*CollisionResults results = new CollisionResults();
-                bulletParentNode.getParent().getChild("grid").collideWith(((Bullet)bullet).shape.getWorldBound(), results);
-                if (results.size()>0){
-                    Enemy enemy = (Enemy)results.getClosestCollision().getGeometry().getParent();
-                    enemy.hp.reduceHealth(((Bullet)bullet).damage);
-                }*/
-                
+                Node node = this.checkCollisions(bullet);
+                if(node != null){
+                    if(node instanceof Entity){
+                        ((Entity) node).onHit(bullet.damage);
+                    }
+                    bullet.setLocalTranslation(-100, -100, -100);
+                }
+                else{
                     bullet.update(tpf);
+                }
             }
         }
         for (Entity bullet : deleted) {
             dettachEntity(bullet);
         }
         deleted.clear();
-    }
-    
-    public void checkCollisions(Node nodo){
-        for (Iterator<Entity> it = collection.iterator(); it.hasNext();) {
-            Bullet bullet = (Bullet)it.next();
-            Geometry bulletGeometry = bullet.shape; // Assuming Bullet has a method to get its Geometry
-            BoundingVolume bulletBounding = bulletGeometry.getWorldBound();
-
-            CollisionResults results = new CollisionResults();
-            nodo.collideWith(bulletBounding, results); // Use BoundingVolume for collision check
-            if (results.size()>0){
-                bullet.setLocalTranslation(-100,-100,-100);
-                Enemy enemy = (Enemy)results.getClosestCollision().getGeometry().getParent();
-                enemy.hp.reduceHealth(((Bullet)bullet).damage);
-            }
-        }
-    
     }
 }
