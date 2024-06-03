@@ -4,6 +4,7 @@
  */
 package Entities.bullets;
 
+import Entities.Entity;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
@@ -13,16 +14,14 @@ import com.jme3.scene.Node;
  *
  * @author jt
  */
-public class Bullet extends Node{
+public class Bullet extends Entity{
 
-    String name;
     Vector3f acceleration;
     public Geometry shape;
-    public RigidBodyControl rigidBodyControl;
     public float damage;
     public float mass;
 
-    public Bullet(String name, Vector3f initialPosition, Vector3f acceleration, float mass, float damage, Geometry shape) {
+    public Bullet(String name, Vector3f acceleration, float mass, float damage, Geometry shape) {
         this.name = name;
         this.acceleration = acceleration;
         this.damage = damage;
@@ -30,7 +29,7 @@ public class Bullet extends Node{
         this.mass = mass;
         this.rigidBodyControl = new RigidBodyControl(mass);
         this.shape.addControl(rigidBodyControl);
-        rigidBodyControl.setPhysicsLocation(initialPosition);
+        //rigidBodyControl.setPhysicsLocation(initialPosition);
         //rigidBodyControl.setLinearVelocity(acceleration);
         this.attachChild(shape);
     }

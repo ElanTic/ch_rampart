@@ -22,8 +22,6 @@ import java.util.ArrayList;
  * @author jt
  */
 public class EnemyManager extends Manager{
-
-    EnemyFactory factory;
     
     public EnemyManager(EnemyFactory factory, BulletAppState bulletAppState, int group) {
         this.factory = factory;
@@ -32,23 +30,13 @@ public class EnemyManager extends Manager{
         this.cGroup = group;
     }
 
-    public void loadJson(File jsonFile, String root) throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode rootNode = objectMapper.readTree(jsonFile);
-        JsonNode sheets = rootNode.path("sheets");
-        for (JsonNode sheet : sheets) {
-            if (sheet.path("name").asText().equals(root)) {
-                JsonNode lines = sheet.path("lines");
-                factory.loadJson(lines);
-                return;
-            }
-        }
-    }
 
     public void attachEnemy(String id, Node node) {
-        Enemy enemy = factory.createEnemy(id);
-        attachEntity( enemy, node);
+        Enemy enemy = (Enemy) factory.createEntity(id);
+        attachEntity(enemy, node);
         enemy.hp.signal.connect(new Destroyer(enemy, this));
-        //enemy.rigidBodyControl.setCollideWithGroups(PhysicsCollisionObject.COLLISION_GROUP_02);
+        //enemy.getLocalTranslation().addLocal(new Vector3f(1, , 0));
+        enemy.rigidBodyControl.setPhysicsLocation(node.getWorldTranslation().add(new Vector3f(1, 1, 0)));
+        enemy.rigidBodyControl.setPhysicsRotation(node.getWorldRotation());
     }
 }

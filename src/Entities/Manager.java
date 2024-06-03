@@ -4,10 +4,13 @@
  */
 package Entities;
 
-import Entities.enemies.EnemyFactory;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -18,15 +21,27 @@ public abstract class Manager {
     protected ArrayList<Entity> collection;
     protected BulletAppState bulletAppState;
     protected int cGroup;
+    protected Factory factory;
     
     
     public void attachEntity(Entity entity, Node parent) {
         collection.add(entity);
         parent.attachChild(entity);
         bulletAppState.getPhysicsSpace().add(entity.rigidBodyControl);
-        entity.rigidBodyControl.setPhysicsLocation(parent.getWorldTranslation().add(new Vector3f(1, 1, 0)));
-        entity.rigidBodyControl.setPhysicsRotation(parent.getWorldRotation());
         entity.rigidBodyControl.setCollisionGroup(cGroup);
+    }
+    
+    public void loadJson(File jsonFile, String root) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode rootNode = objectMapper.readTree(jsonFile);
+        JsonNode sheets = rootNode.path("sheets");
+        for (JsonNode sheet : sheets) {
+            if (sheet.path("name").asText().equals(root)) {
+                JsonNode lines = sheet.path("lines");
+                factory.loadJson(lines);
+                return;
+            }
+        }
     }
     
     public void dettachEntity(Entity entity) {
@@ -37,7 +52,8 @@ public abstract class Manager {
         else{
             System.out.print("Algo esta mal, ");
         }
-        bulletAppState.getPhysicsSpace().remove(entity.rigidBodyControl);
+        if(entity.rigidBodyControl != null)
+            bulletAppState.getPhysicsSpace().remove(entity.rigidBodyControl);
         collection.remove(entity);
     }
 

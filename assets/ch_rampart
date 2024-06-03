@@ -236,14 +236,14 @@
 					"cool_down": 2,
 					"healt": 40,
 					"damage": 10,
-					"speed": 2,
+					"speed": 0.2,
 					"texture": "Textures/Hunter.png"
 				},
 				{
 					"type": "fox",
 					"cool_down": 1,
 					"damage": 5,
-					"speed": 3,
+					"speed": 0.5,
 					"color": 15902014,
 					"texture": "Textures/fox.png",
 					"healt": 30,

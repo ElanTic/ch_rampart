@@ -8,6 +8,8 @@ import Commands.Signal;
 import Components.CoolDown;
 import Components.Health;
 import Components.Spawner;
+import Entities.Entity;
+import Entities.Factory;
 import Entities.bullets.BulletManager;
 import com.jme3.asset.AssetManager;
 import com.jme3.material.Material;
@@ -27,7 +29,7 @@ import java.io.IOException;
  *
  * @author jt
  */
-public class TowerFactory {
+public class TowerFactory implements Factory{
     private BulletManager generator;
     private AssetManager assetManager;
     //private ArrayList<Tower> collection;
@@ -39,20 +41,23 @@ public class TowerFactory {
         //this.collection = collection;
     }
 
-    public void loadJson(JsonNode jsonFile) throws IOException {
+    @Override
+    public void loadJson(JsonNode jsonFile){
         sheets = jsonFile;
     }
 
-    public Tower createTower(String id) {
+    @Override
+    public Entity createEntity(String id) {
         for (JsonNode line : sheets) {
             if (line.path("chinchilla").asText().equals(id)) {
-                return createTowerFromJson(line);
+                return (Tower)createEntityFromJson(line);
             }
         }
         return null;  // O lanzar una excepción si el ID no se encuentra
     }
-
-    private Tower createTowerFromJson(JsonNode jsonNode) {
+    
+    @Override
+    public Entity createEntityFromJson(JsonNode jsonNode) {
         String name = jsonNode.path("chinchilla").asText();
         float coolDown = jsonNode.path("cool_down").floatValue();
         float hp = jsonNode.path("health").floatValue();

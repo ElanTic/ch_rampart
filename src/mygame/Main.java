@@ -135,8 +135,8 @@ public class Main extends SimpleApplication {
     
     public void generateEnemy(float tpf){
         spawn += tpf;
-        if (spawn>= 1){
-            spawn -=1;
+        if (spawn>= 3){
+            spawn -=3;
             Random r = new Random();
             eManager.attachEnemy("fox", (Node)rootNode.getChild("cell_"+r.nextInt(11)+"_0"));
         

@@ -7,6 +7,8 @@ package Entities.enemies;
 import Commands.Signal;
 import Components.CoolDown;
 import Components.Health;
+import Entities.Entity;
+import Entities.Factory;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.jme3.asset.AssetManager;
 import com.jme3.material.Material;
@@ -24,7 +26,7 @@ import java.io.IOException;
  *
  * @author jt
  */
-public class EnemyFactory {
+public class EnemyFactory implements Factory{
 
     private AssetManager assetManager;
     private JsonNode sheets;
@@ -32,21 +34,21 @@ public class EnemyFactory {
     public EnemyFactory(AssetManager assetManager) {
         this.assetManager = assetManager;
     }
-
+    @Override
     public void loadJson(JsonNode jsonFile){
         sheets = jsonFile;
     }
-
-    public Enemy createEnemy(String id) {
+    @Override
+    public Entity createEntity(String id) {
         for (JsonNode line : sheets) {
             if (line.path("type").asText().equals(id)) {
-                return createEnemyFromJson(line);
+                return createEntityFromJson(line);
             }
         }
         return null;
     }
-
-    private Enemy createEnemyFromJson(JsonNode jsonNode) {
+    @Override
+    public Entity createEntityFromJson(JsonNode jsonNode) {
         String name = jsonNode.path("type").asText();
         float coolDown = jsonNode.path("cool_down").floatValue();
         float hp = jsonNode.path("healt").floatValue();

@@ -4,6 +4,8 @@
  */
 package Entities.bullets;
 
+import Entities.Entity;
+import Entities.Factory;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jme3.asset.AssetManager;
@@ -18,7 +20,7 @@ import com.jme3.scene.shape.Box;
  *
  * @author jt
  */
-public class BulletFactory {
+public class BulletFactory implements Factory{
     private AssetManager assetManager;
     private JsonNode sheets;
 
@@ -30,10 +32,10 @@ public class BulletFactory {
         sheets = jsonFile;
     }
 
-    public Bullet createBulletById(String id, Vector3f coordinates){
+    public Entity createEntity(String id){
         for (JsonNode line : sheets) {
             if (line.path("type").asText().equals(id)) {
-                        return createBulletFromJson(line, coordinates);
+                        return createEntityFromJson(line);
             }
         }
         return null;  // O lanzar una excepción si el ID no se encuentra
@@ -41,7 +43,7 @@ public class BulletFactory {
     
     
 
-    private Bullet createBulletFromJson(JsonNode jsonNode, Vector3f coordinates) {
+    public Bullet createEntityFromJson(JsonNode jsonNode) {
         String type = jsonNode.path("type").asText();
         float scale = jsonNode.path("scale").floatValue();
         int colorValue = jsonNode.path("color").intValue();
@@ -62,11 +64,11 @@ public class BulletFactory {
         );
 
         Geometry geom = createGeom(type, scale, color);
-        return new Bullet(type, coordinates.addLocal(0,0,1.5f), acceleration, mass, damage, geom);
+        return new Bullet(type, acceleration, mass, damage, geom);
     }
 
-    private Bullet createBullet(String name, Vector3f pos, Vector3f acceleration, int damage, Geometry shape) {
-        Bullet bullet = new Bullet(name, pos, acceleration, 0.01f, damage, shape);
+    private Bullet createBullet(String name,  Vector3f acceleration, int damage, Geometry shape) {
+        Bullet bullet = new Bullet(name, acceleration, 0.01f, damage, shape);
         return bullet;
     }
 
