@@ -10,39 +10,41 @@ import Entities.enemies.Enemy;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jme3.app.Application;
+import com.jme3.bounding.BoundingVolume;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.collision.CollisionResults;
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  *
  * @author jt
  */
 public class BulletManager extends Manager {
-    private Node bulletParentNode;
+    //private Node bulletParentNode;
     private float viewportLeft;
     private float viewportRight;
     private float viewportTop;
     private float viewportBottom;
 
-    public BulletManager(Node bulletParentNode, BulletFactory bf, BulletAppState bulletAppState, int group, Application app) {
-        this.bulletParentNode = bulletParentNode;
+    public BulletManager( BulletFactory bf, BulletAppState bulletAppState) {
         this.collection = new ArrayList<>();
         this.factory = bf;
         this.bulletAppState = bulletAppState;
-        this.cGroup = group;
+        //this.cGroup = group;
 
         // Initialize the viewport boundaries
-        this.viewportLeft = -app.getCamera().getWidth() / 2f;
-        this.viewportRight = app.getCamera().getWidth() / 2f;
-        this.viewportTop = app.getCamera().getHeight() / 2f;
-        this.viewportBottom = -app.getCamera().getHeight() / 2f;
+        //this.viewportLeft = -app.getCamera().getWidth() / 2f;
+        //this.viewportRight = app.getCamera().getWidth() / 2f;
+        //this.viewportTop = app.getCamera().getHeight() / 2f;
+        //this.viewportBottom = -app.getCamera().getHeight() / 2f;
     }
 
     public void loadJson(File jsonFile, String root) throws IOException {
@@ -60,7 +62,7 @@ public class BulletManager extends Manager {
 
     public void attachBullet(String id, Vector3f poss) {
         Bullet b = (Bullet)factory.createEntity(id);
-        attachEntity(b, bulletParentNode);
+        attachEntity(b, defaultNode);
         b.setLocalTranslation(poss);
     }
 
@@ -69,8 +71,7 @@ public class BulletManager extends Manager {
         for (Entity bullet : collection) {
             
             Vector3f bulletPos = bullet.getLocalTranslation();
-            if (bulletPos.x < viewportLeft || bulletPos.x > viewportRight ||
-                bulletPos.y < -20 || bulletPos.y > viewportTop) {
+            if (bulletPos.y < -20 ) {
                 deleted.add(bullet);
             } else {
                 /*CollisionResults results = new CollisionResults();
@@ -87,5 +88,22 @@ public class BulletManager extends Manager {
             dettachEntity(bullet);
         }
         deleted.clear();
+    }
+    
+    public void checkCollisions(Node nodo){
+        for (Iterator<Entity> it = collection.iterator(); it.hasNext();) {
+            Bullet bullet = (Bullet)it.next();
+            Geometry bulletGeometry = bullet.shape; // Assuming Bullet has a method to get its Geometry
+            BoundingVolume bulletBounding = bulletGeometry.getWorldBound();
+
+            CollisionResults results = new CollisionResults();
+            nodo.collideWith(bulletBounding, results); // Use BoundingVolume for collision check
+            if (results.size()>0){
+                bullet.setLocalTranslation(-100,-100,-100);
+                Enemy enemy = (Enemy)results.getClosestCollision().getGeometry().getParent();
+                enemy.hp.reduceHealth(((Bullet)bullet).damage);
+            }
+        }
+    
     }
 }

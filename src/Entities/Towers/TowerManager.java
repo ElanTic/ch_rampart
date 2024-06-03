@@ -18,11 +18,11 @@ import java.util.ArrayList;
  * @author jt
  */
 public class TowerManager extends Manager{
-    public TowerManager(TowerFactory factory, BulletAppState bulletAppState, int group){
+    public TowerManager(TowerFactory factory, BulletAppState bulletAppState){
         this.factory = factory;
         this.collection = new ArrayList<Entity>();
         this.bulletAppState = bulletAppState;
-        this.cGroup = group; 
+        //this.cGroup = group; 
     }
     
     public void attachTower(String id, Node nodo ){

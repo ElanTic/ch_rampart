@@ -29,9 +29,8 @@ public class Bullet extends Entity{
         this.shape = shape;
         this.mass = mass;
         this.attachChild(shape);
-        BoundingBox bbox = (BoundingBox) shape.getWorldBound();
         //Vector3f extent = bbox.getExtent(new Vector3f()).multLocal(1, 2, 1);
-        shape.setModelBound(bbox);
+        //shape.setModelBound(worldBound);
         //BoxCollisionShape collisionShape = new BoxCollisionShape(extent);
     }
 

@@ -20,8 +20,9 @@ import java.util.ArrayList;
 public abstract class Manager {
     protected ArrayList<Entity> collection;
     protected BulletAppState bulletAppState;
-    protected int cGroup;
+    //protected int cGroup;
     protected Factory factory;
+    protected Node defaultNode;
     
     
     public void attachEntity(Entity entity, Node parent) {
@@ -29,6 +30,17 @@ public abstract class Manager {
         parent.attachChild(entity);
         //bulletAppState.getPhysicsSpace().add(entity.rigidBodyControl);
         //entity.rigidBodyControl.setCollisionGroup(cGroup);
+    }
+    
+    public void attachEntity(String id, Vector3f poss) {
+        Entity b = factory.createEntity(id);
+        attachEntity(b, defaultNode);
+        b.setLocalTranslation(poss);
+    }
+    
+    public void attachEntity(String id, Node parent){
+        Entity b = factory.createEntity(id);
+        attachEntity(b, parent);
     }
     
     public void loadJson(File jsonFile, String root) throws IOException {
@@ -53,5 +65,13 @@ public abstract class Manager {
         for (Entity entity : collection) {
             entity.update(tpf);
         }
+    }
+
+    public Node getDefaultNode() {
+        return defaultNode;
+    }
+
+    public void setDefaultNode(Node defaultNode) {
+        this.defaultNode = defaultNode;
     }
 }

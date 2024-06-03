@@ -36,6 +36,7 @@ public class Enemy extends Entity {
         this.speed = speed;
         addCollisionBox();
         this.attachChild(body);
+        body.setModelBound(worldBound);
         //geom.getLocalTranslation().addLocal(new Vector3f(1, 0, 0));
     }
     

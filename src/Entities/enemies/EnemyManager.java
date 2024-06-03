@@ -23,21 +23,17 @@ import java.util.ArrayList;
  */
 public class EnemyManager extends Manager{
     
-    public EnemyManager(EnemyFactory factory, BulletAppState bulletAppState, int group) {
+    public EnemyManager(EnemyFactory factory, BulletAppState bulletAppState) {
         this.factory = factory;
         this.collection = new ArrayList<Entity>();
         this.bulletAppState = bulletAppState;
-        this.cGroup = group;
+        //this.cGroup = group;
     }
-
-
-    public void attachEnemy(String id, Node node) {
-        Enemy enemy = (Enemy) factory.createEntity(id);
-        attachEntity(enemy, node);
-        enemy.hp.signal.connect(new Destroyer(enemy, this));
-        //enemy.getLocalTranslation().addLocal(new Vector3f(1, 0, 0));
-        //enemy.getLocalTranslation().addLocal(new Vector3f(1, , 0));
-        //enemy.rigidBodyControl.setPhysicsLocation(node.getWorldTranslation().add(new Vector3f(1, 1, 0)));
-        //enemy.rigidBodyControl.setPhysicsRotation(node.getWorldRotation());
+    
+    @Override 
+    public void attachEntity(Entity entity, Node node){
+        super.attachEntity(entity, node);
+        ((Enemy)entity).hp.signal.connect(new Destroyer(entity, this));
+        
     }
 }
