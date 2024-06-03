@@ -5,6 +5,7 @@
 package Entities.bullets;
 
 import Entities.Entity;
+import com.jme3.bounding.BoundingBox;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
@@ -28,13 +29,17 @@ public class Bullet extends Entity{
         this.shape = shape;
         this.mass = mass;
         this.attachChild(shape);
+        BoundingBox bbox = (BoundingBox) shape.getWorldBound();
+        //Vector3f extent = bbox.getExtent(new Vector3f()).multLocal(1, 2, 1);
+        shape.setModelBound(bbox);
+        //BoxCollisionShape collisionShape = new BoxCollisionShape(extent);
     }
 
     public void update(float tpf) {
         // Apply the force
         super.updateLogicalState(tpf);
         Vector3f force = acceleration.mult(tpf);
-        this.setLocalTranslation(this.getLocalTranslation().add(force));  
+        this.setLocalTranslation(this.getLocalTranslation().add(force));
     }
 
     

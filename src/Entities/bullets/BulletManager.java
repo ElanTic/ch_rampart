@@ -6,12 +6,14 @@ package Entities.bullets;
 
 import Entities.Entity;
 import Entities.Manager;
+import Entities.enemies.Enemy;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jme3.app.Application;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.control.RigidBodyControl;
+import com.jme3.collision.CollisionResults;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import java.io.File;
@@ -65,12 +67,20 @@ public class BulletManager extends Manager {
     public void update(float tpf) {
         ArrayList<Entity> deleted = new ArrayList<>();
         for (Entity bullet : collection) {
+            
             Vector3f bulletPos = bullet.getLocalTranslation();
             if (bulletPos.x < viewportLeft || bulletPos.x > viewportRight ||
                 bulletPos.y < -20 || bulletPos.y > viewportTop) {
                 deleted.add(bullet);
             } else {
-                bullet.update(tpf);
+                /*CollisionResults results = new CollisionResults();
+                bulletParentNode.getParent().getChild("grid").collideWith(((Bullet)bullet).shape.getWorldBound(), results);
+                if (results.size()>0){
+                    Enemy enemy = (Enemy)results.getClosestCollision().getGeometry().getParent();
+                    enemy.hp.reduceHealth(((Bullet)bullet).damage);
+                }*/
+                
+                    bullet.update(tpf);
             }
         }
         for (Entity bullet : deleted) {
