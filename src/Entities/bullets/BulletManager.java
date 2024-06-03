@@ -59,7 +59,7 @@ public class BulletManager extends Manager {
     public void attachBullet(String id, Vector3f poss) {
         Bullet b = (Bullet)factory.createEntity(id);
         attachEntity(b, bulletParentNode);
-        b.rigidBodyControl.setPhysicsLocation(poss.addLocal(0,0,.8f));  
+        b.rigidBodyControl.setPhysicsLocation(poss.addLocal(0,0,1.5f));  
         
     }
 
