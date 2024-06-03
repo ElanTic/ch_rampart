@@ -24,7 +24,7 @@ import com.jme3.scene.shape.Box;
  *
  * @author jt
  */
-public class Tower  extends Entity {
+public class Tower  extends Entity{
     //String name;
     public Geometry body;
     public Geometry hitbox;
@@ -55,8 +55,8 @@ public class Tower  extends Entity {
         BoundingBox bbox = (BoundingBox) body.getWorldBound();
         Vector3f extent = bbox.getExtent(new Vector3f());        
         BoxCollisionShape collisionShape = new BoxCollisionShape(extent);
-        rigidBodyControl = new RigidBodyControl(collisionShape, 0);
-        addControl(rigidBodyControl);
+        //rigidBodyControl = new RigidBodyControl(collisionShape, 0);
+        //addControl(rigidBodyControl);
         
     }
 }

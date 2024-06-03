@@ -36,7 +36,7 @@ public class EnemyManager extends Manager{
         attachEntity(enemy, node);
         enemy.hp.signal.connect(new Destroyer(enemy, this));
         //enemy.getLocalTranslation().addLocal(new Vector3f(1, , 0));
-        enemy.rigidBodyControl.setPhysicsLocation(node.getWorldTranslation().add(new Vector3f(1, 1, 0)));
-        enemy.rigidBodyControl.setPhysicsRotation(node.getWorldRotation());
+        //enemy.rigidBodyControl.setPhysicsLocation(node.getWorldTranslation().add(new Vector3f(1, 1, 0)));
+        //enemy.rigidBodyControl.setPhysicsRotation(node.getWorldRotation());
     }
 }

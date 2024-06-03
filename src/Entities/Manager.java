@@ -27,8 +27,8 @@ public abstract class Manager {
     public void attachEntity(Entity entity, Node parent) {
         collection.add(entity);
         parent.attachChild(entity);
-        bulletAppState.getPhysicsSpace().add(entity.rigidBodyControl);
-        entity.rigidBodyControl.setCollisionGroup(cGroup);
+        //bulletAppState.getPhysicsSpace().add(entity.rigidBodyControl);
+        //entity.rigidBodyControl.setCollisionGroup(cGroup);
     }
     
     public void loadJson(File jsonFile, String root) throws IOException {
@@ -45,15 +45,7 @@ public abstract class Manager {
     }
     
     public void dettachEntity(Entity entity) {
-        Node parent = entity.getParent();
-        if (parent != null){ 
-            parent.detachChild(entity);
-        }
-        else{
-            System.out.print("Algo esta mal, ");
-        }
-        if(entity.rigidBodyControl != null)
-            bulletAppState.getPhysicsSpace().remove(entity.rigidBodyControl);
+        entity.removeFromParent();
         collection.remove(entity);
     }
 

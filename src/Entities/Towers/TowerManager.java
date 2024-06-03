@@ -7,17 +7,10 @@ package Entities.Towers;
 import Components.Destroyer;
 import Entities.Entity;
 import Entities.Manager;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jme3.bullet.BulletAppState;
-import com.jme3.bullet.collision.PhysicsCollisionObject;
-import com.jme3.math.FastMath;
-import com.jme3.math.Quaternion;
-import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
-import java.io.File;
 import java.util.ArrayList;
-import java.io.IOException;
+
 
 /**
  *
@@ -35,7 +28,7 @@ public class TowerManager extends Manager{
         Tower tower = (Tower) factory.createEntity(id);
         attachEntity(tower, nodo);
         tower.hp.signal.connect(new Destroyer(tower, this));
-        tower.rigidBodyControl.setPhysicsLocation(nodo.getWorldTranslation().add(new Vector3f(1, 1, 0)));
-        tower.rigidBodyControl.setPhysicsRotation(nodo.getWorldRotation());
+        //tower.rigidBodyControl.setPhysicsLocation(nodo.getWorldTranslation().add(new Vector3f(1, 1, 0)));
+        //tower.rigidBodyControl.setPhysicsRotation(nodo.getWorldRotation());
     }
 }

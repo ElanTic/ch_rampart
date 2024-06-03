@@ -28,9 +28,9 @@ public class Shoot implements ActionListener{
     }
     
     public void shoot(){
-        Vector3f vector = 
-        tower.getWorldTranslation();
+        //Vector3f vector = tower.getWorldTranslation();
         //tower.body.getParent().getWorldTranslation();
+        Vector3f vector = tower.getParent().getLocalTranslation();
         tower.spawner.spawn(new Vector3f(vector.x+1 ,vector.y, vector.z).addLocal(tower.body.getLocalTranslation()));
     }
     

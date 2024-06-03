@@ -27,22 +27,18 @@ public class Bullet extends Entity{
         this.damage = damage;
         this.shape = shape;
         this.mass = mass;
-        this.rigidBodyControl = new RigidBodyControl(mass);
-        this.shape.addControl(rigidBodyControl);
-        //rigidBodyControl.setPhysicsLocation(initialPosition);
-        //rigidBodyControl.setLinearVelocity(acceleration);
         this.attachChild(shape);
     }
 
     public void update(float tpf) {
         // Apply the force
+        super.updateLogicalState(tpf);
         Vector3f force = acceleration.mult(tpf);
-        rigidBodyControl.applyCentralForce(force);
+        this.setLocalTranslation(this.getLocalTranslation().add(force));  
     }
 
     
     public Bullet clone(Vector3f loc) {
-        //return new Bullet(name, loc, acceleration, shape.clone());
         return null;
     }
 }

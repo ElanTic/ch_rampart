@@ -38,7 +38,7 @@ public class MyCustomControl extends RigidBodyControl
         //System.out.println("1 completed");
         if(n instanceof Enemy){
             ((Enemy)n).hp.reduceHealth(b.damage);
-            b.rigidBodyControl.setPhysicsLocation(new Vector3f(-100,-100,-100));
+            //b.rigidBodyControl.setPhysicsLocation(new Vector3f(-100,-100,-100));
             //b.rigidBodyControl.;
         }
     

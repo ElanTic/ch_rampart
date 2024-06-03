@@ -12,6 +12,5 @@ import com.jme3.scene.Node;
  * @author jt
  */
 public abstract class Entity extends Node{
-    public RigidBodyControl rigidBodyControl;
     public void update(float tpf){}
 }

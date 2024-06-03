@@ -59,24 +59,15 @@ public class BulletManager extends Manager {
     public void attachBullet(String id, Vector3f poss) {
         Bullet b = (Bullet)factory.createEntity(id);
         attachEntity(b, bulletParentNode);
-        b.rigidBodyControl.setPhysicsLocation(poss.addLocal(0,0,1.5f));  
-        
-    }
-
-    public void attachBullet(Bullet bullet) {
-        collection.add(bullet);
-        bulletParentNode.attachChild(bullet);
-        bulletAppState.getPhysicsSpace().add(bullet.rigidBodyControl);
-        bullet.rigidBodyControl.setCollisionGroup(cGroup);
-        //bullet.rigidBodyControl.setCollideWithGroups(PhysicsCollisionObject.COLLISION_GROUP_01);
+        b.setLocalTranslation(poss);
     }
 
     public void update(float tpf) {
         ArrayList<Entity> deleted = new ArrayList<>();
         for (Entity bullet : collection) {
-            Vector3f bulletPos = bullet.rigidBodyControl.getPhysicsLocation();
+            Vector3f bulletPos = bullet.getLocalTranslation();
             if (bulletPos.x < viewportLeft || bulletPos.x > viewportRight ||
-                bulletPos.y < viewportBottom || bulletPos.y > viewportTop) {
+                bulletPos.y < -20 || bulletPos.y > viewportTop) {
                 deleted.add(bullet);
             } else {
                 bullet.update(tpf);

@@ -50,16 +50,16 @@ public class Enemy extends Entity {
     private void moveEnemy(float tpf) {
         Vector3f force = new Vector3f(0, speed * tpf, 0);
         this.setLocalTranslation(this.getLocalTranslation().add(force));
-        rigidBodyControl.setPhysicsLocation(this.getWorldTranslation());
+        //rigidBodyControl.setPhysicsLocation(this.getWorldTranslation());
     }
 
     private void addCollisionBox() {
         BoundingBox bbox = (BoundingBox) body.getWorldBound();
         Vector3f extent = bbox.getExtent(new Vector3f());
         BoxCollisionShape collisionShape = new BoxCollisionShape(extent);
-        rigidBodyControl = new RigidBodyControl(collisionShape, 0);
+        //rigidBodyControl = new RigidBodyControl(collisionShape, 0);
         //rigidBodyControl.setKinematic(true);
-        addControl(rigidBodyControl);
+        //addControl(rigidBodyControl);
     }
 
 }
