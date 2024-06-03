@@ -7,36 +7,72 @@ package Entities.enemies;
 import Components.Destroyer;
 import Entities.Entity;
 import Entities.Manager;
+import Entities.Towers.Tower;
+import Entities.bullets.Bullet;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jme3.bounding.BoundingVolume;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
+import com.jme3.collision.CollisionResult;
+import com.jme3.collision.CollisionResults;
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  *
  * @author jt
  */
 public class EnemyManager extends Manager{
-    
-    public EnemyManager(EnemyFactory factory, BulletAppState bulletAppState, int group) {
+    public EnemyManager(EnemyFactory factory, BulletAppState bulletAppState) {
         this.factory = factory;
         this.collection = new ArrayList<Entity>();
         this.bulletAppState = bulletAppState;
-        this.cGroup = group;
+        //this.cGroup = group;
     }
-
-
-    public void attachEnemy(String id, Node node) {
-        Enemy enemy = (Enemy) factory.createEntity(id);
-        attachEntity(enemy, node);
-        enemy.hp.signal.connect(new Destroyer(enemy, this));
-        //enemy.getLocalTranslation().addLocal(new Vector3f(1, , 0));
-        enemy.rigidBodyControl.setPhysicsLocation(node.getWorldTranslation().add(new Vector3f(1, 1, 0)));
-        enemy.rigidBodyControl.setPhysicsRotation(node.getWorldRotation());
+    
+    @Override 
+    public void attachEntity(Entity entity, Node node){
+        super.attachEntity(entity, node);
+        ((Enemy)entity).hp.signal.connect(new Destroyer(entity, this)); 
+        
+    }
+    
+    @Override
+    public void update(float tpf){
+        for (Iterator<Entity> it = collection.iterator(); it.hasNext();) {
+            Enemy enemy = (Enemy)it.next();
+            Node node = this.checkCollisions(enemy);
+            if(node != null){
+                ((Entity) node).onHit(enemy.damage);
+                enemy.onCollision(3);
+            }
+            else{
+                enemy.update(tpf);
+            }
+            
+        }
+    }
+    
+    @Override
+    public Node checkCollisions(Entity entity){
+        for (Node nodo : colidableNodes) {
+            Geometry bulletGeometry = entity.body;
+            BoundingVolume bulletBounding = bulletGeometry.getWorldBound();
+            CollisionResults results = new CollisionResults();
+            nodo.collideWith(bulletBounding, results); 
+            for (CollisionResult r : results){
+                Node n = r.getGeometry().getParent();
+                if( n instanceof Entity){
+                    return n;
+                }
+            }
+        }
+        return null;
     }
 }

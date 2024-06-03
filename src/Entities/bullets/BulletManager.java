@@ -6,41 +6,45 @@ package Entities.bullets;
 
 import Entities.Entity;
 import Entities.Manager;
+import Entities.enemies.Enemy;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jme3.app.Application;
+import com.jme3.bounding.BoundingVolume;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.control.RigidBodyControl;
+import com.jme3.collision.CollisionResults;
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  *
  * @author jt
  */
 public class BulletManager extends Manager {
-    private Node bulletParentNode;
+    //private Node bulletParentNode;
     private float viewportLeft;
     private float viewportRight;
     private float viewportTop;
     private float viewportBottom;
 
-    public BulletManager(Node bulletParentNode, BulletFactory bf, BulletAppState bulletAppState, int group, Application app) {
-        this.bulletParentNode = bulletParentNode;
+    public BulletManager( BulletFactory bf, BulletAppState bulletAppState) {
         this.collection = new ArrayList<>();
         this.factory = bf;
         this.bulletAppState = bulletAppState;
-        this.cGroup = group;
+        //this.cGroup = group;
 
         // Initialize the viewport boundaries
-        this.viewportLeft = -app.getCamera().getWidth() / 2f;
-        this.viewportRight = app.getCamera().getWidth() / 2f;
-        this.viewportTop = app.getCamera().getHeight() / 2f;
-        this.viewportBottom = -app.getCamera().getHeight() / 2f;
+        //this.viewportLeft = -app.getCamera().getWidth() / 2f;
+        //this.viewportRight = app.getCamera().getWidth() / 2f;
+        //this.viewportTop = app.getCamera().getHeight() / 2f;
+        //this.viewportBottom = -app.getCamera().getHeight() / 2f;
     }
 
     public void loadJson(File jsonFile, String root) throws IOException {
@@ -58,28 +62,28 @@ public class BulletManager extends Manager {
 
     public void attachBullet(String id, Vector3f poss) {
         Bullet b = (Bullet)factory.createEntity(id);
-        attachEntity(b, bulletParentNode);
-        b.rigidBodyControl.setPhysicsLocation(poss.addLocal(0,0,1.5f));  
-        
-    }
-
-    public void attachBullet(Bullet bullet) {
-        collection.add(bullet);
-        bulletParentNode.attachChild(bullet);
-        bulletAppState.getPhysicsSpace().add(bullet.rigidBodyControl);
-        bullet.rigidBodyControl.setCollisionGroup(cGroup);
-        //bullet.rigidBodyControl.setCollideWithGroups(PhysicsCollisionObject.COLLISION_GROUP_01);
+        attachEntity(b, defaultNode);
+        b.setLocalTranslation(poss);
     }
 
     public void update(float tpf) {
         ArrayList<Entity> deleted = new ArrayList<>();
-        for (Entity bullet : collection) {
-            Vector3f bulletPos = bullet.rigidBodyControl.getPhysicsLocation();
-            if (bulletPos.x < viewportLeft || bulletPos.x > viewportRight ||
-                bulletPos.y < viewportBottom || bulletPos.y > viewportTop) {
+        for (Iterator<Entity> it = collection.iterator(); it.hasNext();) {
+            Bullet bullet = (Bullet)it.next();
+            Vector3f bulletPos = bullet.getLocalTranslation();
+            if (bulletPos.y < -20 ) {
                 deleted.add(bullet);
             } else {
-                bullet.update(tpf);
+                Node node = this.checkCollisions(bullet);
+                if(node != null){
+                    if(node instanceof Entity){
+                        ((Entity) node).onHit(bullet.damage);
+                    }
+                    bullet.setLocalTranslation(-100, -100, -100);
+                }
+                else{
+                    bullet.update(tpf);
+                }
             }
         }
         for (Entity bullet : deleted) {

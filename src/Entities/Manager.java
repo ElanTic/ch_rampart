@@ -6,8 +6,11 @@ package Entities;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jme3.bounding.BoundingVolume;
 import com.jme3.bullet.BulletAppState;
+import com.jme3.collision.CollisionResults;
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import java.io.File;
 import java.io.IOException;
@@ -18,17 +21,30 @@ import java.util.ArrayList;
  * @author jt
  */
 public abstract class Manager {
+    protected final ArrayList<Node> colidableNodes = new ArrayList<Node>();
     protected ArrayList<Entity> collection;
     protected BulletAppState bulletAppState;
-    protected int cGroup;
+    //protected int cGroup;
     protected Factory factory;
+    protected Node defaultNode;
     
     
     public void attachEntity(Entity entity, Node parent) {
         collection.add(entity);
         parent.attachChild(entity);
-        bulletAppState.getPhysicsSpace().add(entity.rigidBodyControl);
-        entity.rigidBodyControl.setCollisionGroup(cGroup);
+        //bulletAppState.getPhysicsSpace().add(entity.rigidBodyControl);
+        //entity.rigidBodyControl.setCollisionGroup(cGroup);
+    }
+    
+    public void attachEntity(String id, Vector3f poss) {
+        Entity b = factory.createEntity(id);
+        attachEntity(b, defaultNode);
+        b.setLocalTranslation(poss);
+    }
+    
+    public void attachEntity(String id, Node parent){
+        Entity b = factory.createEntity(id);
+        attachEntity(b, parent);
     }
     
     public void loadJson(File jsonFile, String root) throws IOException {
@@ -45,15 +61,7 @@ public abstract class Manager {
     }
     
     public void dettachEntity(Entity entity) {
-        Node parent = entity.getParent();
-        if (parent != null){ 
-            parent.detachChild(entity);
-        }
-        else{
-            System.out.print("Algo esta mal, ");
-        }
-        if(entity.rigidBodyControl != null)
-            bulletAppState.getPhysicsSpace().remove(entity.rigidBodyControl);
+        entity.removeFromParent();
         collection.remove(entity);
     }
 
@@ -61,5 +69,34 @@ public abstract class Manager {
         for (Entity entity : collection) {
             entity.update(tpf);
         }
+    }
+
+    public Node getDefaultNode() {
+        return defaultNode;
+    }
+
+    public void setDefaultNode(Node defaultNode) {
+        this.defaultNode = defaultNode;
+    }
+    
+    public boolean addCollisionNode(Node nodo){
+        return this.colidableNodes.add(nodo);
+    }
+    
+    public boolean removeCollisionNode(Node nodo){
+        return this.colidableNodes.remove(nodo);
+    }
+    
+    public Node checkCollisions(Entity entity){
+        for (Node nodo : colidableNodes) {
+            Geometry bulletGeometry = entity.body;
+            BoundingVolume bulletBounding = bulletGeometry.getWorldBound();
+            CollisionResults results = new CollisionResults();
+            nodo.collideWith(bulletBounding, results); 
+            if (results.size()>0){
+                return results.getClosestCollision().getGeometry().getParent();
+            }
+        }
+        return null;
     }
 }

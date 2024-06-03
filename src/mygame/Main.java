@@ -3,6 +3,7 @@ package mygame;
 import Commands.ChangeColor;
 import Commands.PlaceTower;
 import Components.MyCustomControl;
+import Components.Spawner;
 import Entities.bullets.BulletFactory;
 import Entities.bullets.BulletManager;
 import Entities.Towers.TowerFactory;
@@ -99,11 +100,15 @@ public class Main extends SimpleApplication {
             rootNode.attachChild(deck);
             //grid.attachChild(geom);           
             BulletFactory bfactory = new BulletFactory(this.assetManager);
-            bManager = new BulletManager(playerNode, bfactory, bulletAppState, PhysicsCollisionObject.COLLISION_GROUP_02, this);
+            bManager = new BulletManager(bfactory, bulletAppState);
+            bManager.setDefaultNode(playerNode);
+            bManager.addCollisionNode(creepNode);
             TowerFactory tfactory = new TowerFactory(bManager, this.assetManager);
-            tManager = new TowerManager(tfactory, bulletAppState, PhysicsCollisionObject.COLLISION_GROUP_04);
+            tManager = new TowerManager(tfactory, bulletAppState);
             EnemyFactory efactory = new EnemyFactory(this.assetManager);
-            eManager = new EnemyManager(efactory,bulletAppState, PhysicsCollisionObject.COLLISION_GROUP_01);
+            eManager = new EnemyManager(efactory,bulletAppState);
+            eManager.setDefaultNode(creepNode);
+            eManager.addCollisionNode(grid);
             File db = new File("assets/ch_rampart");
             tManager.loadJson(db, "chinchillas");
             bManager.loadJson(db, "bullets");
@@ -134,12 +139,12 @@ public class Main extends SimpleApplication {
     }
     
     public void generateEnemy(float tpf){
+        Spawner spawner = new Spawner(eManager, "hunter");
         spawn += tpf;
         if (spawn>= 3){
             spawn -=3;
             Random r = new Random();
-            eManager.attachEnemy("fox", (Node)rootNode.getChild("cell_"+r.nextInt(11)+"_0"));
-        
+            spawner.spawn(rootNode.getChild("cell_"+r.nextInt(11)+"_0").getLocalTranslation());
         }
     }
 

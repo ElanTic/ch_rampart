@@ -4,6 +4,7 @@
  */
 package Components;
 
+import Entities.Manager;
 import Entities.bullets.Bullet;
 import Entities.bullets.BulletFactory;
 import Entities.bullets.BulletManager;
@@ -14,10 +15,10 @@ import com.jme3.math.Vector3f;
  * @author jt
  */
 public class Spawner {
-    BulletManager bm;
+    Manager bm;
     String clon;
 
-    public Spawner(BulletManager bm, String clon) {
+    public Spawner(Manager bm, String clon) {
         this.bm = bm;
         this.clon = clon;
     }
@@ -31,7 +32,7 @@ public class Spawner {
     }
     
     public void spawn(Vector3f loc){
-        bm.attachBullet(clon, loc);
+        bm.attachEntity(clon, loc);
         //bf.clone(clon, loc);
         //bf.createBulletById(clon, loc);
     }
