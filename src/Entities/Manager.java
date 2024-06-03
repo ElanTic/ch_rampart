@@ -28,8 +28,6 @@ public abstract class Manager {
         collection.add(entity);
         parent.attachChild(entity);
         bulletAppState.getPhysicsSpace().add(entity.rigidBodyControl);
-        entity.rigidBodyControl.setPhysicsLocation(parent.getWorldTranslation().add(new Vector3f(1, 1, 0)));
-        entity.rigidBodyControl.setPhysicsRotation(parent.getWorldRotation());
         entity.rigidBodyControl.setCollisionGroup(cGroup);
     }
     
@@ -54,7 +52,8 @@ public abstract class Manager {
         else{
             System.out.print("Algo esta mal, ");
         }
-        bulletAppState.getPhysicsSpace().remove(entity.rigidBodyControl);
+        if(entity.rigidBodyControl != null)
+            bulletAppState.getPhysicsSpace().remove(entity.rigidBodyControl);
         collection.remove(entity);
     }
 

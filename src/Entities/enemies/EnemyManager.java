@@ -33,8 +33,10 @@ public class EnemyManager extends Manager{
 
     public void attachEnemy(String id, Node node) {
         Enemy enemy = (Enemy) factory.createEntity(id);
-        attachEntity( enemy, node);
+        attachEntity(enemy, node);
         enemy.hp.signal.connect(new Destroyer(enemy, this));
-        //enemy.rigidBodyControl.setCollideWithGroups(PhysicsCollisionObject.COLLISION_GROUP_02);
+        //enemy.getLocalTranslation().addLocal(new Vector3f(1, , 0));
+        enemy.rigidBodyControl.setPhysicsLocation(node.getWorldTranslation().add(new Vector3f(1, 1, 0)));
+        enemy.rigidBodyControl.setPhysicsRotation(node.getWorldRotation());
     }
 }

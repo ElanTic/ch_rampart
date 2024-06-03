@@ -35,5 +35,7 @@ public class TowerManager extends Manager{
         Tower tower = (Tower) factory.createEntity(id);
         attachEntity(tower, nodo);
         tower.hp.signal.connect(new Destroyer(tower, this));
+        tower.rigidBodyControl.setPhysicsLocation(nodo.getWorldTranslation().add(new Vector3f(1, 1, 0)));
+        tower.rigidBodyControl.setPhysicsRotation(nodo.getWorldRotation());
     }
 }

@@ -26,34 +26,40 @@ public class Enemy extends Entity {
     public Health hp;
     public float damage;
     public float speed;
-
+    
     public Enemy(String name, Geometry geom, CoolDown cooldown, Health hp, float damage, float speed) {
-        this.name = name;
+        this.setName(name);
         this.body = geom;
         this.cooldown = cooldown;
         this.hp = hp;
         this.damage = damage;
         this.speed = speed;
-
         addCollisionBox();
         this.attachChild(body);
         geom.getLocalTranslation().addLocal(new Vector3f(-1, 0, 0));
     }
     
+    
     @Override
-    public void update(float tpf) {
+    public void update(float tpf){
+        super.updateLogicalState(tpf);
         cooldown.update(tpf);
-        Vector3f force = new Vector3f(0,speed *tpf,0);
-        //rigidBodyControl.applyCentralForce(force);
+        moveEnemy(tpf);
+    }
+
+    private void moveEnemy(float tpf) {
+        Vector3f force = new Vector3f(0, speed * tpf, 0);
+        this.setLocalTranslation(this.getLocalTranslation().add(force));
+        rigidBodyControl.setPhysicsLocation(this.getWorldTranslation());
     }
 
     private void addCollisionBox() {
         BoundingBox bbox = (BoundingBox) body.getWorldBound();
         Vector3f extent = bbox.getExtent(new Vector3f());
         BoxCollisionShape collisionShape = new BoxCollisionShape(extent);
-        rigidBodyControl = new RigidBodyControl(collisionShape, 0f);
+        rigidBodyControl = new RigidBodyControl(collisionShape, 0);
         //rigidBodyControl.setKinematic(true);
-        //rigidBodyControl.setApplyPhysicsLocal(true);
         addControl(rigidBodyControl);
     }
+
 }
