@@ -126,7 +126,7 @@
 					"scale": 0.3,
 					"color": 394501,
 					"type": "mid",
-					"mass": 0.003,
+					"mass": 0.03,
 					"damage": 5
 				},
 				{
@@ -140,7 +140,7 @@
 					"scale": 0.1,
 					"color": 16776187,
 					"type": "small",
-					"mass": 0.001,
+					"mass": 0.01,
 					"damage": 2
 				},
 				{
@@ -154,7 +154,7 @@
 					"scale": 0.7,
 					"color": 16381686,
 					"type": "big",
-					"mass": 0.01,
+					"mass": 0.1,
 					"damage": 20
 				}
 			],
