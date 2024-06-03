@@ -35,7 +35,7 @@ public class Enemy extends Entity {
         this.damage = damage;
         this.speed = speed;
         this.attachChild(body);
-        scaleBoundingVolume(body, 200f, .1f);
+        //scaleBoundingVolume(body, 200f, .1f);
     }
     
     
