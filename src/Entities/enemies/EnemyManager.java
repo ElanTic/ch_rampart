@@ -5,6 +5,8 @@
 package Entities.enemies;
 
 import Components.Destroyer;
+import Components.LevelUpHandler;
+import Components.PointsCounter;
 import Entities.Entity;
 import Entities.Manager;
 import Entities.Towers.Tower;
@@ -29,10 +31,13 @@ import java.util.Iterator;
  * @author jt
  */
 public class EnemyManager extends Manager{
+    private PointsCounter pc;
     public EnemyManager(EnemyFactory factory, BulletAppState bulletAppState) {
         this.factory = factory;
         this.collection = new ArrayList<Entity>();
         this.bulletAppState = bulletAppState;
+        pc = new PointsCounter();
+        pc.connectLevelUpHandler(new LevelUpHandler());
         //this.cGroup = group;
     }
     
