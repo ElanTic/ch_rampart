@@ -57,6 +57,7 @@ public class EnemyFactory implements Factory{
         String meshPath = jsonNode.path("mesh").asText();
         float damage = jsonNode.path("damage").floatValue();
         float speed = jsonNode.path("speed").floatValue();
+        float points = jsonNode.path("points").floatValue();
 
         ColorRGBA color = new ColorRGBA(
             ((colorValue >> 16) & 0xff) / 255.0f,
@@ -66,11 +67,11 @@ public class EnemyFactory implements Factory{
         );
 
         Geometry geom = createGeom(name, new Quad(2, 2), texture, color);
-        return createEnemy(name, geom, coolDown, hp, damage, speed);
+        return createEnemy(name, geom, coolDown, hp, damage, speed, points);
     }
 
-    private Enemy createEnemy(String name, Geometry geom, float cooldown, float hp, float damage, float speed) {
-        return new Enemy(name, geom, new CoolDown(cooldown, 0, new Signal()), new Health(hp, new Signal()), damage, speed);
+    private Enemy createEnemy(String name, Geometry geom, float cooldown, float hp, float damage, float speed, float points) {
+        return new Enemy(name, geom, new CoolDown(cooldown, 0, new Signal()), new Health(hp, new Signal()), damage, speed, points);
     }
 
     private Geometry createGeom(String name, Mesh mesh, String texture, ColorRGBA color) {

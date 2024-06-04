@@ -213,6 +213,10 @@
 					"name": "speed"
 				},
 				{
+					"typeStr": "4",
+					"name": "points"
+				},
+				{
 					"typeStr": "13",
 					"name": "mesh",
 					"opt": true
@@ -237,7 +241,8 @@
 					"healt": 40,
 					"damage": 10,
 					"speed": 0.2,
-					"texture": "Textures/Hunter.png"
+					"texture": "Textures/Hunter.png",
+					"points": 50
 				},
 				{
 					"type": "fox",
@@ -247,7 +252,8 @@
 					"color": 15902014,
 					"texture": "Textures/fox.png",
 					"healt": 30,
-					"mesh": "Textures/fox.png"
+					"mesh": "Textures/fox.png",
+					"points": 100
 				}
 			],
 			"separators": [],
