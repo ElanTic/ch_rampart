@@ -1,9 +1,9 @@
 package mygame;
 
 import Commands.ChangeColor;
-import Commands.PlaceTower;
-import Components.MyCustomControl;
+import Commands.ClickNode;
 import Components.Spawner;
+import Entities.Tile;
 import Entities.bullets.BulletFactory;
 import Entities.bullets.BulletManager;
 import Entities.Towers.TowerFactory;
@@ -13,9 +13,6 @@ import Entities.enemies.EnemyManager;
 import Player.PlayerController;
 import com.jme3.app.SimpleApplication;
 import com.jme3.bullet.BulletAppState;
-import com.jme3.bullet.collision.PhysicsCollisionObject;
-import com.jme3.bullet.collision.shapes.BoxCollisionShape;
-import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.material.Material;
 import com.jme3.material.RenderState.BlendMode;
 import com.jme3.math.ColorRGBA;
@@ -59,9 +56,6 @@ public class Main extends SimpleApplication {
     @Override
     public void simpleInitApp() {
         bulletAppState = new BulletAppState();
-        stateManager.attach(bulletAppState);
-        bulletAppState.setDebugEnabled(true);
-        MyCustomControl mcc = new MyCustomControl(bulletAppState.getPhysicsSpace());
         try {
             flyCam.setDragToRotate(true);
             inputManager.setCursorVisible(true);
@@ -76,29 +70,17 @@ public class Main extends SimpleApplication {
             
             Node creepNode = new Node("creeps");
             Node playerNode = new Node("player");
-            //Node towerNode = new Node("tower");
             Node grid = new Node("grid");
-            BoxCollisionShape collisionShape = new BoxCollisionShape(new Vector3f(40,40,1));
-            RigidBodyControl rigidBodyControl = new RigidBodyControl(collisionShape, 0);
-            grid.addControl(rigidBodyControl);
-            bulletAppState.getPhysicsSpace().add(rigidBodyControl);
-            
+            Node entities = new Node("entities");
+            Node gui= new Node("gui");
             Node deck = new Node("deck");
-            rootNode.setLocalTranslation(-12,-10,-25);
             
-            createCard("mid", deck, new Vector3f(0,-4,0),ColorRGBA.Red);
-            createCard("big", deck, new Vector3f(4,-4,0), ColorRGBA.Green);
-            createCard("quick", deck, new Vector3f(8,-4,0),ColorRGBA.Blue);
+            entities.attachChild(creepNode);
+            entities.attachChild(playerNode);
+            entities.attachChild(grid);
             
-            
-            createGrid(12,2f,grid);
-            
-            rootNode.attachChild(creepNode);
-            rootNode.attachChild(playerNode);
-            //rootNode.attachChild(towerNode);
-            rootNode.attachChild(grid);
-            rootNode.attachChild(deck);
-            //grid.attachChild(geom);           
+            gui.attachChild(deck);
+                     
             BulletFactory bfactory = new BulletFactory(this.assetManager);
             bManager = new BulletManager(bfactory, bulletAppState);
             bManager.setDefaultNode(playerNode);
@@ -113,13 +95,24 @@ public class Main extends SimpleApplication {
             tManager.loadJson(db, "chinchillas");
             bManager.loadJson(db, "bullets");
             eManager.loadJson(db, "enemies");
-            PlaceTower ptower = new PlaceTower(grid, tManager, "big");
+            ClickNode clicker = new ClickNode(grid);
             ChangeColor cColor = new ChangeColor(grid, ColorRGBA.Green);
-            controller = new PlayerController(this.getInputManager(), this.cam, ptower, cColor);
+            controller = new PlayerController(this.getInputManager(), this.cam, clicker, cColor);
             
-            rootNode.setLocalRotation(new Quaternion().fromAngleAxis(-FastMath.PI/4, new Vector3f(1,0,0)));
-            rigidBodyControl.setPhysicsLocation(rootNode.getLocalTranslation());
-            rigidBodyControl.setPhysicsRotation(rootNode.getWorldRotation());
+            entities.setLocalTranslation(-12,-10,-25);
+            entities.setLocalRotation(new Quaternion().fromAngleAxis(-FastMath.PI/4, new Vector3f(1,0,0)));
+            
+            
+            createCard("mid", deck, new Vector3f(0,-4,0),ColorRGBA.Red);
+            createCard("big", deck, new Vector3f(4,-4,0), ColorRGBA.Green);
+            createCard("quick", deck, new Vector3f(8,-4,0),ColorRGBA.Blue);
+            
+            tManager.setPrototype("big");
+            
+            createGrid(12,2f,grid);
+            
+            rootNode.attachChild(entities);
+            rootNode.attachChild(gui);
             
             //cam.setLocation(new Vector3f(0,-40, 40));
             //cam.setRotation(new Quaternion().fromAngleAxis(FastMath.PI/10, new Vector3f(1,0,0)));
@@ -157,18 +150,18 @@ public class Main extends SimpleApplication {
      for (int i = 0; i < GRID_SIZE; i++) {
             for (int j = 0; j < GRID_SIZE; j++) {
                 Quad quad = new Quad(CELL_SIZE, CELL_SIZE);
-                Node nodo = new Node("cell_" + i + "_" + j);
+                Tile tile = new Tile("cell_" + i + "_" + j, tManager);
+                tile.setLocalTranslation(i * CELL_SIZE, j * CELL_SIZE, 0);
+                
                 Geometry cell = new Geometry("Ground", quad);
-                nodo.setLocalTranslation(i * CELL_SIZE, j * CELL_SIZE, 0);
-
                 Material mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
                 mat.setColor("Color", ColorRGBA.Orange);
                 mat.setTexture("ColorMap", assetManager.loadTexture("Textures/sand.jpg"));
                 cell.setMaterial(mat);
 
                 
-                nodo.attachChild(cell);
-                grid.attachChild(nodo);
+                tile.attachChild(cell);
+                grid.attachChild(tile);
             }
         }
     }

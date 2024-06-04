@@ -36,7 +36,7 @@ public class EnemyManager extends Manager{
         this.factory = factory;
         this.collection = new ArrayList<Entity>();
         this.bulletAppState = bulletAppState;
-        pc = new PointsCounter();
+        pc = new PointsCounter(80);
         pc.connectLevelUpHandler(new LevelUpHandler());
         //this.cGroup = group;
     }

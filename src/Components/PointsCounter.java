@@ -19,9 +19,9 @@ public class PointsCounter {
     private Signal levelUpSignal;
 
     // Constructor
-    public PointsCounter() {
+    public PointsCounter(float nextLevel) {
         this.points = 0;
-        this.nextLevel = 100; // Initial next level threshold
+        this.nextLevel = nextLevel; // Initial next level threshold
         this.levelCount = 1; // Level count starts at 1
         this.levelUpSignal = new Signal();
     }

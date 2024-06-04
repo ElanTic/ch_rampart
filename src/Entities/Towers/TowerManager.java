@@ -25,12 +25,11 @@ public class TowerManager extends Manager{
         //this.cGroup = group; 
     }
     
-    public void attachTower(String id, Node nodo ){
+    @Override
+    public void attachEntity(String id, Node nodo ){
         Tower tower = (Tower) factory.createEntity(id);
         attachEntity(tower, nodo);
         tower.hp.signal.connect(new Destroyer(tower, this));
         tower.getLocalTranslation().addLocal(new Vector3f(1, 0, 0));
-        //tower.rigidBodyControl.setPhysicsLocation(nodo.getWorldTranslation().add(new Vector3f(1, 1, 0)));
-        //tower.rigidBodyControl.setPhysicsRotation(nodo.getWorldRotation());
     }
 }
