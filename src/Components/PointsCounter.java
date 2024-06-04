@@ -15,12 +15,14 @@ import com.jme3.input.controls.ActionListener;
 public class PointsCounter {
     private double points;
     private double nextLevel;
+    private int levelCount;
     private Signal levelUpSignal;
 
     // Constructor
     public PointsCounter() {
         this.points = 0;
         this.nextLevel = 100; // Initial next level threshold
+        this.levelCount = 1; // Level count starts at 1
         this.levelUpSignal = new Signal();
     }
 
@@ -28,10 +30,14 @@ public class PointsCounter {
     public void increase(float tpf) {
         points += tpf;
         if (points >= nextLevel) {
-            points -= nextLevel; // Deduct the next level points
-            nextLevel = nextLevel * Math.log(nextLevel); // Increase next level logarithmically
-            levelUpSignal.emit("LevelUp", (float)nextLevel); // Emit signal
+            points -= nextLevel; 
+            levelCount++;
+            IncreaseLevel();
+            levelUpSignal.emit("LevelUp", (float)nextLevel); 
         }
+    }
+    private void IncreaseLevel(){
+        nextLevel = nextLevel + ((nextLevel/5) * Math.log(levelCount));
     }
 
     // Method to connect a handler to the levelUpSignal
