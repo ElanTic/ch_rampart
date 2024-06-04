@@ -28,9 +28,9 @@ public class PointsCounter {
     public void increase(float tpf) {
         points += tpf;
         if (points >= nextLevel) {
-            levelUpSignal.emit("LevelUp", tpf); // Emit signal
             points -= nextLevel; // Deduct the next level points
             nextLevel = nextLevel * Math.log(nextLevel); // Increase next level logarithmically
+            levelUpSignal.emit("LevelUp", (float)nextLevel); // Emit signal
         }
     }
 

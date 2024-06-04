@@ -13,6 +13,6 @@ import com.jme3.input.controls.ActionListener;
 public class LevelUpHandler implements ActionListener {
     @Override
     public void onAction(String message, boolean isPressed, float tpf) {
-        System.out.println("Level up! Message: " + message + ", Time per frame: " + tpf);
+        System.out.println("Level up! Message: " + message + ", Next Level at: " + tpf);
     }
 }

@@ -47,6 +47,11 @@ public class EnemyManager extends Manager{
         ((Enemy)entity).hp.signal.connect(new Destroyer(entity, this)); 
         
     }
+    @Override 
+    public void dettachEntity(Entity entity){
+        pc.increase(((Enemy) entity).points);
+        super.dettachEntity(entity);
+    }
     
     @Override
     public void update(float tpf){

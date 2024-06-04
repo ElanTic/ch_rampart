@@ -26,14 +26,16 @@ public class Enemy extends Entity {
     public Health hp;
     public float damage;
     public float speed;
+    public float points;
     
-    public Enemy(String name, Geometry geom, CoolDown cooldown, Health hp, float damage, float speed) {
+    public Enemy(String name, Geometry geom, CoolDown cooldown, Health hp, float damage, float speed, float points) {
         this.setName(name);
         this.body = geom;
         this.cooldown = cooldown;
         this.hp = hp;
         this.damage = damage;
         this.speed = speed;
+        this.points = points;
         this.attachChild(body);
         //scaleBoundingVolume(body, 200f, .1f);
     }
