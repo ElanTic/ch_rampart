@@ -22,7 +22,6 @@ public class TowerManager extends Manager{
         this.factory = factory;
         this.collection = new ArrayList<Entity>();
         this.bulletAppState = bulletAppState;
-        //this.cGroup = group; 
     }
     
     @Override
@@ -31,5 +30,8 @@ public class TowerManager extends Manager{
         attachEntity(tower, nodo);
         tower.hp.signal.connect(new Destroyer(tower, this));
         tower.getLocalTranslation().addLocal(new Vector3f(1, 0, 0));
+        this.prototype = null;
     }
+    
+    
 }

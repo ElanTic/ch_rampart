@@ -21,17 +21,23 @@ import com.jme3.renderer.Camera;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.shape.Box;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author jt
  */
-public class ClickNode implements Command{
-    private Node node;
+public class ClickNode implements Command {
+    private List<Node> nodes;
     private Ray ray;
 
-    public ClickNode(Node node) {
-        this.node = node;
+    public ClickNode() {
+        this.nodes = new ArrayList<>();
+    }
+
+    public ClickNode(List<Node> nodes) {
+        this.nodes = nodes;
     }
 
     public Ray getRay() {
@@ -41,16 +47,35 @@ public class ClickNode implements Command{
     public void setRay(Ray ray) {
         this.ray = ray;
     }
-    
-    public void execute(Ray ray){
+
+    public List<Node> getNodes() {
+        return nodes;
+    }
+
+    public void setNodes(List<Node> nodes) {
+        this.nodes = nodes;
+    }
+
+    public void addNode(Node node) {
+        this.nodes.add(node);
+    }
+
+    public void removeNode(Node node) {
+        this.nodes.remove(node);
+    }
+
+    public void execute(Ray ray) {
         CollisionResults results = new CollisionResults();
-        node.collideWith(ray, results);
-        if (results.size()>0){
-            Object nodo = results.getClosestCollision().getGeometry().getParent();
-            if(ActionListener.class.isAssignableFrom(nodo.getClass())){
-                ActionListener ac = (ActionListener) nodo;
-                ac.onAction("onClick", false, 0);
+        for (Node node : nodes) {
+            node.collideWith(ray, results);
+            if (results.size() > 0) {
+                Object nodo = results.getClosestCollision().getGeometry().getParent();
+                if (ActionListener.class.isAssignableFrom(nodo.getClass())) {
+                    ActionListener ac = (ActionListener) nodo;
+                    ac.onAction("onClick", false, 0);
+                    return;
+                }
             }
         }
-    }    
+    }
 }

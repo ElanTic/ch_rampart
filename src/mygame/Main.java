@@ -2,7 +2,9 @@ package mygame;
 
 import Commands.ChangeColor;
 import Commands.ClickNode;
+import Components.LevelUpHandler;
 import Components.Spawner;
+import Entities.Card;
 import Entities.Tile;
 import Entities.bullets.BulletFactory;
 import Entities.bullets.BulletManager;
@@ -88,26 +90,28 @@ public class Main extends SimpleApplication {
             TowerFactory tfactory = new TowerFactory(bManager, this.assetManager);
             tManager = new TowerManager(tfactory, bulletAppState);
             EnemyFactory efactory = new EnemyFactory(this.assetManager);
-            eManager = new EnemyManager(efactory,bulletAppState);
+            eManager = new EnemyManager(efactory,new LevelUpHandler(gui));
             eManager.setDefaultNode(creepNode);
             eManager.addCollisionNode(grid);
             File db = new File("assets/ch_rampart");
             tManager.loadJson(db, "chinchillas");
             bManager.loadJson(db, "bullets");
             eManager.loadJson(db, "enemies");
-            ClickNode clicker = new ClickNode(grid);
+            ClickNode clicker = new ClickNode();
+            clicker.addNode(guiNode);
+            clicker.addNode(grid);
             ChangeColor cColor = new ChangeColor(grid, ColorRGBA.Green);
             controller = new PlayerController(this.getInputManager(), this.cam, clicker, cColor);
             
             entities.setLocalTranslation(-12,-10,-25);
             entities.setLocalRotation(new Quaternion().fromAngleAxis(-FastMath.PI/4, new Vector3f(1,0,0)));
             
+            gui.setLocalTranslation(-100, -100, -1);
+            createCard("mid", deck, new Vector3f(-1,0,0),ColorRGBA.Red);
+            createCard("big", deck, new Vector3f(0,0,0), ColorRGBA.Green);
+            createCard("quick", deck, new Vector3f(1,0,0),ColorRGBA.Blue);
             
-            createCard("mid", deck, new Vector3f(0,-4,0),ColorRGBA.Red);
-            createCard("big", deck, new Vector3f(4,-4,0), ColorRGBA.Green);
-            createCard("quick", deck, new Vector3f(8,-4,0),ColorRGBA.Blue);
-            
-            tManager.setPrototype("big");
+            tManager.setPrototype("mid");
             
             createGrid(12,2f,grid);
             
@@ -167,19 +171,16 @@ public class Main extends SimpleApplication {
     }
     
     public void createCard(String id, Node deck, Vector3f poss, ColorRGBA color){
-        Node nodo = new Node(id);
+        Card nodo = new Card(id, tManager);
         nodo.setLocalTranslation(poss);
         Geometry cell = myBox("card", color);
          nodo.attachChild(cell);
          deck.attachChild(nodo);
-    
     }
     
     private Geometry myBox(String name,  ColorRGBA color){
-        Geometry geom = new Geometry(name, 
-                //new Box(Vector3f.ZERO, 1, 1, 1)
-                //new Sphere(3,4,1)
-                new Quad(4,4)
+        Geometry geom = new Geometry(name,
+                new Quad(1,1)
         );
         Material mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
         mat.setColor("Color", color);
