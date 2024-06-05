@@ -10,6 +10,7 @@ import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
 
 /**
  *
@@ -21,7 +22,7 @@ public class Bullet extends Entity{
     public float damage;
     public float mass;
 
-    public Bullet(String name, Vector3f acceleration, float mass, float damage, Geometry shape) {
+    public Bullet(String name, Vector3f acceleration, float mass, float damage, Spatial shape) {
         this.name = name;
         this.acceleration = acceleration;
         this.damage = damage;

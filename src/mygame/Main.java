@@ -111,7 +111,7 @@ public class Main extends SimpleApplication {
             createCard("big", deck, new Vector3f(0,0,0), ColorRGBA.Green);
             createCard("quick", deck, new Vector3f(1,0,0),ColorRGBA.Blue);
             
-            tManager.setPrototype("mid");
+            tManager.setPrototype("big");
             
             createGrid(12,2f,grid);
             
