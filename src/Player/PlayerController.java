@@ -23,16 +23,16 @@ import com.jme3.scene.Node;
 public class PlayerController implements ActionListener{
     
     private InputManager inputManager;
-    private Command ptower;
+    private Command clicker;
     private Command cColor;
     private Camera cam;
     private Ray direction;
 
-    public PlayerController(InputManager inputManager, Camera cam, Command ptower, Command cColor) {
+    public PlayerController(InputManager inputManager, Camera cam, Command clicker, Command cColor) {
         this.inputManager = inputManager;
         this.cam = cam;
         init_keys();
-        this.ptower = ptower;
+        this.clicker = clicker;
         this.cColor = cColor;
     }
     
@@ -45,12 +45,9 @@ public class PlayerController implements ActionListener{
     @Override
     public void onAction(String name, boolean isPressed, float tpf) {
         if (name.equals("PlaceTower") && !isPressed) {
-                ptower.execute(direction);
+                clicker.execute(direction);
             }
-        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody    
     }
-    
-    
     
     public void update(){
         Vector2f click2d = inputManager.getCursorPosition();

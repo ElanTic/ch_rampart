@@ -27,19 +27,24 @@ public abstract class Manager {
     //protected int cGroup;
     protected Factory factory;
     protected Node defaultNode;
+    protected String prototype;
+    
     
     
     public void attachEntity(Entity entity, Node parent) {
         collection.add(entity);
         parent.attachChild(entity);
-        //bulletAppState.getPhysicsSpace().add(entity.rigidBodyControl);
-        //entity.rigidBodyControl.setCollisionGroup(cGroup);
     }
     
     public void attachEntity(String id, Vector3f poss) {
         Entity b = factory.createEntity(id);
         attachEntity(b, defaultNode);
         b.setLocalTranslation(poss);
+    }
+    
+    public void attachPrototype(Node parent){
+        if(prototype == null) return;
+        attachEntity(prototype, parent);
     }
     
     public void attachEntity(String id, Node parent){
@@ -99,4 +104,13 @@ public abstract class Manager {
         }
         return null;
     }
+
+    public String getPrototype() {
+        return prototype;
+    }
+
+    public void setPrototype(String prototype) {
+        this.prototype = prototype;
+    }
+    
 }
