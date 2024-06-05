@@ -33,11 +33,10 @@ import java.util.Iterator;
  */
 public class EnemyManager extends Manager{
     private PointsCounter pc;
-    public EnemyManager(EnemyFactory factory, LevelUpHandler lh ) {
+    public EnemyManager(EnemyFactory factory, PointsCounter pc ) {
         this.factory = factory;
         this.collection = new ArrayList<Entity>();
-        pc = new PointsCounter(50);
-        pc.connectLevelUpHandler(lh);
+        this.pc = pc; 
         //this.cGroup = group;
     }
     

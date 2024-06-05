@@ -21,7 +21,7 @@ public class PointsCounter {
     // Constructor
     public PointsCounter(float nextLevel) {
         this.points = 0;
-        this.nextLevel = nextLevel; // Initial next level threshold
+        this.nextLevel = nextLevel;
         this.levelCount = 1; // Level count starts at 1
         this.levelUpSignal = new Signal();
     }
@@ -32,20 +32,34 @@ public class PointsCounter {
         if (points >= nextLevel) {
             points -= nextLevel; 
             levelCount++;
-            IncreaseLevel();
+            increaseLevel();
             levelUpSignal.emit("LevelUp", (float)nextLevel); 
         }
-    }
-    private void IncreaseLevel(){
-        nextLevel = nextLevel + ((nextLevel/5) * Math.log(levelCount));
+        else{
+            levelUpSignal.emit("Increase", (float)points);
+        }
     }
 
-    // Method to connect a handler to the levelUpSignal
+    private void increaseLevel() {
+        nextLevel = nextLevel + ((nextLevel / 3) * Math.log(levelCount));
+    }
+
+    public double getPoints() {
+        return points;
+    }
+
+    public double getNextLevel() {
+        return nextLevel;
+    }
+
+    public int getLevelCount() {
+        return levelCount;
+    }
+
     public void connectLevelUpHandler(ActionListener handler) {
         this.levelUpSignal.connect(handler);
     }
 
-    // Method to disconnect a handler from the levelUpSignal
     public void disconnectLevelUpHandler(ActionListener handler) {
         this.levelUpSignal.disconnect(handler);
     }
