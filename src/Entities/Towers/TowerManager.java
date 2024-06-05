@@ -30,7 +30,7 @@ public class TowerManager extends Manager{
         attachEntity(tower, nodo);
         tower.hp.signal.connect(new Destroyer(tower, this));
         tower.getLocalTranslation().addLocal(new Vector3f(1, 0, 0));
-        this.prototype = null;
+        //this.prototype = null;
     }
     
     

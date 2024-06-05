@@ -155,7 +155,7 @@
 					"type": "big",
 					"mass": 0.1,
 					"damage": 20,
-					"mesh": "Models/naga.glb",
+					"mesh": "Models/naga.j3o",
 					"texture": "Textures/spikes.jpg"
 				}
 			],

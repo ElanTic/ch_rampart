@@ -13,6 +13,8 @@ import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
+import com.jme3.scene.Mesh;
+import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
 
 
@@ -55,6 +57,9 @@ public class BulletFactory implements Factory{
         );
         float damage = jsonNode.path("damage").floatValue();
         float mass = jsonNode.path("mass").floatValue();
+        
+        String texture = jsonNode.path("texture").asText();
+        String meshPath = jsonNode.path("mesh").asText();
 
         ColorRGBA color = new ColorRGBA(
             ((colorValue >> 16) & 0xff) / 255.0f,
@@ -63,7 +68,9 @@ public class BulletFactory implements Factory{
             1
         );
 
-        Geometry geom = createGeom(type, scale, color);
+        Spatial geom;
+        geom= createGeom(type, scale, color);
+            //geom = createGeom(type,meshPath,scale, texture, color);
         return new Bullet(type, acceleration, mass, damage, geom);
     }
 
@@ -76,6 +83,15 @@ public class BulletFactory implements Factory{
         Geometry geom = new Geometry(name, new Box(Vector3f.ZERO, scale, scale, scale));
         Material mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
         mat.setColor("Color", color);
+        geom.setMaterial(mat);
+        return geom;
+    }
+    
+    private Spatial createGeom(String name, String mesh, float scale, String texture, ColorRGBA color){
+        Spatial geom =  assetManager.loadModel(mesh);
+        Material mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
+        mat.setColor("Color", color);
+        mat.setTexture("ColorMap", assetManager.loadTexture(texture));
         geom.setMaterial(mat);
         return geom;
     }
