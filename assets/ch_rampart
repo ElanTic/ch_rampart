@@ -102,10 +102,9 @@
 					"display": null
 				},
 				{
-					"typeStr": "7",
+					"typeStr": "13",
 					"name": "texture",
-					"opt": true,
-					"display": null
+					"opt": true
 				},
 				{
 					"typeStr": "11",
@@ -152,10 +151,12 @@
 						}
 					],
 					"scale": 0.7,
-					"color": 16381686,
+					"color": 62632,
 					"type": "big",
 					"mass": 0.1,
-					"damage": 20
+					"damage": 20,
+					"mesh": "Models/naga.glb",
+					"texture": "Textures/spikes.jpg"
 				}
 			],
 			"separators": [],
