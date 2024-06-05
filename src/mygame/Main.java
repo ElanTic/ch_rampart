@@ -14,6 +14,8 @@ import Entities.Towers.TowerFactory;
 import Entities.Towers.TowerManager;
 import Entities.enemies.EnemyFactory;
 import Entities.enemies.EnemyManager;
+import GUI.ChooseWindow;
+import GUI.LevelUpScreenController;
 import GUI.PBar;
 import Player.PlayerController;
 import com.jme3.app.SimpleApplication;
@@ -31,6 +33,7 @@ import com.jme3.scene.Node;
 import com.jme3.scene.shape.Box;
 import com.jme3.scene.shape.Quad;
 import com.jme3.system.AppSettings;
+import de.lessvoid.nifty.Nifty;
 import java.io.File;
 import java.io.IOException;
 import java.util.Random;
@@ -79,15 +82,12 @@ public class Main extends SimpleApplication {
             Node playerNode = new Node("player");
             Node grid = new Node("grid");
             Node entities = new Node("entities");
-            Node gui= new Node("gui");
-            Node deck = new Node("deck");
             
             entities.attachChild(creepNode);
             entities.attachChild(playerNode);
             entities.attachChild(grid);
             
-            gui.attachChild(deck);
-                     
+                    
             BulletFactory bfactory = new BulletFactory(this.assetManager);
             bManager = new BulletManager(bfactory, bulletAppState);
             bManager.setDefaultNode(playerNode);
@@ -97,9 +97,21 @@ public class Main extends SimpleApplication {
             EnemyFactory efactory = new EnemyFactory(this.assetManager);
             
             PointsCounter pcounter = new PointsCounter(50);
-            bar = new PBar( NiftyJmeDisplay.newNiftyJmeDisplay(
-                assetManager, inputManager, audioRenderer, guiViewPort), this.guiViewPort);            
+            
+            NiftyJmeDisplay niftyDisplay = NiftyJmeDisplay.newNiftyJmeDisplay(
+                assetManager, inputManager, audioRenderer, guiViewPort);
+            Nifty nifty = niftyDisplay.getNifty();
+            
+            bar = new PBar(nifty);            
             BarHandler hb = new BarHandler(bar, pcounter);
+            String screen = "levelUpScreen";
+            LevelUpHandler luh = new LevelUpHandler(nifty, screen);
+            LevelUpScreenController lusc = new LevelUpScreenController(tManager);
+            
+            ChooseWindow window = new ChooseWindow(nifty, screen, lusc);
+            pcounter.connectLevelUpHandler(luh);
+            
+            guiViewPort.addProcessor(niftyDisplay);
             
             eManager = new EnemyManager(efactory, pcounter);
             eManager.setDefaultNode(creepNode);
@@ -109,7 +121,6 @@ public class Main extends SimpleApplication {
             bManager.loadJson(db, "bullets");
             eManager.loadJson(db, "enemies");
             ClickNode clicker = new ClickNode();
-            clicker.addNode(guiNode);
             clicker.addNode(grid);
             ChangeColor cColor = new ChangeColor(grid, ColorRGBA.Green);
             controller = new PlayerController(this.getInputManager(), this.cam, clicker, cColor);
@@ -119,17 +130,17 @@ public class Main extends SimpleApplication {
             entities.setLocalTranslation(-12,-10,-25);
             entities.setLocalRotation(new Quaternion().fromAngleAxis(-FastMath.PI/4, new Vector3f(1,0,0)));
             
-            gui.setLocalTranslation(-100, -100, -1);
-            createCard("mid", deck, new Vector3f(-1,0,0),ColorRGBA.Red);
-            createCard("big", deck, new Vector3f(0,0,0), ColorRGBA.Green);
-            createCard("quick", deck, new Vector3f(1,0,0),ColorRGBA.Blue);
+            //gui.setLocalTranslation(-100, -100, -1);
+            //createCard("mid", deck, new Vector3f(-1,0,0),ColorRGBA.Red);
+            //createCard("big", deck, new Vector3f(0,0,0), ColorRGBA.Green);
+            //createCard("quick", deck, new Vector3f(1,0,0),ColorRGBA.Blue);
             
             tManager.setPrototype("big");
             
             createGrid(12,2f,grid);
             
             rootNode.attachChild(entities);
-            rootNode.attachChild(gui);
+            //rootNode.attachChild(gui);
             //cam.setLocation(new Vector3f(0,-40, 40));
             //cam.setRotation(new Quaternion().fromAngleAxis(FastMath.PI/10, new Vector3f(1,0,0)));
         } catch (IOException ex) {

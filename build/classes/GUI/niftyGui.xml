@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nifty xmlns="http://nifty-gui.lessvoid.com/nifty-gui" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://nifty-gui.lessvoid.com/nifty-gui http://nifty-gui.lessvoid.com/nifty-gui.xsd">
+    <useStyles filename="nifty-default-styles.xml" />
+    <useControls filename="nifty-default-controls.xml" />
+
+    <screen id="start" controller="mygame.MyScreenController">
+        <layer id="layer" backgroundColor="#0000" childLayout="center">
+            <panel id="panel" width="50%" height="50%" align="center" valign="center" backgroundColor="#f008" childLayout="vertical">
+                <text id="title" font="Interface/Fonts/Default.fnt" color="#000f" text="Select an Option" width="100%" height="20%" />
+                <control name="button" id="option1" label="Option 1" width="100%" height="20%" align="center" />
+                <control name="button" id="option2" label="Option 2" width="100%" height="20%" align="center" />
+                <control name="button" id="option3" label="Option 3" width="100%" height="20%" align="center" />
+            </panel>
+        </layer>
+    </screen>
+</nifty>

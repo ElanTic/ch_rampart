@@ -6,21 +6,25 @@ package Components;
 
 import com.jme3.input.controls.ActionListener;
 import com.jme3.scene.Node;
+import de.lessvoid.nifty.Nifty;
 
 /**
  *
  * @author jt
  */
 public class LevelUpHandler implements ActionListener {
-    private Node guiNode;
-            
-    
-   
-    public LevelUpHandler( Node guiNode) {
-        this.guiNode = guiNode;
+    private Nifty nifty;
+    private String screen;
+
+    public LevelUpHandler(Nifty nifty, String screen) {
+        this.nifty = nifty;
+        this.screen = screen;
     }
+    
+    
     public void onAction(String message, boolean isPressed, float tpf) {
-        guiNode.setLocalTranslation(-1,-4,-1);
-        
+        if (message.equals("LevelUp")) {
+                nifty.gotoScreen(screen);
+        }
     }
 }
