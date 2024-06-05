@@ -69,8 +69,12 @@ public class BulletFactory implements Factory{
         );
 
         Spatial geom;
+        if (meshPath.equals("")){
         geom= createGeom(type, scale, color);
-            //geom = createGeom(type,meshPath,scale, texture, color);
+        }
+        else {
+            geom = createGeom(type,meshPath,scale, texture, color);
+        }
         return new Bullet(type, acceleration, mass, damage, geom);
     }
 
@@ -89,10 +93,12 @@ public class BulletFactory implements Factory{
     
     private Spatial createGeom(String name, String mesh, float scale, String texture, ColorRGBA color){
         Spatial geom =  assetManager.loadModel(mesh);
+        geom.scale(scale);
         Material mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
         mat.setColor("Color", color);
         mat.setTexture("ColorMap", assetManager.loadTexture(texture));
         geom.setMaterial(mat);
+        //geom.getLo
         return geom;
     }
 }
