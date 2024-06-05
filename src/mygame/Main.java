@@ -1,8 +1,10 @@
 package mygame;
 
+import Commands.BarHandler;
 import Commands.ChangeColor;
 import Commands.ClickNode;
 import Components.LevelUpHandler;
+import Components.PointsCounter;
 import Components.Spawner;
 import Entities.Card;
 import Entities.Tile;
@@ -12,6 +14,7 @@ import Entities.Towers.TowerFactory;
 import Entities.Towers.TowerManager;
 import Entities.enemies.EnemyFactory;
 import Entities.enemies.EnemyManager;
+import GUI.PBar;
 import Player.PlayerController;
 import com.jme3.app.SimpleApplication;
 import com.jme3.bullet.BulletAppState;
@@ -21,6 +24,7 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
+import com.jme3.niftygui.NiftyJmeDisplay;
 import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
@@ -44,6 +48,7 @@ public class Main extends SimpleApplication {
     TowerManager tManager;
     BulletManager bManager;
     EnemyManager eManager;
+    PBar bar;
     private BulletAppState bulletAppState;
     float spawn;
     
@@ -90,7 +95,13 @@ public class Main extends SimpleApplication {
             TowerFactory tfactory = new TowerFactory(bManager, this.assetManager);
             tManager = new TowerManager(tfactory, bulletAppState);
             EnemyFactory efactory = new EnemyFactory(this.assetManager);
-            eManager = new EnemyManager(efactory,new LevelUpHandler(gui));
+            
+            PointsCounter pcounter = new PointsCounter(50);
+            bar = new PBar( NiftyJmeDisplay.newNiftyJmeDisplay(
+                assetManager, inputManager, audioRenderer, guiViewPort), this.guiViewPort);            
+            BarHandler hb = new BarHandler(bar, pcounter);
+            
+            eManager = new EnemyManager(efactory, pcounter);
             eManager.setDefaultNode(creepNode);
             eManager.addCollisionNode(grid);
             File db = new File("assets/ch_rampart");
@@ -102,6 +113,8 @@ public class Main extends SimpleApplication {
             clicker.addNode(grid);
             ChangeColor cColor = new ChangeColor(grid, ColorRGBA.Green);
             controller = new PlayerController(this.getInputManager(), this.cam, clicker, cColor);
+            
+            
             
             entities.setLocalTranslation(-12,-10,-25);
             entities.setLocalRotation(new Quaternion().fromAngleAxis(-FastMath.PI/4, new Vector3f(1,0,0)));
@@ -117,12 +130,12 @@ public class Main extends SimpleApplication {
             
             rootNode.attachChild(entities);
             rootNode.attachChild(gui);
-            
             //cam.setLocation(new Vector3f(0,-40, 40));
             //cam.setRotation(new Quaternion().fromAngleAxis(FastMath.PI/10, new Vector3f(1,0,0)));
         } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
     }
 
     @Override
@@ -131,6 +144,7 @@ public class Main extends SimpleApplication {
         bManager.update(tpf);
         tManager.update(tpf);
         eManager.update(tpf);
+        bar.update();
         generateEnemy(tpf);
         
     }
