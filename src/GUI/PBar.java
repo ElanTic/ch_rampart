@@ -27,9 +27,8 @@ public class PBar {
     int levelCount;
     double points;
     double nextLevel;
-    public PBar( NiftyJmeDisplay niftyDisplay, ViewPort guiViewPort) {
-
-        nifty = niftyDisplay.getNifty();
+    public PBar( Nifty nifty) {
+        this.nifty = nifty;
 
         nifty.loadStyleFile("nifty-default-styles.xml");
         nifty.loadControlFile("nifty-default-controls.xml");
@@ -84,8 +83,6 @@ public class PBar {
                 }});
             }});
         }}.build(nifty));
-
-        guiViewPort.addProcessor(niftyDisplay);
         nifty.gotoScreen("HUD");
     }
     
