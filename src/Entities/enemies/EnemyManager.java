@@ -21,6 +21,7 @@ import com.jme3.collision.CollisionResults;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -71,7 +72,7 @@ public class EnemyManager extends Manager{
     @Override
     public Node checkCollisions(Entity entity){
         for (Node nodo : colidableNodes) {
-            Geometry bulletGeometry = entity.body;
+            Spatial bulletGeometry = entity.body;
             BoundingVolume bulletBounding = bulletGeometry.getWorldBound();
             CollisionResults results = new CollisionResults();
             nodo.collideWith(bulletBounding, results); 
