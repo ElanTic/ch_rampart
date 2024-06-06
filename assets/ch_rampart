@@ -40,7 +40,7 @@
 			"lines": [
 				{
 					"cool_down": 1.5,
-					"color": 0,
+					"color": 11724772,
 					"mesh": "Textures/Chilla.png",
 					"bullet": "mid",
 					"chinchilla": "mid",
@@ -48,22 +48,30 @@
 					"health": 100
 				},
 				{
-					"cool_down": 2.5,
+					"cool_down": 3,
 					"color": 13421001,
 					"bullet": "big",
 					"chinchilla": "big",
 					"mesh": "Textures/Chinchi.png",
 					"texture": "Textures/Chinchi.png",
-					"health": 100
+					"health": 150
 				},
 				{
 					"cool_down": 0.3,
 					"color": 12560809,
 					"bullet": "small",
 					"chinchilla": "quick",
-					"mesh": "Textures/Chilla.png",
-					"texture": "Textures/Chilla.png",
-					"health": 100
+					"mesh": "Textures/Chinfast.png",
+					"texture": "Textures/Chinfast.png",
+					"health": 75
+				},
+				{
+					"chinchilla": "shield",
+					"cool_down": 99999999,
+					"health": 500,
+					"mesh": "Textures/Chinshield.png",
+					"color": 14277081,
+					"texture": "Textures/Chinshield.png"
 				}
 			],
 			"separators": [],
@@ -126,7 +134,7 @@
 					"color": 394501,
 					"type": "mid",
 					"mass": 0.03,
-					"damage": 5
+					"damage": 7
 				},
 				{
 					"acceleration": [
@@ -239,7 +247,7 @@
 					"color": 15893620,
 					"mesh": "Textures/Hunter.png",
 					"cool_down": 2,
-					"healt": 40,
+					"healt": 50,
 					"damage": 10,
 					"speed": 0.2,
 					"texture": "Textures/Hunter.png",
