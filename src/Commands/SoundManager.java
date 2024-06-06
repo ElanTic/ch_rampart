@@ -49,6 +49,9 @@ public class SoundManager implements ActionListener {
             String eventId = sound.path("id").asText();
             String soundPath = sound.path("effect").asText();
             AudioNode audioNode = new AudioNode(assetManager, soundPath, DataType.Stream);
+            audioNode.setPositional(false);  // Ensure the audio node is non-positional
+            audioNode.setLooping(false);
+            audioNode.setVolume(1); // Set volume as needed
             soundEffects.put(eventId, audioNode);
         }
     }
