@@ -34,6 +34,7 @@ import com.jme3.scene.Node;
 import com.jme3.scene.shape.Box;
 import com.jme3.scene.shape.Quad;
 import com.jme3.system.AppSettings;
+import com.jme3.texture.Texture;
 import de.lessvoid.nifty.Nifty;
 import java.io.File;
 import java.io.IOException;
@@ -74,6 +75,25 @@ public class Main extends SimpleApplication {
             Box b = new Box(33, 33, 0);
             Geometry geom = new Geometry("Box", b);
             
+            // Crear una geometría de cuadro con el tamaño de la pantalla
+            Quad quad = new Quad(settings.getWidth(), settings.getHeight());
+            Geometry quadGeometry = new Geometry("BackgroundQuad", quad);
+
+            // Cargar la textura de la imagen para el fondo
+            Texture backgroundTexture = assetManager.loadTexture("Textures/suelo.jpg");
+
+            // Crear un material y asignar la textura
+            Material material = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
+            material.setTexture("ColorMap", backgroundTexture);
+
+            // Asignar el material a la geometría
+            quadGeometry.setMaterial(material);
+
+            // Colocar la geometría en la posición correcta
+            quadGeometry.setLocalTranslation(-700, -500, -880); // Asegurar que el fondo esté detrás de otros elementos
+
+            // Adjuntar la geometría al rootNode para que se renderice en pantalla
+            rootNode.attachChild(quadGeometry);
             
             Material mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
             mat.setColor("Color", ColorRGBA.Blue);
