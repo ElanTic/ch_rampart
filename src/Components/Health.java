@@ -25,5 +25,8 @@ public class Health {
             health = 0;
             signal.emit("onZeroHealth", 0); // Emitir señal cuando la salud baja a 0
         }
+        else{
+            signal.emit("onHit", amount);
+        }
     }
 }

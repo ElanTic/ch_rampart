@@ -3,17 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/jt/Desktop/repos/ch_rampart/src/Player/PlayerController.java</file>
-            <file>file:/home/jt/Desktop/repos/ch_rampart/src/Components/LevelUpHandler.java</file>
-            <file>file:/home/jt/Desktop/repos/ch_rampart/src/Commands/GetCard.java</file>
+            <file>file:/home/jt/Desktop/repos/ch_rampart/assets/ch_rampart</file>
             <file>file:/home/jt/Desktop/repos/ch_rampart/src/Entities/Towers/TowerManager.java</file>
-            <file>file:/home/jt/Desktop/repos/ch_rampart/src/Commands/ClickNode.java</file>
-            <file>file:/home/jt/Desktop/repos/ch_rampart/src/Components/PointsCounter.java</file>
-            <file>file:/home/jt/Desktop/repos/ch_rampart/src/Entities/enemies/EnemyManager.java</file>
-            <file>file:/home/jt/Desktop/repos/ch_rampart/src/Entities/Card.java</file>
             <file>file:/home/jt/Desktop/repos/ch_rampart/src/Entities/Manager.java</file>
             <file>file:/home/jt/Desktop/repos/ch_rampart/src/mygame/Main.java</file>
-            <file>file:/home/jt/Desktop/repos/ch_rampart/src/Entities/Tile.java</file>
+            <file>file:/home/jt/Desktop/repos/ch_rampart/src/Commands/SoundManager.java</file>
         </group>
     </open-files>
 </project-private>

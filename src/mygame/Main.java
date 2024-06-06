@@ -3,6 +3,7 @@ package mygame;
 import Commands.BarHandler;
 import Commands.ChangeColor;
 import Commands.ClickNode;
+import Commands.SoundManager;
 import Components.LevelUpHandler;
 import Components.PointsCounter;
 import Components.Spawner;
@@ -65,7 +66,7 @@ public class Main extends SimpleApplication {
 
     @Override
     public void simpleInitApp() {
-        bulletAppState = new BulletAppState();
+        //bulletAppState = new BulletAppState();
         try {
             flyCam.setDragToRotate(true);
             inputManager.setCursorVisible(true);
@@ -87,13 +88,14 @@ public class Main extends SimpleApplication {
             entities.attachChild(playerNode);
             entities.attachChild(grid);
             
-                    
+            SoundManager soundManager = new SoundManager(assetManager, audioRenderer);
+            
             BulletFactory bfactory = new BulletFactory(this.assetManager);
             bManager = new BulletManager(bfactory, bulletAppState);
             bManager.setDefaultNode(playerNode);
             bManager.addCollisionNode(creepNode);
             TowerFactory tfactory = new TowerFactory(bManager, this.assetManager);
-            tManager = new TowerManager(tfactory, bulletAppState);
+            tManager = new TowerManager(tfactory, soundManager);
             EnemyFactory efactory = new EnemyFactory(this.assetManager);
             
             PointsCounter pcounter = new PointsCounter(50);
@@ -113,13 +115,14 @@ public class Main extends SimpleApplication {
             
             guiViewPort.addProcessor(niftyDisplay);
             
-            eManager = new EnemyManager(efactory, pcounter);
+            eManager = new EnemyManager(efactory, soundManager, pcounter);
             eManager.setDefaultNode(creepNode);
             eManager.addCollisionNode(grid);
             File db = new File("assets/ch_rampart");
             tManager.loadJson(db, "chinchillas");
             bManager.loadJson(db, "bullets");
             eManager.loadJson(db, "enemies");
+            soundManager.loadJson(db, "sounds");
             ClickNode clicker = new ClickNode();
             clicker.addNode(grid);
             ChangeColor cColor = new ChangeColor(grid, ColorRGBA.Green);

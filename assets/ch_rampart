@@ -288,6 +288,39 @@
 			],
 			"separators": [],
 			"props": {}
+		},
+		{
+			"name": "sounds",
+			"columns": [
+				{
+					"typeStr": "0",
+					"name": "id"
+				},
+				{
+					"typeStr": "13",
+					"name": "effect"
+				}
+			],
+			"lines": [
+				{
+					"id": "onZeroHealth",
+					"effect": "Sounds/193534__datwilightz__hit-4.wav"
+				},
+				{
+					"id": "onCharged",
+					"effect": "Sounds/158956__carlmartin__jembay-hit-13-rim.wav"
+				},
+				{
+					"id": "onHit",
+					"effect": "Sounds/406526__anthousai__hit-metallic-trailer-back-of-metal-trailer-03.wav"
+				},
+				{
+					"id": "onGameOver",
+					"effect": "Sounds/556916__eloielbonnoi__01_c_death_metal_guitar_hit.wav"
+				}
+			],
+			"separators": [],
+			"props": {}
 		}
 	],
 	"customTypes": [],
