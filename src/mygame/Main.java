@@ -143,6 +143,7 @@ public class Main extends SimpleApplication {
             bManager.loadJson(db, "bullets");
             eManager.loadJson(db, "enemies");
             soundManager.loadJson(db, "sounds");
+            soundManager.loadBGM("Sounds/bgm.ogg");
             ClickNode clicker = new ClickNode();
             clicker.addNode(grid);
             ChangeColor cColor = new ChangeColor(grid, ColorRGBA.Green);
@@ -163,6 +164,7 @@ public class Main extends SimpleApplication {
             createGrid(12,2f,grid);
             
             rootNode.attachChild(entities);
+            soundManager.playBGM();
             //rootNode.attachChild(gui);
             //cam.setLocation(new Vector3f(0,-40, 40));
             //cam.setRotation(new Quaternion().fromAngleAxis(FastMath.PI/10, new Vector3f(1,0,0)));
