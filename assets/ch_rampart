@@ -35,6 +35,12 @@
 					"typeStr": "6:bullets",
 					"name": "bullet",
 					"opt": true
+				},
+				{
+					"typeStr": "3",
+					"name": "tier",
+					"opt": true,
+					"display": null
 				}
 			],
 			"lines": [
@@ -45,7 +51,8 @@
 					"bullet": "mid",
 					"chinchilla": "mid",
 					"texture": "Textures/Chilla.png",
-					"health": 100
+					"health": 100,
+					"tier": 1
 				},
 				{
 					"cool_down": 3,
@@ -54,7 +61,8 @@
 					"chinchilla": "big",
 					"mesh": "Textures/Chinchi.png",
 					"texture": "Textures/Chinchi.png",
-					"health": 150
+					"health": 150,
+					"tier": 2
 				},
 				{
 					"cool_down": 0.3,
@@ -63,7 +71,8 @@
 					"chinchilla": "quick",
 					"mesh": "Textures/Chinfast.png",
 					"texture": "Textures/Chinfast.png",
-					"health": 75
+					"health": 75,
+					"tier": 2
 				},
 				{
 					"chinchilla": "shield",
@@ -72,6 +81,15 @@
 					"mesh": "Textures/Chinshield.png",
 					"color": 14277081,
 					"texture": "Textures/Chinshield.png"
+				},
+				{
+					"chinchilla": "sniper",
+					"cool_down": 5,
+					"health": 50,
+					"color": 5207646,
+					"tier": 3,
+					"texture": "Textures/Specchilla.png",
+					"mesh": "Textures/Specchilla.png"
 				}
 			],
 			"separators": [],
@@ -134,7 +152,7 @@
 					"color": 394501,
 					"type": "mid",
 					"mass": 0.03,
-					"damage": 7
+					"damage": 10
 				},
 				{
 					"acceleration": [
@@ -148,7 +166,7 @@
 					"color": 16776187,
 					"type": "small",
 					"mass": 0.01,
-					"damage": 2
+					"damage": 2.5
 				},
 				{
 					"acceleration": [
@@ -159,12 +177,26 @@
 						}
 					],
 					"scale": 1,
-					"color": 62632,
+					"color": 11719881,
 					"type": "big",
 					"mass": 0.1,
-					"damage": 20,
+					"damage": 25,
 					"mesh": "Models/naga.j3o",
 					"texture": "Textures/spikes.jpg"
+				},
+				{
+					"type": "large",
+					"acceleration": [
+						{
+							"x": 0,
+							"y": -14,
+							"z": 0
+						}
+					],
+					"mass": 0.1,
+					"scale": 1,
+					"damage": 50,
+					"color": 7364640
 				}
 			],
 			"separators": [],
@@ -239,6 +271,11 @@
 					"typeStr": "11",
 					"name": "color",
 					"display": null
+				},
+				{
+					"typeStr": "3",
+					"name": "tier",
+					"opt": true
 				}
 			],
 			"lines": [
@@ -248,21 +285,35 @@
 					"mesh": "Textures/Hunter.png",
 					"cool_down": 2,
 					"healt": 50,
-					"damage": 10,
-					"speed": 0.2,
+					"damage": 15,
+					"speed": 0.4,
 					"texture": "Textures/Hunter.png",
-					"points": 50
+					"points": 50,
+					"tier": 2
 				},
 				{
 					"type": "fox",
 					"cool_down": 1,
 					"damage": 5,
-					"speed": 0.5,
+					"speed": 0.75,
 					"color": 15902014,
 					"texture": "Textures/fox.png",
-					"healt": 30,
+					"healt": 25,
 					"mesh": "Textures/fox.png",
-					"points": 100
+					"points": 100,
+					"tier": 1
+				},
+				{
+					"type": "sus",
+					"cool_down": 2,
+					"damage": 10,
+					"speed": 0.6,
+					"points": 120,
+					"color": 13902113,
+					"healt": 75,
+					"tier": 3,
+					"mesh": "Textures/sus.png",
+					"texture": "Textures/sus.png"
 				}
 			],
 			"separators": [],
