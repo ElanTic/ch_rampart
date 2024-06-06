@@ -4,13 +4,13 @@
  */
 package Entities;
 
+import Commands.SoundManager;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jme3.bounding.BoundingVolume;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.collision.CollisionResults;
 import com.jme3.math.Vector3f;
-import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import java.io.File;
@@ -29,6 +29,7 @@ public abstract class Manager {
     protected Factory factory;
     protected Node defaultNode;
     protected String prototype;
+    protected SoundManager s_manager;
     
     
     

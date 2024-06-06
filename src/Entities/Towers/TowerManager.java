@@ -4,6 +4,7 @@
  */
 package Entities.Towers;
 
+import Commands.SoundManager;
 import Components.Destroyer;
 import Entities.Entity;
 import Entities.Manager;
@@ -18,10 +19,10 @@ import java.util.ArrayList;
  * @author jt
  */
 public class TowerManager extends Manager{
-    public TowerManager(TowerFactory factory, BulletAppState bulletAppState){
+    public TowerManager(TowerFactory factory, SoundManager sManager){
         this.factory = factory;
         this.collection = new ArrayList<Entity>();
-        this.bulletAppState = bulletAppState;
+        this.s_manager = sManager;
     }
     
     @Override
@@ -29,6 +30,8 @@ public class TowerManager extends Manager{
         Tower tower = (Tower) factory.createEntity(id);
         attachEntity(tower, nodo);
         tower.hp.signal.connect(new Destroyer(tower, this));
+        tower.hp.signal.connect(s_manager);
+        tower.cooldown.signal.connect(s_manager);
         tower.getLocalTranslation().addLocal(new Vector3f(1, 0, 0));
         this.prototype = null;
     }

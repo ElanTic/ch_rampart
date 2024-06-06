@@ -5,11 +5,14 @@
 package Commands;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jme3.asset.AssetManager;
 import com.jme3.audio.AudioData.DataType;
 import com.jme3.audio.AudioNode;
 import com.jme3.audio.AudioRenderer;
 import com.jme3.input.controls.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,9 +30,22 @@ public class SoundManager implements ActionListener {
         this.audioRenderer = audioRenderer;
         this.soundEffects = new HashMap<>();
     }
+    
+    public void loadJson(File jsonFile, String root) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode rootNode = objectMapper.readTree(jsonFile);
+        JsonNode sheets = rootNode.path("sheets");
+        for (JsonNode sheet : sheets) {
+            if (sheet.path("name").asText().equals(root)) {
+                JsonNode lines = sheet.path("lines");
+                loadSounds(lines);
+            }
+        }
+    }
+    
 
     public void loadSounds(JsonNode soundsJson) {
-        for (JsonNode sound : soundsJson.path("lines")) {
+        for (JsonNode sound : soundsJson) {
             String eventId = sound.path("id").asText();
             String soundPath = sound.path("effect").asText();
             AudioNode audioNode = new AudioNode(assetManager, soundPath, DataType.Stream);

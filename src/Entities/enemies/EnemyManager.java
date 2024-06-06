@@ -4,6 +4,7 @@
  */
 package Entities.enemies;
 
+import Commands.SoundManager;
 import Components.Destroyer;
 import Components.LevelUpHandler;
 import Components.PointsCounter;
@@ -33,10 +34,11 @@ import java.util.Iterator;
  */
 public class EnemyManager extends Manager{
     private PointsCounter pc;
-    public EnemyManager(EnemyFactory factory, PointsCounter pc ) {
+    public EnemyManager(EnemyFactory factory, SoundManager s_manager, PointsCounter pc) {
         this.factory = factory;
         this.collection = new ArrayList<Entity>();
         this.pc = pc; 
+        this.s_manager = s_manager;
         //this.cGroup = group;
     }
     
@@ -44,6 +46,7 @@ public class EnemyManager extends Manager{
     public void attachEntity(Entity entity, Node node){
         super.attachEntity(entity, node);
         ((Enemy)entity).hp.signal.connect(new Destroyer(entity, this)); 
+        ((Enemy) entity).hp.signal.connect(s_manager);
         
     }
     @Override 
