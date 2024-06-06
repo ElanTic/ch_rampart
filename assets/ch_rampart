@@ -89,7 +89,8 @@
 					"color": 5207646,
 					"tier": 3,
 					"texture": "Textures/Specchilla.png",
-					"mesh": "Textures/Specchilla.png"
+					"mesh": "Textures/Specchilla.png",
+					"bullet": "large"
 				}
 			],
 			"separators": [],
