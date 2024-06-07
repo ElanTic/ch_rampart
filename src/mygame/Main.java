@@ -176,7 +176,7 @@ public class Main extends SimpleApplication {
         Spawner s = new Spawner(bManager, "trampa");
         for(int i = 0; i <b; i++){
             Vector3f vector = rootNode.getChild("cell_" + i + "_" + a).getLocalTranslation();      System.out.println(rootNode.getChild("cell_" + i + "_" + a));
-            s.spawn(vector.addLocal(2,0,0));
+            s.spawn(new Vector3f(vector.x +1, vector.y +0,vector.z+1));
         }
     }
 
