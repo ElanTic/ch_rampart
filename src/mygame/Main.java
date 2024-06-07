@@ -146,8 +146,13 @@ public class Main extends SimpleApplication {
             ChangeColor cColor = new ChangeColor(grid, ColorRGBA.Green);
             controller = new PlayerController(this.getInputManager(), this.cam, clicker, cColor);
             
-            entities.setLocalTranslation(-12,-10,-25);
-            entities.setLocalRotation(new Quaternion().fromAngleAxis(-FastMath.PI/4, new Vector3f(1,0,0)));
+            
+            
+            //entities.setLocalTranslation(-12,-10,-25);
+            //entities.setLocalRotation(new Quaternion().fromAngleAxis(-FastMath.PI/4, new Vector3f(1,0,0)));
+            
+            rootNode.setLocalTranslation(-12,-10,-25);
+            rootNode.setLocalRotation(new Quaternion().fromAngleAxis(-FastMath.PI/4, new Vector3f(1,0,0)));
             
             createWorld();
             createGrid(12,2f,grid);
@@ -175,7 +180,7 @@ public class Main extends SimpleApplication {
     public void trampear(int a, int b){
         Spawner s = new Spawner(bManager, "trampa");
         for(int i = 0; i <b; i++){
-            Vector3f vector = rootNode.getChild("cell_" + i + "_" + a).getLocalTranslation();      System.out.println(rootNode.getChild("cell_" + i + "_" + a));
+            Vector3f vector = rootNode.getChild("cell_" + i + "_" + a).getLocalTranslation();
             s.spawn(new Vector3f(vector.x +1, vector.y +0,vector.z+1));
         }
     }
@@ -232,7 +237,8 @@ public class Main extends SimpleApplication {
             quadGeometry.setMaterial(material);
 
             // Colocar la geometría en la posición correcta
-            quadGeometry.setLocalTranslation(-700, -500, -880); // Asegurar que el fondo esté detrás de otros elementos
+            //quadGeometry.setLocalTranslation(-700, -500, -880);
+            quadGeometry.setLocalTranslation(-280, -180, -150); // Asegurar que el fondo esté detrás de otros elementos
 
             // Adjuntar la geometría al rootNode para que se renderice en pantalla
             rootNode.attachChild(quadGeometry);
