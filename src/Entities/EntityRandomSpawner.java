@@ -46,7 +46,7 @@ public class EntityRandomSpawner {
     
     public void spawn(String id){
         spawner.setClon(id);
-        spawner.spawn(poss.add(new Vector3f(r.nextInt(22)/2,0,0)));
+        spawner.spawn(poss.add(new Vector3f(r.nextInt(12)*2,0,0)));
     }
     
     public void addTier(float cooldown, String[] entities){

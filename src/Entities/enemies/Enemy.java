@@ -14,6 +14,7 @@ import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
+import com.jme3.scene.shape.Box;
 
 /**
  *
@@ -28,7 +29,7 @@ public class Enemy extends Entity {
     public float speed;
     public float points;
     
-    public Enemy(String name, Geometry geom, CoolDown cooldown, Health hp, float damage, float speed, float points) {
+    public Enemy(String name, Geometry geom, Geometry hb, CoolDown cooldown, Health hp, float damage, float speed, float points) {
         this.setName(name);
         this.body = geom;
         this.cooldown = cooldown;
@@ -37,13 +38,14 @@ public class Enemy extends Entity {
         this.speed = speed;
         this.points = points;
         this.attachChild(body);
-        //scaleBoundingVolume(body, 200f, .1f);
+        this.hitbox = hb;
+        this.attachChild(hb);
+        
     }
     
     
     @Override
     public void update(float tpf){
-        super.updateLogicalState(tpf);
         cooldown.update(tpf);
         moveEnemy(tpf);
     }
@@ -63,20 +65,4 @@ public class Enemy extends Entity {
         moveEnemy(-tpf);
     
     }
-    
-    private void scaleBoundingVolume(Geometry geom, float scaleX, float scaleY) {
-        BoundingVolume bv = geom.getModelBound();
-        if (bv instanceof BoundingBox) {
-            System.out.println("trues");
-            BoundingBox bb = (BoundingBox) bv;
-            Vector3f extent = bb.getExtent(new Vector3f());
-            extent.setX(extent.getX() * scaleX);
-            extent.setY(extent.getY() * scaleY);
-            bb.setXExtent(extent.getX());
-            bb.setYExtent(extent.getY());
-            geom.setModelBound(bb);
-        }
-        geom.updateModelBound();
-    }
-
 }
