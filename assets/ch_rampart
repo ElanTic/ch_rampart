@@ -327,7 +327,7 @@
 				{
 					"type": "sus",
 					"cool_down": 2,
-					"damage": 25,
+					"damage": 30,
 					"speed": 0.15,
 					"points": 300,
 					"color": 13902113,
