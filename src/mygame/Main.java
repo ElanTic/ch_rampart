@@ -129,9 +129,10 @@ public class Main extends SimpleApplication {
             eManager.connectListener(gameState);
             
             spawner = new EntityRandomSpawner(new Spawner(eManager,""));
-            spawner.addTier(7, new String[]{"fox"});
-            spawner.addTier(15, new String[]{"hunter"});
-            spawner.addTier(40, new String[]{"sus"});
+            spawner.addTier(10, new String[]{"fox"});
+            spawner.addTier(20, new String[]{"hunter"});
+            spawner.addTier(60, new String[]{"sus"});
+            pcounter.connectLevelUpHandler(spawner);
             File db = new File("assets/ch_rampart");
             tManager.loadJson(db, "chinchillas");
             bManager.loadJson(db, "bullets");
@@ -156,7 +157,7 @@ public class Main extends SimpleApplication {
             soundManager.playBGM();
             defend(0,4);
             defend(8,12);
-            tManager.setPrototype("big");
+            tManager.setPrototype("mid");
         } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }

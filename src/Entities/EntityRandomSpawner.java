@@ -62,8 +62,9 @@ public class EntityRandomSpawner implements ActionListener{
     public void onAction(String name, boolean isPressed, float tpf) {
         if (name.equals("LevelUp")) {
             for(CoolDown c : tiers){
-                double decrease = (c.getCooldown()/ 10) * Math.log(tpf) ;
+                double decrease =  (2/c.getCooldown()) * Math.log(tpf) ;
                 c.lowCooldown((float)decrease);
+                System.out.println(c.getCooldown());
             }
         }
     }
