@@ -33,7 +33,7 @@ public class PointsCounter {
             points -= nextLevel; 
             levelCount++;
             increaseLevel();
-            levelUpSignal.emit("LevelUp", (float)nextLevel); 
+            levelUpSignal.emit("LevelUp", (float)levelCount); 
         }
         else{
             levelUpSignal.emit("Increase", (float)points);

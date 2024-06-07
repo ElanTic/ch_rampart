@@ -54,6 +54,7 @@ import java.util.logging.Logger;
 public class Main extends SimpleApplication {
     
     public boolean gameOver = false;
+    public boolean pause = false;
     public SoundManager soundManager;
     public GameState gameState;
     private BulletAppState bulletAppState;
@@ -113,8 +114,8 @@ public class Main extends SimpleApplication {
             bar = new PBar(nifty);            
             BarHandler hb = new BarHandler(bar, pcounter);
             String screen = "levelUpScreen";
-            LevelUpHandler luh = new LevelUpHandler(nifty, screen);
-            LevelUpScreenController lusc = new LevelUpScreenController(tManager);
+            LevelUpHandler luh = new LevelUpHandler(this, screen);
+            LevelUpScreenController lusc = new LevelUpScreenController(this ,tManager);
             
             ChooseWindow window = new ChooseWindow(nifty, screen, lusc);
             pcounter.connectLevelUpHandler(luh);
@@ -128,8 +129,9 @@ public class Main extends SimpleApplication {
             eManager.connectListener(gameState);
             
             spawner = new EntityRandomSpawner(new Spawner(eManager,""));
-            spawner.addTier(5, new String[]{"fox"});
-            spawner.addTier(10, new String[]{"hunter"});
+            spawner.addTier(7, new String[]{"fox"});
+            spawner.addTier(15, new String[]{"hunter"});
+            spawner.addTier(40, new String[]{"sus"});
             File db = new File("assets/ch_rampart");
             tManager.loadJson(db, "chinchillas");
             bManager.loadJson(db, "bullets");
@@ -148,21 +150,29 @@ public class Main extends SimpleApplication {
             createWorld();
             createGrid(12,2f,grid);
             
-            tManager.setPrototype("big");
             
             rootNode.attachChild(entities);
             spawner.setLocalTranslation(rootNode.getChild("cell_" + 0 + "_" + 0).getLocalTranslation());
             soundManager.playBGM();
-            
+            defend(0,4);
+            defend(8,12);
+            tManager.setPrototype("big");
         } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
+    
+    public void defend(int a, int b){
+        for(int i = a ; i <b; i++){
+            Node n = (Node)rootNode.getChild("cell_" + i + "_" + 1);
+            tManager.attachEntity("shield", n);
+        }
+    }
 
     @Override
     public void simpleUpdate(float tpf) {
-        if(!gameOver){
+        if(!gameOver && !pause){
             controller.update();
             bManager.update(tpf);
             tManager.update(tpf);
