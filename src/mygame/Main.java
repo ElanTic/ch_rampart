@@ -4,6 +4,7 @@ import Commands.BarHandler;
 import Commands.ChangeColor;
 import Commands.ClickNode;
 import Commands.SoundManager;
+import Components.GameState;
 import Components.LevelUpHandler;
 import Components.PointsCounter;
 import Components.Spawner;
@@ -15,6 +16,7 @@ import Entities.Towers.TowerFactory;
 import Entities.Towers.TowerManager;
 import Entities.enemies.EnemyFactory;
 import Entities.enemies.EnemyManager;
+import Entities.EntityRandomSpawner;
 import GUI.ChooseWindow;
 import GUI.LevelUpScreenController;
 import GUI.PBar;
@@ -49,13 +51,17 @@ import java.util.logging.Logger;
  */
 public class Main extends SimpleApplication {
     
+    public boolean gameOver = false;
+    public SoundManager soundManager;
+    public GameState gameState;
+    private BulletAppState bulletAppState;
+    public PBar bar;
     PlayerController controller;
     TowerManager tManager;
     BulletManager bManager;
     EnemyManager eManager;
-    PBar bar;
-    private BulletAppState bulletAppState;
-    float spawn;
+    EntityRandomSpawner spawner;
+    
     
     public static void main(String[] args) {
         Main app = new Main();
@@ -69,36 +75,9 @@ public class Main extends SimpleApplication {
     public void simpleInitApp() {
         //bulletAppState = new BulletAppState();
         try {
+            gameState = new GameState(this);
             flyCam.setDragToRotate(true);
-            inputManager.setCursorVisible(true);
-            
-            Box b = new Box(33, 33, 0);
-            Geometry geom = new Geometry("Box", b);
-            
-            // Crear una geometría de cuadro con el tamaño de la pantalla
-            Quad quad = new Quad(settings.getWidth(), settings.getHeight());
-            Geometry quadGeometry = new Geometry("BackgroundQuad", quad);
-
-            // Cargar la textura de la imagen para el fondo
-            Texture backgroundTexture = assetManager.loadTexture("Textures/suelo.jpg");
-
-            // Crear un material y asignar la textura
-            Material material = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
-            material.setTexture("ColorMap", backgroundTexture);
-
-            // Asignar el material a la geometría
-            quadGeometry.setMaterial(material);
-
-            // Colocar la geometría en la posición correcta
-            quadGeometry.setLocalTranslation(-700, -500, -880); // Asegurar que el fondo esté detrás de otros elementos
-
-            // Adjuntar la geometría al rootNode para que se renderice en pantalla
-            rootNode.attachChild(quadGeometry);
-            
-            Material mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
-            mat.setColor("Color", ColorRGBA.Blue);
-            geom.setMaterial(mat);
-            
+            inputManager.setCursorVisible(true);            
             Node creepNode = new Node("creeps");
             Node playerNode = new Node("player");
             Node grid = new Node("grid");
@@ -107,8 +86,9 @@ public class Main extends SimpleApplication {
             entities.attachChild(creepNode);
             entities.attachChild(playerNode);
             entities.attachChild(grid);
+            //entities.attachChild(quadGeometry);
             
-            SoundManager soundManager = new SoundManager(assetManager, audioRenderer);
+            soundManager = new SoundManager(assetManager, audioRenderer);
             
             BulletFactory bfactory = new BulletFactory(this.assetManager);
             bManager = new BulletManager(bfactory, bulletAppState);
@@ -138,36 +118,36 @@ public class Main extends SimpleApplication {
             eManager = new EnemyManager(efactory, soundManager, pcounter);
             eManager.setDefaultNode(creepNode);
             eManager.addCollisionNode(grid);
+            eManager.connectListener(soundManager);
+            eManager.connectListener(gameState);
+            
+            spawner = new EntityRandomSpawner(new Spawner(eManager,""));
+            spawner.addTier(5, new String[]{"fox"});
+            spawner.addTier(10, new String[]{"hunter"});
             File db = new File("assets/ch_rampart");
             tManager.loadJson(db, "chinchillas");
             bManager.loadJson(db, "bullets");
             eManager.loadJson(db, "enemies");
             soundManager.loadJson(db, "sounds");
             soundManager.loadBGM("Sounds/bgm.ogg");
+            
             ClickNode clicker = new ClickNode();
             clicker.addNode(grid);
             ChangeColor cColor = new ChangeColor(grid, ColorRGBA.Green);
             controller = new PlayerController(this.getInputManager(), this.cam, clicker, cColor);
             
-            
-            
             entities.setLocalTranslation(-12,-10,-25);
             entities.setLocalRotation(new Quaternion().fromAngleAxis(-FastMath.PI/4, new Vector3f(1,0,0)));
             
-            //gui.setLocalTranslation(-100, -100, -1);
-            //createCard("mid", deck, new Vector3f(-1,0,0),ColorRGBA.Red);
-            //createCard("big", deck, new Vector3f(0,0,0), ColorRGBA.Green);
-            //createCard("quick", deck, new Vector3f(1,0,0),ColorRGBA.Blue);
+            createWorld();
+            createGrid(12,2f,grid);
             
             tManager.setPrototype("big");
             
-            createGrid(12,2f,grid);
-            
             rootNode.attachChild(entities);
+            spawner.setLocalTranslation(rootNode.getChild("cell_" + 0 + "_" + 0).getLocalTranslation());
             soundManager.playBGM();
-            //rootNode.attachChild(gui);
-            //cam.setLocation(new Vector3f(0,-40, 40));
-            //cam.setRotation(new Quaternion().fromAngleAxis(FastMath.PI/10, new Vector3f(1,0,0)));
+            
         } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -176,22 +156,13 @@ public class Main extends SimpleApplication {
 
     @Override
     public void simpleUpdate(float tpf) {
-        controller.update();
-        bManager.update(tpf);
-        tManager.update(tpf);
-        eManager.update(tpf);
-        bar.update();
-        generateEnemy(tpf);
-        
-    }
-    
-    public void generateEnemy(float tpf){
-        Spawner spawner = new Spawner(eManager, "hunter");
-        spawn += tpf;
-        if (spawn>= 3){
-            spawn -=3;
-            Random r = new Random();
-            spawner.spawn(rootNode.getChild("cell_"+r.nextInt(11)+"_0").getLocalTranslation());
+        if(!gameOver){
+            controller.update();
+            bManager.update(tpf);
+            tManager.update(tpf);
+            eManager.update(tpf);
+            spawner.update(tpf);
+            bar.update();
         }
     }
 
@@ -220,27 +191,26 @@ public class Main extends SimpleApplication {
         }
     }
     
-    public void createCard(String id, Node deck, Vector3f poss, ColorRGBA color){
-        Card nodo = new Card(id, tManager);
-        nodo.setLocalTranslation(poss);
-        Geometry cell = myBox("card", color);
-         nodo.attachChild(cell);
-         deck.attachChild(nodo);
+    public void createWorld(){
+        Quad quad = new Quad(settings.getWidth(), settings.getHeight());
+            Geometry quadGeometry = new Geometry("BackgroundQuad", quad);
+
+            // Cargar la textura de la imagen para el fondo
+            Texture backgroundTexture = assetManager.loadTexture("Textures/suelo.jpg");
+
+            // Crear un material y asignar la textura
+            Material material = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
+            material.setTexture("ColorMap", backgroundTexture);
+
+            // Asignar el material a la geometría
+            quadGeometry.setMaterial(material);
+
+            // Colocar la geometría en la posición correcta
+            quadGeometry.setLocalTranslation(-700, -500, -880); // Asegurar que el fondo esté detrás de otros elementos
+
+            // Adjuntar la geometría al rootNode para que se renderice en pantalla
+            rootNode.attachChild(quadGeometry);
+    
     }
     
-    private Geometry myBox(String name,  ColorRGBA color){
-        Geometry geom = new Geometry(name,
-                new Quad(1,1)
-        );
-        Material mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
-        mat.setColor("Color", color);
-        mat.getAdditionalRenderState().setBlendMode(BlendMode.Alpha);
-        //mat.getAdditionalRenderState().setAlphaTest(true);
-        //mat.getAdditionalRenderState().setAlphaFallOff(0.5f);
-        mat.setTexture("ColorMap", assetManager.loadTexture("Textures/Chinchi.png"));
-        geom.setMaterial(mat);
-        //geom.setLocalRotation(new Quaternion().fromAngleAxis(FastMath.PI/3, new Vector3f(1,0,0)));
-
-        return geom;
-    }
 }

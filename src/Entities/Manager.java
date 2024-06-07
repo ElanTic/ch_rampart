@@ -4,12 +4,14 @@
  */
 package Entities;
 
+import Commands.Signal;
 import Commands.SoundManager;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jme3.bounding.BoundingVolume;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.collision.CollisionResults;
+import com.jme3.input.controls.ActionListener;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
@@ -30,6 +32,7 @@ public abstract class Manager {
     protected Node defaultNode;
     protected String prototype;
     protected SoundManager s_manager;
+    protected Signal signal;
     
     
     
@@ -113,6 +116,14 @@ public abstract class Manager {
 
     public void setPrototype(String prototype) {
         this.prototype = prototype;
+    }
+    
+    public void connectListener(ActionListener handler) {
+        this.signal.connect(handler);
+    }
+
+    public void disconnectListener(ActionListener handler) {
+        this.signal.disconnect(handler);
     }
     
 }

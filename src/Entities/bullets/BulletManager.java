@@ -71,7 +71,7 @@ public class BulletManager extends Manager {
         for (Iterator<Entity> it = collection.iterator(); it.hasNext();) {
             Bullet bullet = (Bullet)it.next();
             Vector3f bulletPos = bullet.getLocalTranslation();
-            if (bulletPos.y < -20 ) {
+            if (bulletPos.y < -12 ) {
                 deleted.add(bullet);
             } else {
                 Node node = this.checkCollisions(bullet);
