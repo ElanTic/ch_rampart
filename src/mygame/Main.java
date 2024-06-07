@@ -158,7 +158,7 @@ public class Main extends SimpleApplication {
             soundManager.playBGM();
             defend(0,4);
             defend(8,12);
-            trampear(11,11);
+            trampear(11,12);
             tManager.addPrototype("mid");
         } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
@@ -173,9 +173,10 @@ public class Main extends SimpleApplication {
         }
     }
     public void trampear(int a, int b){
+        Spawner s = new Spawner(bManager, "trampa");
         for(int i = 0; i <b; i++){
-            Node n = (Node)rootNode.getChild("cell_" + i + "_" + a);
-            bManager.attachEntity("trampa", n);
+            Vector3f vector = rootNode.getChild("cell_" + i + "_" + a).getLocalTranslation();      System.out.println(rootNode.getChild("cell_" + i + "_" + a));
+            s.spawn(vector.addLocal(2,0,0));
         }
     }
 
