@@ -31,4 +31,13 @@ public class CoolDown {
     public void lowCooldown(float s){
         this.cooldown -= s;
     }
+
+    public float getCooldown() {
+        return cooldown;
+    }
+
+    public void setCooldown(float cooldown) {
+        this.cooldown = cooldown;
+    }
+    
 }

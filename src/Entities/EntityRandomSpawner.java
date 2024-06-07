@@ -7,6 +7,7 @@ package Entities;
 import Commands.Signal;
 import Components.CoolDown;
 import Components.Spawner;
+import com.jme3.input.controls.ActionListener;
 import com.jme3.math.Vector3f;
 import java.util.ArrayList;
 import java.util.Random;
@@ -15,7 +16,7 @@ import java.util.Random;
  *
  * @author jt
  */
-public class EntityRandomSpawner {
+public class EntityRandomSpawner implements ActionListener{
     private ArrayList<CoolDown> tiers;
     private Spawner spawner;
     private Random r;
@@ -55,6 +56,16 @@ public class EntityRandomSpawner {
         s.connect(tier);
         CoolDown cd = new CoolDown(cooldown, 0,s);
         tiers.add(cd);
+    }
+
+    @Override
+    public void onAction(String name, boolean isPressed, float tpf) {
+        if (name.equals("LevelUp")) {
+            for(CoolDown c : tiers){
+                double decrease = (c.getCooldown()/ 10) * Math.log(tpf) ;
+                c.lowCooldown((float)decrease);
+            }
+        }
     }
     
 }

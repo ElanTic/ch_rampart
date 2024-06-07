@@ -8,6 +8,7 @@ import Entities.Manager;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
+import mygame.Main;
 
 /**
  *
@@ -16,9 +17,12 @@ import de.lessvoid.nifty.screen.ScreenController;
 public class LevelUpScreenController implements ScreenController {
         private Nifty nifty;
         private Screen screen;
+        
+        private Main game;
         Manager manager;
-        public LevelUpScreenController(Manager manager){
+        public LevelUpScreenController(Main game, Manager manager){
             this.manager= manager;
+            this.game = game;
         }
 
         @Override
@@ -37,6 +41,7 @@ public class LevelUpScreenController implements ScreenController {
 
         public void selectOption(String option) {
             manager.setPrototype(option);
+            game.pause = false;
             nifty.gotoScreen("HUD");
         }
     }
