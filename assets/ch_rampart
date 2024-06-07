@@ -149,7 +149,7 @@
 							"z": 0
 						}
 					],
-					"scale": 0.1,
+					"scale": 0.08,
 					"color": 15180803,
 					"type": "mid",
 					"mass": 0.03,
@@ -214,7 +214,10 @@
 					],
 					"mass": 0,
 					"scale": 1,
-					"damage": 300
+					"damage": 300,
+					"mesh": "Models/trampa.glb",
+					"texture": "Textures/spikes.jpg",
+					"color": 5370446
 				}
 			],
 			"separators": [],
@@ -306,7 +309,7 @@
 					"damage": 20,
 					"speed": 0.8,
 					"texture": "Textures/Hunter.png",
-					"points": 50,
+					"points": 100,
 					"tier": 2
 				},
 				{
@@ -318,7 +321,7 @@
 					"texture": "Textures/fox.png",
 					"healt": 40,
 					"mesh": "Textures/fox.png",
-					"points": 100,
+					"points": 50,
 					"tier": 1
 				},
 				{
