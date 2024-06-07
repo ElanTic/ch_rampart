@@ -45,7 +45,7 @@
 			],
 			"lines": [
 				{
-					"cool_down": 1.5,
+					"cool_down": 1.2,
 					"color": 11724772,
 					"mesh": "Textures/Chilla.png",
 					"bullet": "mid",
@@ -55,7 +55,7 @@
 					"tier": 1
 				},
 				{
-					"cool_down": 3,
+					"cool_down": 2.5,
 					"color": 13421001,
 					"bullet": "big",
 					"chinchilla": "big",
@@ -65,7 +65,7 @@
 					"tier": 2
 				},
 				{
-					"cool_down": 0.3,
+					"cool_down": 0.5,
 					"color": 12560809,
 					"bullet": "small",
 					"chinchilla": "quick",
@@ -84,7 +84,7 @@
 				},
 				{
 					"chinchilla": "sniper",
-					"cool_down": 5,
+					"cool_down": 4,
 					"health": 50,
 					"color": 5207646,
 					"tier": 3,
@@ -169,7 +169,7 @@
 					"color": 5139817,
 					"type": "small",
 					"mass": 0.01,
-					"damage": 2.5
+					"damage": 5
 				},
 				{
 					"acceleration": [
@@ -197,7 +197,7 @@
 						}
 					],
 					"mass": 0.1,
-					"scale": 0.8,
+					"scale": 0.95,
 					"damage": 50,
 					"color": 7364640,
 					"mesh": "Models/pua.glb",
@@ -305,33 +305,33 @@
 					"color": 15893620,
 					"mesh": "Textures/Hunter.png",
 					"cool_down": 2,
-					"healt": 75,
+					"healt": 60,
 					"damage": 20,
-					"speed": 0.8,
+					"speed": 0.7,
 					"texture": "Textures/Hunter.png",
-					"points": 100,
+					"points": 150,
 					"tier": 2
 				},
 				{
 					"type": "fox",
 					"cool_down": 1,
 					"damage": 10,
-					"speed": 1.5,
+					"speed": 1.25,
 					"color": 15902014,
 					"texture": "Textures/fox.png",
-					"healt": 40,
+					"healt": 30,
 					"mesh": "Textures/fox.png",
-					"points": 50,
+					"points": 75,
 					"tier": 1
 				},
 				{
 					"type": "sus",
 					"cool_down": 2,
 					"damage": 25,
-					"speed": 1,
-					"points": 150,
+					"speed": 0.15,
+					"points": 300,
 					"color": 13902113,
-					"healt": 100,
+					"healt": 300,
 					"tier": 3,
 					"mesh": "Textures/sus.png",
 					"texture": "Textures/sus.png"
