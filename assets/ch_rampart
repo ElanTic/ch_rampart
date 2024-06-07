@@ -213,9 +213,9 @@
 						}
 					],
 					"mass": 0,
-					"scale": 1,
+					"scale": 0.3,
 					"damage": 300,
-					"mesh": "Models/trampa.glb",
+					"mesh": "Models/untitled.glb",
 					"texture": "Textures/spikes.jpg",
 					"color": 5370446
 				}
