@@ -18,6 +18,7 @@ import com.jme3.scene.Spatial;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Queue;
 
 /**
  *
@@ -33,6 +34,7 @@ public abstract class Manager {
     protected String prototype;
     protected SoundManager s_manager;
     protected Signal signal;
+    protected Queue<String> prototypes;
     
     
     
@@ -125,5 +127,10 @@ public abstract class Manager {
     public void disconnectListener(ActionListener handler) {
         this.signal.disconnect(handler);
     }
+    
+    public void addPrototype(String p) {
+        this.prototypes.add(p);
+    }
+    
     
 }
