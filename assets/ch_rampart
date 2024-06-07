@@ -51,7 +51,7 @@
 					"bullet": "mid",
 					"chinchilla": "mid",
 					"texture": "Textures/Chilla.png",
-					"health": 100,
+					"health": 75,
 					"tier": 1
 				},
 				{
@@ -61,7 +61,7 @@
 					"chinchilla": "big",
 					"mesh": "Textures/Chinchi.png",
 					"texture": "Textures/Chinchi.png",
-					"health": 150,
+					"health": 100,
 					"tier": 2
 				},
 				{
@@ -71,13 +71,13 @@
 					"chinchilla": "quick",
 					"mesh": "Textures/Chinfast.png",
 					"texture": "Textures/Chinfast.png",
-					"health": 75,
+					"health": 60,
 					"tier": 2
 				},
 				{
 					"chinchilla": "shield",
-					"cool_down": 99999999,
-					"health": 500,
+					"cool_down": 999999,
+					"health": 300,
 					"mesh": "Textures/Chinshield.png",
 					"color": 14277081,
 					"texture": "Textures/Chinshield.png"
@@ -164,7 +164,7 @@
 						}
 					],
 					"scale": 0.1,
-					"color": 16776187,
+					"color": 5139817,
 					"type": "small",
 					"mass": 0.01,
 					"damage": 2.5
@@ -182,7 +182,7 @@
 					"type": "big",
 					"mass": 0.1,
 					"damage": 25,
-					"mesh": "Models/naga.j3o",
+					"mesh": "Models/naga.glb",
 					"texture": "Textures/spikes.jpg"
 				},
 				{
@@ -190,14 +190,16 @@
 					"acceleration": [
 						{
 							"x": 0,
-							"y": -14,
+							"y": -20,
 							"z": 0
 						}
 					],
 					"mass": 0.1,
-					"scale": 1,
+					"scale": 0.8,
 					"damage": 50,
-					"color": 7364640
+					"color": 7364640,
+					"mesh": "Models/pua.glb",
+					"texture": "Textures/largebullet.png"
 				}
 			],
 			"separators": [],
@@ -285,9 +287,9 @@
 					"color": 15893620,
 					"mesh": "Textures/Hunter.png",
 					"cool_down": 2,
-					"healt": 50,
-					"damage": 15,
-					"speed": 0.4,
+					"healt": 75,
+					"damage": 20,
+					"speed": 0.8,
 					"texture": "Textures/Hunter.png",
 					"points": 50,
 					"tier": 2
@@ -295,11 +297,11 @@
 				{
 					"type": "fox",
 					"cool_down": 1,
-					"damage": 5,
-					"speed": 0.75,
+					"damage": 10,
+					"speed": 1.5,
 					"color": 15902014,
 					"texture": "Textures/fox.png",
-					"healt": 25,
+					"healt": 40,
 					"mesh": "Textures/fox.png",
 					"points": 100,
 					"tier": 1
@@ -307,11 +309,11 @@
 				{
 					"type": "sus",
 					"cool_down": 2,
-					"damage": 10,
-					"speed": 0.6,
-					"points": 120,
+					"damage": 25,
+					"speed": 1,
+					"points": 150,
 					"color": 13902113,
-					"healt": 75,
+					"healt": 100,
 					"tier": 3,
 					"mesh": "Textures/sus.png",
 					"texture": "Textures/sus.png"
