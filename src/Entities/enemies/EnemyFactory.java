@@ -19,6 +19,8 @@ import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
+import com.jme3.scene.Spatial;
+import com.jme3.scene.shape.Box;
 import com.jme3.scene.shape.Quad;
 import java.io.IOException;
 
@@ -67,11 +69,13 @@ public class EnemyFactory implements Factory{
         );
 
         Geometry geom = createGeom(name, new Quad(2, 2), texture, color);
-        return createEnemy(name, geom, coolDown, hp, damage, speed, points);
+        Geometry hitbox = createHitbox(new Vector3f(.7f, 1f, .7f));
+        hitbox.getLocalTranslation().addLocal(1,1,0);
+        return createEnemy(name, geom, hitbox,coolDown, hp, damage, speed, points);
     }
 
-    private Enemy createEnemy(String name, Geometry geom, float cooldown, float hp, float damage, float speed, float points) {
-        return new Enemy(name, geom, new CoolDown(cooldown, 0, new Signal()), new Health(hp, new Signal()), damage, speed, points);
+    private Enemy createEnemy(String name, Geometry geom, Geometry hb,float cooldown, float hp, float damage, float speed, float points) {
+        return new Enemy(name, geom, hb, new CoolDown(cooldown, 0, new Signal()), new Health(hp, new Signal()), damage, speed, points);
     }
 
     private Geometry createGeom(String name, Mesh mesh, String texture, ColorRGBA color) {
@@ -83,5 +87,18 @@ public class EnemyFactory implements Factory{
         geom.setMaterial(mat);
         geom.setLocalRotation(new Quaternion().fromAngleAxis(FastMath.PI / 3, new Vector3f(1, 0, 0)));
         return geom;
+    }
+    
+    private Geometry createHitbox(Vector3f scale){
+        Box hitboxShape = new Box(1, 1, 1); // Size of the hitbox
+        Geometry hitbox = new Geometry("hitbox", hitboxShape);
+        Material invisibleMat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
+        invisibleMat.setColor("Color", new ColorRGBA(0, 0, 0, 0));
+        hitbox.setMaterial(invisibleMat);
+        
+        hitbox.setCullHint(Spatial.CullHint.Always);
+
+        hitbox.setLocalScale(scale);
+        return hitbox;
     }
 }

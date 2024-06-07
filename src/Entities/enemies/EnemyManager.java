@@ -69,7 +69,7 @@ public class EnemyManager extends Manager{
                 enemy.onCollision(3);
             }
             else{
-                enemy.update(tpf*10);
+                enemy.update(tpf);
             }
             
         }
@@ -78,7 +78,7 @@ public class EnemyManager extends Manager{
     @Override
     public Node checkCollisions(Entity entity){
         for (Node nodo : colidableNodes) {
-            Spatial bulletGeometry = entity.body;
+            Spatial bulletGeometry = ((Enemy)entity).hitbox;
             BoundingVolume bulletBounding = bulletGeometry.getWorldBound();
             CollisionResults results = new CollisionResults();
             nodo.collideWith(bulletBounding, results); 
