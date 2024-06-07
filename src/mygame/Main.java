@@ -158,7 +158,7 @@ public class Main extends SimpleApplication {
             soundManager.playBGM();
             defend(0,4);
             defend(8,12);
-            tManager.setPrototype("mid");
+            tManager.addPrototype("mid");
         } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }

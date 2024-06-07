@@ -40,7 +40,7 @@ public class LevelUpScreenController implements ScreenController {
         }
 
         public void selectOption(String option) {
-            manager.setPrototype(option);
+            manager.addPrototype(option);
             game.pause = false;
             nifty.gotoScreen("HUD");
         }
