@@ -150,10 +150,12 @@
 						}
 					],
 					"scale": 0.3,
-					"color": 394501,
+					"color": 15180803,
 					"type": "mid",
 					"mass": 0.03,
-					"damage": 10
+					"damage": 10,
+					"mesh": "Models/PineTree1.glb",
+					"texture": "Textures/wood.jpg"
 				},
 				{
 					"acceleration": [
@@ -200,6 +202,19 @@
 					"color": 7364640,
 					"mesh": "Models/pua.glb",
 					"texture": "Textures/largebullet.png"
+				},
+				{
+					"type": "trampa",
+					"acceleration": [
+						{
+							"x": 0,
+							"y": 0,
+							"z": 0
+						}
+					],
+					"mass": 0,
+					"scale": 1,
+					"damage": 300
 				}
 			],
 			"separators": [],
