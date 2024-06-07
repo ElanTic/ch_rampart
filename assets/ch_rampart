@@ -213,10 +213,10 @@
 						}
 					],
 					"mass": 0,
-					"scale": 1,
+					"scale": 1.2,
 					"damage": 300,
-					"mesh": "Models/trampa.glb",
-					"texture": "Textures/spikes.jpg",
+					"mesh": "Models/naga.glb",
+					"texture": "Textures/cactus.jpg",
 					"color": 5370446
 				}
 			],
