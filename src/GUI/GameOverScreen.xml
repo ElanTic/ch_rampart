@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nifty xmlns="http://nifty-gui.lessvoid.com/nifty-gui"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://nifty-gui.lessvoid.com/nifty-gui http://nifty-gui.lessvoid.com/nifty-gui/nifty.xsd">
+
+    <useStyles filename="nifty-default-styles.xml"/>
+    <useControls filename="nifty-default-controls.xml"/>
+
+    <screen id="gameOverScreen" controller="mygame.GameOverScreenController">
+        <layer id="background" backgroundColor="#333a" childLayout="center">
+            
+        </layer>
+
+        <layer id="foreground" backgroundColor="#0000" childLayout="vertical">
+            <panel id="panel_top" height="80%" width="100%" align="center" valign="center" childLayout="center">
+                <text text="Game Over" font="Interface/Fonts/Default.fnt" width="100%" height="20%" />
+            </panel>
+
+            <panel id="panel_bottom" height="20%" width="100%" align="center" valign="center" childLayout="horizontal">
+                <panel id="panel_left" height="100%" width="50%" align="center" valign="center" childLayout="center">
+                    <control name="button" label="Retry" id="RetryButton" align="center" valign="center" width="120px" height="40px">
+                        <interact onClick="onRetryButtonClicked()"/>
+                    </control>
+                </panel>
+                <panel id="panel_right" height="100%" width="50%" align="center" valign="center" childLayout="center">
+                    <control name="button" label="Exit" id="ExitButton" align="center" valign="center" width="120px" height="40px">
+                        <interact onClick="onExitButtonClicked()"/>
+                    </control>
+                </panel>
+            </panel>
+        </layer>
+    </screen>
+</nifty>

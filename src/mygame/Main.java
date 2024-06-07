@@ -18,6 +18,8 @@ import Entities.enemies.EnemyFactory;
 import Entities.enemies.EnemyManager;
 import Entities.EntityRandomSpawner;
 import GUI.ChooseWindow;
+import GUI.GameOverScreen;
+import GUI.GameOverScreenController;
 import GUI.LevelUpScreenController;
 import GUI.PBar;
 import Player.PlayerController;
@@ -56,6 +58,7 @@ public class Main extends SimpleApplication {
     public GameState gameState;
     private BulletAppState bulletAppState;
     public PBar bar;
+    public Nifty nifty;
     PlayerController controller;
     TowerManager tManager;
     BulletManager bManager;
@@ -102,8 +105,11 @@ public class Main extends SimpleApplication {
             
             NiftyJmeDisplay niftyDisplay = NiftyJmeDisplay.newNiftyJmeDisplay(
                 assetManager, inputManager, audioRenderer, guiViewPort);
-            Nifty nifty = niftyDisplay.getNifty();
-            
+            nifty = niftyDisplay.getNifty();
+            GameOverScreenController gameOverScreenController = new GameOverScreenController(this);
+            GameOverScreen gos = new GameOverScreen(nifty, "gameOverScreen", gameOverScreenController);
+            //nifty.fromXml("GUI/GameOverScreen.xml", "gameOverScreen", gameOverScreenController);
+
             bar = new PBar(nifty);            
             BarHandler hb = new BarHandler(bar, pcounter);
             String screen = "levelUpScreen";
@@ -210,7 +216,12 @@ public class Main extends SimpleApplication {
 
             // Adjuntar la geometría al rootNode para que se renderice en pantalla
             rootNode.attachChild(quadGeometry);
+    }
     
+    @Override
+    public void restart() {
+        gameOver = false;
+        simpleInitApp();
     }
     
 }

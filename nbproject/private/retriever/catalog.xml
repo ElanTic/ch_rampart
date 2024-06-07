@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
     <system systemId="http://nifty-gui.lessvoid.com/nifty-gui.xsd" uri="nifty-gui.lessvoid.com/nifty-gui.xsd"/>
+    <system systemId="http://nifty-gui.lessvoid.com/nifty-gui/nifty.xsd" uri="nifty-gui.lessvoid.com/nifty-gui/nifty.xsd"/>
 </catalog>

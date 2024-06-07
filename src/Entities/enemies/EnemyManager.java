@@ -69,7 +69,7 @@ public class EnemyManager extends Manager{
                 enemy.onCollision(3);
             }
             else{
-                enemy.update(tpf*3);
+                enemy.update(tpf*10);
             }
             
         }

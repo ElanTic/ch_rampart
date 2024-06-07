@@ -23,6 +23,7 @@ public class GameState implements ActionListener{
         if(name.equals("onGameOver")){
             game.gameOver = true;
             game.soundManager.stopBGM();
+            game.nifty.gotoScreen("gameOverScreen");
         }
     }
     
