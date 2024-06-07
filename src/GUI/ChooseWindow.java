@@ -28,18 +28,24 @@ public class ChooseWindow {
     String id;
     private String[] options = new String[3];
     private Random random = new Random();
+    ScreenController controller;
 
     public ChooseWindow(Nifty nifty, String screen, ScreenController controller, String[] chillas) {
         this.nifty = nifty;
         this.chillas = chillas;
+        this.controller = controller;
+        this.screen = screen;
         options[0] = chillas[0];
         options[1] = chillas[1];
         options[2] = chillas[2];
         this.id = screen;
-        nifty.loadStyleFile("nifty-default-styles.xml");
-        nifty.loadControlFile("nifty-default-controls.xml");
+    }
+    
+    public void show() {
+        String screenId = screen;
+        String[] options = getRandomOptions();
 
-        nifty.addScreen(screen, new ScreenBuilder(screen) {{
+        nifty.addScreen(screenId, new ScreenBuilder(screenId) {{
             controller(controller);
             layer(new LayerBuilder("background") {{
                 childLayoutCenter();
@@ -55,37 +61,37 @@ public class ChooseWindow {
                         height("10%");
                         width("100%");
                     }});
-                    randomize();
                     panel(new PanelBuilder() {{
                         childLayoutHorizontal();
                         align(Align.Center);
-                        control(new ButtonBuilder("option1", options[0] ) {{
+                        control(new ButtonBuilder("option1", options[0]) {{
                             width("30%");
                             align(Align.Center);
-                            interactOnClick("selectOption("+options[0]+")");
+                            interactOnClick("selectOption("+ options[0]+")");
                         }});
                         control(new ButtonBuilder("option2", options[1]) {{
                             width("30%");
                             align(Align.Center);
-                            interactOnClick("selectOption("+options[1]+")");
+                            interactOnClick("selectOption("+ options[1]+")");
                         }});
                         control(new ButtonBuilder("option3", options[2]) {{
                             width("30%");
                             align(Align.Center);
-                            interactOnClick("selectOption("+options[2]+")");
+                            interactOnClick("selectOption("+ options[2]+")");
                         }});
                     }});
                 }});
             }});
         }}.build(nifty));
+
+        nifty.gotoScreen(screenId);
     }
 
-    public void randomize() {
+    private String[] getRandomOptions() {
+        String[] options = new String[3];
         for (int i = 0; i < options.length; i++) {
             options[i] = chillas[random.nextInt(chillas.length)];
         }
-    }
-    private String getOption(){
-        return chillas[random.nextInt(chillas.length)];
+        return options;
     }
 }

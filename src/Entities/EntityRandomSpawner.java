@@ -64,7 +64,6 @@ public class EntityRandomSpawner implements ActionListener{
             for(CoolDown c : tiers){
                 double decrease =  (3/c.getCooldown()) * Math.log(tpf) ;
                 c.lowCooldown((float)decrease);
-                System.out.println(c.getCooldown());
             }
         }
     }

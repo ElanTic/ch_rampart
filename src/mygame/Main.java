@@ -118,7 +118,7 @@ public class Main extends SimpleApplication {
             
             LevelUpScreenController lusc = new LevelUpScreenController(this ,tManager);
             ChooseWindow window = new ChooseWindow(nifty, screen, lusc, chillas);
-            LevelUpHandler luh = new LevelUpHandler(this, screen);
+            LevelUpHandler luh = new LevelUpHandler(this, window);
             pcounter.connectLevelUpHandler(luh);
             
             guiViewPort.addProcessor(niftyDisplay);
