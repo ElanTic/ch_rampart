@@ -158,6 +158,7 @@ public class Main extends SimpleApplication {
             soundManager.playBGM();
             defend(0,4);
             defend(8,12);
+            trampear(11,11);
             tManager.addPrototype("mid");
         } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
@@ -169,6 +170,12 @@ public class Main extends SimpleApplication {
         for(int i = a ; i <b; i++){
             Node n = (Node)rootNode.getChild("cell_" + i + "_" + 1);
             tManager.attachEntity("shield", n);
+        }
+    }
+    public void trampear(int a, int b){
+        for(int i = 0; i <b; i++){
+            Node n = (Node)rootNode.getChild("cell_" + i + "_" + a);
+            bManager.attachEntity("trampa", n);
         }
     }
 
