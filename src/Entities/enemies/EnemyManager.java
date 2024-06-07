@@ -4,6 +4,7 @@
  */
 package Entities.enemies;
 
+import Commands.Signal;
 import Commands.SoundManager;
 import Components.Destroyer;
 import Components.LevelUpHandler;
@@ -39,7 +40,7 @@ public class EnemyManager extends Manager{
         this.collection = new ArrayList<Entity>();
         this.pc = pc; 
         this.s_manager = s_manager;
-        //this.cGroup = group;
+        this.signal = new Signal();
     }
     
     @Override 
@@ -59,13 +60,16 @@ public class EnemyManager extends Manager{
     public void update(float tpf){
         for (Iterator<Entity> it = collection.iterator(); it.hasNext();) {
             Enemy enemy = (Enemy)it.next();
+            if (enemy.getLocalTranslation().y > 23){
+                signal.emit("onGameOver", 0);
+            }
             Node node = this.checkCollisions(enemy);
             if(node != null){
                 ((Entity) node).onHit(enemy.damage);
                 enemy.onCollision(3);
             }
             else{
-                enemy.update(tpf);
+                enemy.update(tpf*10);
             }
             
         }

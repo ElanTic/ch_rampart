@@ -27,4 +27,8 @@ public class CoolDown {
             signal.emit("onCharged", tpf);
         }
     }
+    
+    public void lowCooldown(float s){
+        this.cooldown -= s;
+    }
 }
