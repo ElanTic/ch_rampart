@@ -41,7 +41,7 @@ public class PointsCounter {
     }
 
     private void increaseLevel() {
-        nextLevel = nextLevel + ((nextLevel / 3) * Math.log(levelCount));
+        nextLevel = nextLevel + ((nextLevel / 5) * Math.log(levelCount));
     }
 
     public double getPoints() {
