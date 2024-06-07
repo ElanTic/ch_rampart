@@ -65,6 +65,7 @@ public class Main extends SimpleApplication {
     BulletManager bManager;
     EnemyManager eManager;
     EntityRandomSpawner spawner;
+    private final String[] chillas = new String[]{"mid","big","quick","shield","sniper"};
     
     
     public static void main(String[] args) {
@@ -114,10 +115,10 @@ public class Main extends SimpleApplication {
             bar = new PBar(nifty);            
             BarHandler hb = new BarHandler(bar, pcounter);
             String screen = "levelUpScreen";
-            LevelUpHandler luh = new LevelUpHandler(this, screen);
-            LevelUpScreenController lusc = new LevelUpScreenController(this ,tManager);
             
-            ChooseWindow window = new ChooseWindow(nifty, screen, lusc);
+            LevelUpScreenController lusc = new LevelUpScreenController(this ,tManager);
+            ChooseWindow window = new ChooseWindow(nifty, screen, lusc, chillas);
+            LevelUpHandler luh = new LevelUpHandler(this, window);
             pcounter.connectLevelUpHandler(luh);
             
             guiViewPort.addProcessor(niftyDisplay);
